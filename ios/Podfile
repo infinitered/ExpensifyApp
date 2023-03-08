@@ -54,8 +54,17 @@ target 'NewExpensify' do
       if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
         target.build_configurations.each do |config|
           config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+          # configure for react-native-share-menu
+          config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
         end
       end
     end
   end
+
+  target 'NewExpensifyShare' do
+    use_react_native!
+
+    pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
+    # Manually link packages here to keep your extension bundle size minimal
+   end
 end

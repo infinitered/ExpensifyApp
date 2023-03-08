@@ -8,6 +8,7 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTRootView.h>
 #import <UserNotifications/UserNotifications.h>
+#import <RNShareMenu/ShareMenuManager.h>
 
 #import "RCTBootSplash.h"
 #import "RCTStartupTimer.h"
@@ -100,9 +101,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
             openURL:(NSURL *)url
             options:
                 (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  return [RCTLinkingManager application:application
-                                openURL:url
-                                options:options];
+  return [ShareMenuManager application:application openURL:url options:options];
 }
 
 - (BOOL)application:(UIApplication *)application
