@@ -24,7 +24,7 @@ import ROUTES from '../../../ROUTES';
 let credentials = {};
 Onyx.connect({
     key: ONYXKEYS.CREDENTIALS,
-    callback: val => (credentials = val || {}),
+    callback: val => credentials = val || {},
 });
 
 /**
@@ -79,37 +79,31 @@ function signOutAndRedirectToSignIn() {
  * @param {String} [login]
  */
 function resendValidationLink(login = credentials.login) {
-    const optimisticData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: true,
-                errors: null,
-                message: null,
-            },
+    const optimisticData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: true,
+            errors: null,
+            message: null,
         },
-    ];
-    const successData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                message: Localize.translateLocal('resendValidationForm.linkHasBeenResent'),
-            },
+    }];
+    const successData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: false,
+            message: Localize.translateLocal('resendValidationForm.linkHasBeenResent'),
         },
-    ];
-    const failureData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                message: null,
-            },
+    }];
+    const failureData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: false,
+            message: null,
         },
-    ];
+    }];
 
     API.write('RequestAccountValidationLink', {email: login}, {optimisticData, successData, failureData});
 }
@@ -120,37 +114,31 @@ function resendValidationLink(login = credentials.login) {
  * @param {String} [login]
  */
 function resendValidateCode(login = credentials.login) {
-    const optimisticData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: true,
-                errors: null,
-                message: null,
-            },
+    const optimisticData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: true,
+            errors: null,
+            message: null,
         },
-    ];
-    const successData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                message: Localize.translateLocal('validateCodeForm.codeSent'),
-            },
+    }];
+    const successData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: false,
+            message: Localize.translateLocal('validateCodeForm.codeSent'),
         },
-    ];
-    const failureData = [
-        {
-            onyxMethod: CONST.ONYX.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                message: null,
-            },
+    }];
+    const failureData = [{
+        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        key: ONYXKEYS.ACCOUNT,
+        value: {
+            isLoading: false,
+            message: null,
         },
-    ];
+    }];
     API.write('RequestNewValidateCode', {email: login}, {optimisticData, successData, failureData});
 }
 
@@ -311,7 +299,8 @@ function signInGoogle() {
     Onyx.merge(ONYXKEYS.ACCOUNT, {error: '', loading: true, isGoogleSigningIn: true});
 
     signInWithGoogle()
-        .then(res => API.SignInGoogle(res).then(({authToken, email}) => createTemporaryLogin(authToken, email)))
+        .then(res => API.SignInGoogle(res)
+            .then(({authToken, email}) => createTemporaryLogin(authToken, email)))
         .catch((err) => {
             Log.info('[Google Sign-In] error', false, err);
 
@@ -365,14 +354,10 @@ function signInWithValidateCode(accountID, validateCode) {
     ];
 
     // This is temporary for now. Server should login with the accountID and validateCode
-    API.write(
-        'SigninUser',
-        {
-            validateCode,
-            accountID,
-        },
-        {optimisticData, successData, failureData},
-    );
+    API.write('SigninUser', {
+        validateCode,
+        accountID,
+    }, {optimisticData, successData, failureData});
 }
 
 function signInWithValidateCodeAndNavigate(accountID, validateCode) {
@@ -384,67 +369,61 @@ function signInWithValidateCodeAndNavigate(accountID, validateCode) {
  * User forgot the password so let's send them the link to reset their password
  */
 function resetPassword() {
-    API.write(
-        'RequestPasswordReset',
-        {
-            email: credentials.login,
-        },
-        {
-            optimisticData: [
-                {
-                    onyxMethod: CONST.ONYX.METHOD.MERGE,
-                    key: ONYXKEYS.ACCOUNT,
-                    value: {
-                        errors: null,
-                        forgotPassword: true,
-                        message: null,
-                    },
+    API.write('RequestPasswordReset', {
+        email: credentials.login,
+    },
+    {
+        optimisticData: [
+            {
+                onyxMethod: CONST.ONYX.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    errors: null,
+                    forgotPassword: true,
+                    message: null,
                 },
-            ],
-        },
-    );
+            },
+        ],
+    });
 }
 
 function resendResetPassword() {
-    API.write(
-        'ResendRequestPasswordReset',
-        {
-            email: credentials.login,
-        },
-        {
-            optimisticData: [
-                {
-                    onyxMethod: CONST.ONYX.METHOD.MERGE,
-                    key: ONYXKEYS.ACCOUNT,
-                    value: {
-                        isLoading: true,
-                        forgotPassword: true,
-                        message: null,
-                        errors: null,
-                    },
+    API.write('ResendRequestPasswordReset', {
+        email: credentials.login,
+    },
+    {
+        optimisticData: [
+            {
+                onyxMethod: CONST.ONYX.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    isLoading: true,
+                    forgotPassword: true,
+                    message: null,
+                    errors: null,
                 },
-            ],
-            successData: [
-                {
-                    onyxMethod: CONST.ONYX.METHOD.MERGE,
-                    key: ONYXKEYS.ACCOUNT,
-                    value: {
-                        isLoading: false,
-                        message: Localize.translateLocal('resendValidationForm.linkHasBeenResent'),
-                    },
+            },
+        ],
+        successData: [
+            {
+                onyxMethod: CONST.ONYX.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    isLoading: false,
+                    message: Localize.translateLocal('resendValidationForm.linkHasBeenResent'),
                 },
-            ],
-            failureData: [
-                {
-                    onyxMethod: CONST.ONYX.METHOD.MERGE,
-                    key: ONYXKEYS.ACCOUNT,
-                    value: {
-                        isLoading: false,
-                    },
+            },
+        ],
+        failureData: [
+            {
+                onyxMethod: CONST.ONYX.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    isLoading: false,
                 },
-            ],
-        },
-    );
+            },
+        ],
+    });
 }
 
 function invalidateCredentials() {
@@ -537,32 +516,25 @@ function updatePasswordAndSignin(accountID, validateCode, password) {
         },
     ];
 
-    API.write(
-        'UpdatePasswordAndSignin',
-        {
-            accountID,
-            validateCode,
-            password,
-        },
-        {optimisticData, successData, failureData},
-    );
+    API.write('UpdatePasswordAndSignin', {
+        accountID, validateCode, password,
+    }, {optimisticData, successData, failureData});
 }
 
 // It's necessary to throttle requests to reauthenticate since calling this multiple times will cause Pusher to
 // reconnect each time when we only need to reconnect once. This way, if an authToken is expired and we try to
 // subscribe to a bunch of channels at once we will only reauthenticate and force reconnect Pusher once.
-const reauthenticatePusher = _.throttle(
-    () => {
-        Log.info('[Pusher] Re-authenticating and then reconnecting');
-        Authentication.reauthenticate('AuthenticatePusher')
-            .then(Pusher.reconnect)
-            .catch(() => {
-                console.debug('[PusherConnectionManager]', 'Unable to re-authenticate Pusher because we are offline.');
-            });
-    },
-    5000,
-    {trailing: false},
-);
+const reauthenticatePusher = _.throttle(() => {
+    Log.info('[Pusher] Re-authenticating and then reconnecting');
+    Authentication.reauthenticate('AuthenticatePusher')
+        .then(Pusher.reconnect)
+        .catch(() => {
+            console.debug(
+                '[PusherConnectionManager]',
+                'Unable to re-authenticate Pusher because we are offline.',
+            );
+        });
+}, 5000, {trailing: false});
 
 /**
  * @param {String} socketID
@@ -579,30 +551,32 @@ function authenticatePusher(socketID, channelName, callback) {
         channel_name: channelName,
         shouldRetry: false,
         forceNetworkRequest: true,
-    })
-        .then((response) => {
-            if (response.jsonCode === CONST.JSON_CODE.NOT_AUTHENTICATED) {
-                Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher because authToken is expired');
-                callback(new Error('Pusher failed to authenticate because authToken is expired'), {auth: ''});
+    }).then((response) => {
+        if (response.jsonCode === CONST.JSON_CODE.NOT_AUTHENTICATED) {
+            Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher because authToken is expired');
+            callback(new Error('Pusher failed to authenticate because authToken is expired'), {auth: ''});
 
-                // Attempt to refresh the authToken then reconnect to Pusher
-                reauthenticatePusher();
-                return;
-            }
+            // Attempt to refresh the authToken then reconnect to Pusher
+            reauthenticatePusher();
+            return;
+        }
 
-            if (response.jsonCode !== CONST.JSON_CODE.SUCCESS) {
-                Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher for reason other than expired session');
-                callback(new Error(`Pusher failed to authenticate because code: ${response.jsonCode} message: ${response.message}`), {auth: ''});
-                return;
-            }
+        if (response.jsonCode !== CONST.JSON_CODE.SUCCESS) {
+            Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher for reason other than expired session');
+            callback(new Error(`Pusher failed to authenticate because code: ${response.jsonCode} message: ${response.message}`), {auth: ''});
+            return;
+        }
 
-            Log.info('[PusherAuthorizer] Pusher authenticated successfully', false, {channelName});
-            callback(null, response);
-        })
-        .catch((error) => {
-            Log.hmmm('[PusherAuthorizer] Unhandled error: ', {channelName, error});
-            callback(new Error('AuthenticatePusher request failed'), {auth: ''});
-        });
+        Log.info(
+            '[PusherAuthorizer] Pusher authenticated successfully',
+            false,
+            {channelName},
+        );
+        callback(null, response);
+    }).catch((error) => {
+        Log.hmmm('[PusherAuthorizer] Unhandled error: ', {channelName, error});
+        callback(new Error('AuthenticatePusher request failed'), {auth: ''});
+    });
 }
 
 export {
