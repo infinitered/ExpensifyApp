@@ -1,0 +1,27 @@
+New cocoapods warnings:
+
+[!] use_flipper is deprecated, use the flipper_configuration option in the use_react_native function
+
+[!] The `NewExpensify [Debug]` target overrides the `ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES` build setting defined in `Pods/Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debug.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
+
+[!] The `NewExpensify [Release]` target overrides the `ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES` build setting defined in `Pods/Target Support Files/Pods-NewExpensify/Pods-NewExpensify.release.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
+
+[!] The `NewExpensifyShare [Debug]` target overrides the `CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER` build setting defined in `Pods/Target Support Files/Pods-NewExpensify-NewExpensifyShare/Pods-NewExpensify-NewExpensifyShare.debug.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
+
+[!] The `NewExpensifyShare [Debug]` target overrides the `CLANG_CXX_LANGUAGE_STANDARD` build setting defined in `Pods/Target Support Files/Pods-NewExpensify-NewExpensifyShare/Pods-NewExpensify-NewExpensifyShare.debug.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
+
+[!] The `NewExpensifyShare [Release]` target overrides the `CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER` build setting defined in `Pods/Target Support Files/Pods-NewExpensify-NewExpensifyShare/Pods-NewExpensify-NewExpensifyShare.release.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
+
+[!] The `NewExpensifyShare [Release]` target overrides the `CLANG_CXX_LANGUAGE_STANDARD` build setting defined in `Pods/Target Support Files/Pods-NewExpensify-NewExpensifyShare/Pods-NewExpensify-NewExpensifyShare.release.xcconfig'. This can lead to problems with the CocoaPods installation
+    - Use the `$(inherited)` flag, or
+    - Remove the build settings from the target.
