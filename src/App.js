@@ -28,6 +28,8 @@ LogBox.ignoreLogs([
     // the timer is lost. Currently Expensify is using a 30 minutes interval to refresh personal details.
     // More details here: https://git.io/JJYeb
     'Setting a timer for a long period of time',
+    'Failed prop type',
+    'Pusher',
 ]);
 
 const fill = {flex: 1};
@@ -37,10 +39,13 @@ const App = () => {
     const [sharedMimeType, setSharedMimeType] = useState(null);
     console.log('SHARED DATA', sharedData, sharedMimeType);
 
-    const handleShare = useCallback((item) => {
+    const handleShare = useCallback(which => (item) => {
+        console.log('WHICH: ', which);
+        console.log('TRYING TO HANDLE SHARE');
         if (!item) {
             return;
         }
+        console.log('ITEM: ', item);
 
         const {mimeType, data, extraData} = item;
 
@@ -52,11 +57,11 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        ShareMenu.getInitialShare(handleShare);
+        ShareMenu.getInitialShare(handleShare('initial'));
     }, []);
 
     useEffect(() => {
-        const listener = ShareMenu.addNewShareListener(handleShare);
+        const listener = ShareMenu.addNewShareListener(handleShare('listener'));
 
         return () => {
             listener.remove();
