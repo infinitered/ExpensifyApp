@@ -1,0 +1,114 @@
+diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+index e290cce..a2338c1 100644
+--- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
++++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+@@ -18,7 +18,6 @@ public class ShareMenuReactView: NSObject {
+     }
+ 
+     public static func attachViewDelegate(_ delegate: ReactShareViewDelegate!) {
+-        guard (ShareMenuReactView.viewDelegate == nil) else { return }
+ 
+         ShareMenuReactView.viewDelegate = delegate
+     }
+diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
+index f42bce6..ee36062 100644
+--- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
+@@ -13,7 +13,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+   func sourceURL(for bridge: RCTBridge!) -> URL! {
+ #if DEBUG
+     return RCTBundleURLProvider.sharedSettings()?
+-      .jsBundleURL(forBundleRoot: "index.share", fallbackResource: nil)
++      .jsBundleURL(forBundleRoot: "index.share")
+ #else
+     return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+ #endif
+diff --git a/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+new file mode 100644
+index 0000000..919434a
+--- /dev/null
++++ b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Workspace
++   version = "1.0">
++   <FileRef
++      location = "self:">
++   </FileRef>
++</Workspace>
+diff --git a/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+new file mode 100644
+index 0000000..18d9810
+--- /dev/null
++++ b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>IDEDidComputeMac32BitWarning</key>
++	<true/>
++</dict>
++</plist>
+diff --git a/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcuserdata/lizzi.xcuserdatad/UserInterfaceState.xcuserstate b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcuserdata/lizzi.xcuserdatad/UserInterfaceState.xcuserstate
+new file mode 100644
+index 0000000..38da182
+Binary files /dev/null and b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/project.xcworkspace/xcuserdata/lizzi.xcuserdatad/UserInterfaceState.xcuserstate differ
+diff --git a/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/xcuserdata/lizzi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/xcuserdata/lizzi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..5aac8f0
+--- /dev/null
++++ b/node_modules/react-native-share-menu/ios/ShareMenu.xcodeproj/xcuserdata/lizzi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>ShareMenu.xcscheme_^#shared#^_</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>0</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+index 12d8c92..10f54e8 100644
+--- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+@@ -28,11 +28,19 @@ class ShareViewController: SLComposeServiceViewController {
+       print("Error: \(NO_INFO_PLIST_INDENTIFIER_ERROR)")
+     }
+     
++    
+     if let hostAppUrlScheme = Bundle.main.object(forInfoDictionaryKey: HOST_URL_SCHEME_INFO_PLIST_KEY) as? String {
+       self.hostAppUrlScheme = hostAppUrlScheme
+     } else {
+       print("Error: \(NO_INFO_PLIST_URL_SCHEME_ERROR)")
+     }
++    
++    guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
++      cancelRequest()
++      return
++    }
++    
++    handlePost(items)
+   }
+ 
+     override func isContentValid() -> Bool {
+@@ -41,13 +49,6 @@ class ShareViewController: SLComposeServiceViewController {
+     }
+ 
+     override func didSelectPost() {
+-        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
+-      guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
+-        cancelRequest()
+-        return
+-      }
+-
+-      handlePost(items)
+     }
+ 
+     override func configurationItems() -> [Any]! {
