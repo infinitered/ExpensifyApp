@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import {withOnyx} from 'react-native-onyx';
 import OptionsSelector from '../components/OptionsSelector';
@@ -18,6 +18,7 @@ import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import compose from '../libs/compose';
 import personalDetailsPropType from './personalDetailsPropType';
 import reportPropTypes from './reportPropTypes';
+import Text from '../components/Text';
 
 const propTypes = {
     /** Whether screen is used to create group chat */
@@ -37,6 +38,8 @@ const propTypes = {
         email: PropTypes.string.isRequired,
     }).isRequired,
 
+    sharedItems: PropTypes.arrayOf(PropTypes.any),
+
     ...windowDimensionsPropTypes,
 
     ...withLocalizePropTypes,
@@ -44,7 +47,34 @@ const propTypes = {
 
 const defaultProps = {
     isGroupChat: false,
+    sharedItems: [],
 };
+
+const IMAGE = 'image';
+const URL = 'url';
+
+function isImage(mimeType) {
+    return mimeType.startsWith(IMAGE);
+}
+
+function SharedThing({item}) {
+    if (isImage(item.mimeType)) {
+        return (<Image source={{uri: item.data, width: 100, height: 100}} />);
+    }
+    return (<Text>{`mimeType: ${item.mimeType}, data: ${item.data}`}</Text>);
+}
+
+function ShowMeTheSharedThing({sharedItems}) {
+    console.log('SHARED ITEMS TO SHOW', sharedItems);
+    return (
+        <View style={{flex: 1}}>
+            <Text>
+                Shared data:
+            </Text>
+            {sharedItems && sharedItems.map(item => <SharedThing item={item} />)}
+        </View>
+    );
+}
 
 class NewChatPage extends Component {
     constructor(props) {
@@ -226,6 +256,7 @@ class NewChatPage extends Component {
     }
 
     render() {
+        console.log('SHARED ITEMS IN NEW CHAT PAGE', this.props.sharedItems);
         const maxParticipantsReached = this.state.selectedOptions.length === CONST.REPORT.MAXIMUM_PARTICIPANTS;
         const sections = this.getSections(maxParticipantsReached);
         const headerMessage = OptionsListUtils.getHeaderMessage(
@@ -246,22 +277,26 @@ class NewChatPage extends Component {
                         />
                         <View style={[styles.flex1, styles.w100, styles.pRelative, this.state.selectedOptions.length > 0 ? safeAreaPaddingBottomStyle : {}]}>
                             {didScreenTransitionEnd ? (
-                                <OptionsSelector
-                                    canSelectMultipleOptions={this.props.isGroupChat}
-                                    sections={sections}
-                                    selectedOptions={this.state.selectedOptions}
-                                    value={this.state.searchTerm}
-                                    onSelectRow={option => (this.props.isGroupChat ? this.toggleOption(option) : this.createChat(option))}
-                                    onChangeText={this.updateOptionsWithSearchTerm}
-                                    headerMessage={headerMessage}
-                                    boldStyle
-                                    shouldFocusOnSelectRow={this.props.isGroupChat}
-                                    shouldShowConfirmButton={this.props.isGroupChat}
-                                    confirmButtonText={this.props.translate('newChatPage.createGroup')}
-                                    onConfirmSelection={this.createGroup}
-                                    placeholderText={this.props.translate('optionsSelector.nameEmailOrPhoneNumber')}
-                                    safeAreaPaddingBottomStyle={safeAreaPaddingBottomStyle}
-                                />
+                                <>
+                                    {this.props.sharedItems.length !== 0
+                                    && <ShowMeTheSharedThing sharedItems={this.props.sharedItems} />}
+                                    <OptionsSelector
+                                        canSelectMultipleOptions={this.props.isGroupChat}
+                                        sections={sections}
+                                        selectedOptions={this.state.selectedOptions}
+                                        value={this.state.searchTerm}
+                                        onSelectRow={option => (this.props.isGroupChat ? this.toggleOption(option) : this.createChat(option))}
+                                        onChangeText={this.updateOptionsWithSearchTerm}
+                                        headerMessage={headerMessage}
+                                        boldStyle
+                                        shouldFocusOnSelectRow={this.props.isGroupChat}
+                                        shouldShowConfirmButton={this.props.isGroupChat}
+                                        confirmButtonText={this.props.translate('newChatPage.createGroup')}
+                                        onConfirmSelection={this.createGroup}
+                                        placeholderText={this.props.translate('optionsSelector.nameEmailOrPhoneNumber')}
+                                        safeAreaPaddingBottomStyle={safeAreaPaddingBottomStyle}
+                                    />
+                                </>
                             ) : (
                                 <FullScreenLoadingIndicator />
                             )}
@@ -291,6 +326,9 @@ export default compose(
         },
         betas: {
             key: ONYXKEYS.BETAS,
+        },
+        sharedItems: {
+            key: ONYXKEYS.SHARED_DATA,
         },
     }),
 )(NewChatPage);

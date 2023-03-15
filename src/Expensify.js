@@ -5,6 +5,7 @@ import React, {PureComponent} from 'react';
 import {AppState, Linking} from 'react-native';
 import Onyx, {withOnyx} from 'react-native-onyx';
 
+import ShareMenu from 'react-native-share-menu';
 import * as ReportUtils from './libs/ReportUtils';
 import BootSplash from './libs/BootSplash';
 import * as ActiveClientManager from './libs/ActiveClientManager';
@@ -32,6 +33,8 @@ import KeyboardShortcutsModal from './components/KeyboardShortcutsModal';
 // This lib needs to be imported, but it has nothing to export since all it contains is an Onyx connection
 // eslint-disable-next-line no-unused-vars
 import UnreadIndicatorUpdater from './libs/UnreadIndicatorUpdater';
+import ROUTES from './ROUTES';
+import {storeSharedData} from './libs/actions/SharedData';
 
 Onyx.registerLogger(({level, message}) => {
     if (level === 'alert') {
@@ -91,6 +94,7 @@ class Expensify extends PureComponent {
         // Initialize this client as being an active client
         ActiveClientManager.init();
         this.setNavigationReady = this.setNavigationReady.bind(this);
+        this.handleShare = this.handleShare.bind(this);
         this.initializeClient = this.initializeClient.bind(true);
         this.appStateChangeListener = null;
         this.state = {
@@ -125,6 +129,9 @@ class Expensify extends PureComponent {
 
         // Open chat report from a deep link (only mobile native)
         Linking.addEventListener('url', state => ReportUtils.openReportFromDeepLink(state.url));
+
+        // Listen for share events (only mobile native)
+        ShareMenu.addNewShareListener(this.handleShare);
     }
 
     componentDidUpdate() {
@@ -142,6 +149,9 @@ class Expensify extends PureComponent {
 
             // If the app is opened from a deep link, get the reportID (if exists) from the deep link and navigate to the chat report
             Linking.getInitialURL().then(url => ReportUtils.openReportFromDeepLink(url));
+
+            // If app is opened by share, then navigate to new chat
+            ShareMenu.getInitialShare(this.handleShare);
         }
     }
 
@@ -155,6 +165,14 @@ class Expensify extends PureComponent {
 
         // Navigate to any pending routes now that the NavigationContainer is ready
         Navigation.setIsNavigationReady();
+    }
+
+    handleShare(item) {
+        console.log('RECEIVED DATA: ', item.data);
+        if (item.data !== null) {
+            storeSharedData(item.data);
+            Navigation.navigate(ROUTES.NEW_CHAT, {sharedItems: item.data});
+        }
     }
 
     /**

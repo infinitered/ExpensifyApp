@@ -193,4 +193,7 @@ export default {
 
     // Is app in beta version
     IS_BETA: 'isBeta',
+
+    // Data that is in the process of being shared to a chat
+    SHARED_DATA: 'sharedData',
 };
