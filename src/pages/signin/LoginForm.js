@@ -20,6 +20,7 @@ import FormAlertWithSubmitButton from '../../components/FormAlertWithSubmitButto
 import {withNetwork} from '../../components/OnyxProvider';
 import networkPropTypes from '../../components/networkPropTypes';
 import * as ErrorUtils from '../../libs/ErrorUtils';
+import ChangeExpensifyLoginLink from './ChangeExpensifyLoginLink';
 import DotIndicatorMessage from '../../components/DotIndicatorMessage';
 import * as CloseAccount from '../../libs/actions/CloseAccount';
 import CONST from '../../CONST';
@@ -49,6 +50,9 @@ const propTypes = {
 
     /** Props to detect online status */
     network: networkPropTypes.isRequired,
+
+    /** Callback function which is triggered when the Cancel button is pressed */
+    onCancel: PropTypes.func.isRequired,
 
     ...windowDimensionsPropTypes,
 
@@ -170,7 +174,7 @@ class LoginForm extends React.Component {
             <>
                 <View accessibilityLabel="Login form" style={[styles.mt3]}>
                     <TextInput
-                        ref={el => this.input = el}
+                        ref={el => (this.input = el)}
                         label={this.props.translate('loginForm.phoneOrEmail')}
                         value={this.state.login}
                         autoCompleteType="username"
@@ -185,18 +189,16 @@ class LoginForm extends React.Component {
                         errorText={formErrorText}
                     />
                 </View>
-                {!_.isEmpty(this.props.account.success) && (
-                    <Text style={[styles.formSuccess]}>
-                        {this.props.account.success}
-                    </Text>
-                )}
+                {!_.isEmpty(this.props.account.success) && <Text style={[styles.formSuccess]}>{this.props.account.success}</Text>}
                 {!_.isEmpty(this.props.closeAccount.success) && (
 
                     // DotIndicatorMessage mostly expects onyxData errors, so we need to mock an object so that the messages looks similar to prop.account.errors
                     <DotIndicatorMessage style={[styles.mv2]} type="success" messages={{0: this.props.closeAccount.success}} />
                 )}
-                { // We need to unmount the submit button when the component is not visible so that the Enter button
-                  // key handler gets unsubscribed and does not conflict with the Password Form
+                {
+
+                    // We need to unmount the submit button when the component is not visible so that the Enter button
+                    // key handler gets unsubscribed and does not conflict with the Password Form
                     this.props.isVisible && (
                         <View style={[styles.mt5]}>
                             <FormAlertWithSubmitButton
@@ -207,6 +209,7 @@ class LoginForm extends React.Component {
                                 isAlertVisible={!_.isEmpty(serverErrorText)}
                                 containerStyles={[styles.mh0]}
                             />
+                            <ChangeExpensifyLoginLink onPress={this.props.onCancel} />
                         </View>
                     )
                 }

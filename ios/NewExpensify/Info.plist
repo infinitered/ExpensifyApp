@@ -28,6 +28,15 @@
 				<string>new-expensify</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1077593896310-3ni0ht3gtiogt3mgjoiciron95pn5j3l
+</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.2.86.1</string>

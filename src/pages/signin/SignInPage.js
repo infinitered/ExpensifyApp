@@ -14,6 +14,7 @@ import ResendValidationForm from './ResendValidationForm';
 import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
 import Performance from '../../libs/Performance';
 import Permissions from '../../libs/Permissions';
+import SignInOptions from '../../components/SignInOptions';
 
 const propTypes = {
     /* Onyx Props */
@@ -47,6 +48,13 @@ const defaultProps = {
 };
 
 class SignInPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSignInOptions: true,
+        };
+    }
+
     componentDidMount() {
         Performance.measureTTI();
     }
@@ -72,17 +80,13 @@ class SignInPage extends Component {
         // Show the new magic code / validate code form if
         // - A login has been entered or a validateCode has been cached from sign in link
         // - AND the user is on the 'passwordless' beta
-        const showValidateCodeForm = (this.props.credentials.login
-            || this.props.credentials.validateCode)
-            && Permissions.canUsePasswordlessLogins(this.props.betas);
+        const showValidateCodeForm = (this.props.credentials.login || this.props.credentials.validateCode) && Permissions.canUsePasswordlessLogins(this.props.betas);
 
         // Show the resend validation link form if
         // - A login has been entered
         // - AND is not validated or password is forgotten
         // - AND user is not on 'passwordless' beta
-        const showResendValidationForm = this.props.credentials.login
-            && (!this.props.account.validated || this.props.account.forgotPassword)
-            && !Permissions.canUsePasswordlessLogins(this.props.betas);
+        const showResendValidationForm = this.props.credentials.login && (!this.props.account.validated || this.props.account.forgotPassword) && !Permissions.canUsePasswordlessLogins(this.props.betas);
 
         let welcomeText = '';
         if (showValidateCodeForm) {
@@ -103,19 +107,13 @@ class SignInPage extends Component {
 
         return (
             <SafeAreaView style={[styles.signInPage]}>
-                <SignInPageLayout
-                    welcomeText={welcomeText}
-                    shouldShowWelcomeText={showLoginForm || showPasswordForm || showValidateCodeForm || !showResendValidationForm}
-                >
+                <SignInPageLayout welcomeText={welcomeText} shouldShowWelcomeText={showLoginForm || showPasswordForm || showValidateCodeForm || !showResendValidationForm}>
                     {/* LoginForm and PasswordForm must use the isVisible prop. This keeps them mounted, but visually hidden
                     so that password managers can access the values. Conditionally rendering these components will break this feature. */}
                     <LoginForm isVisible={showLoginForm} blurOnSubmit={this.props.account.validated === false} />
-                    {showValidateCodeForm ? (
-                        <ValidateCodeForm isVisible={showValidateCodeForm} />
-                    ) : (
-                        <PasswordForm isVisible={showPasswordForm} />
-                    )}
+                    {showValidateCodeForm ? <ValidateCodeForm isVisible={showValidateCodeForm} /> : <PasswordForm isVisible={showPasswordForm} />}
                     {showResendValidationForm && <ResendValidationForm />}
+                    {this.state.showSignInOptions && <SignInOptions />}
                 </SignInPageLayout>
             </SafeAreaView>
         );

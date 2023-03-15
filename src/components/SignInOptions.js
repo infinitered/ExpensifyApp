@@ -7,6 +7,7 @@ import styles from '../styles/styles';
 import Button from './Button';
 import withLocalize, {withLocalizePropTypes} from './withLocalize';
 import * as Session from '../libs/actions/Session';
+import signInWithGoogle from '../libs/signInWithGoogle';
 import ONYXKEYS from '../ONYXKEYS';
 import compose from '../libs/compose';
 import Text from './Text';
@@ -27,7 +28,7 @@ const propTypes = {
     }),
 
     /** Callback to trigger when the button "Email or Phone Number" is pressed */
-    onEmailorPhoneNumberPress: PropTypes.func.isRequired,
+    // onEmailorPhoneNumberPress: PropTypes.func.isRequired,
 
     ...withLocalizePropTypes,
 };
@@ -36,31 +37,29 @@ const defaultProps = {
     account: {},
 };
 
+function TriggerGoogleSignIn() {
+    signInWithGoogle().then((res) => {
+        if (!res) {
+            return;
+        }
+        const {email, token} = res;
+        return Session.signInGoogle(email, token);
+    });
+}
+
 function SignInOptions(props) {
     const buttonDisabled = props.account.loading && props.account.isGoogleSigningIn;
     return (
         <>
-            <View style={[styles.mt5]}>
-                <Button
-                    success
-                    isDisabled={buttonDisabled}
-                    text={props.translate('signInPage.emailOrPhoneNumber')}
-                    onPress={props.onEmailorPhoneNumberPress}
-                />
-            </View>
+            {/* <View style={[styles.mt5]}>
+                <Button success isDisabled={buttonDisabled} text={props.translate('signInPage.emailOrPhoneNumber')} onPress={props.onEmailorPhoneNumberPress} />
+            </View> */}
             <View style={[styles.mt3]}>
-                <Button
-                    success
-                    text={props.translate('signInPage.googleButton')}
-                    isDisabled={buttonDisabled}
-                    onPress={() => Session.signInGoogle()}
-                />
+                <Button success text={props.translate('signInPage.googleButton')} isDisabled={buttonDisabled} onPress={() => TriggerGoogleSignIn()} />
             </View>
             {!_.isEmpty(props.account.error) && (
                 <View style={[styles.mt3]}>
-                    <Text style={[styles.formError]}>
-                        {props.translate(props.account.error)}
-                    </Text>
+                    <Text style={[styles.formError]}>{props.translate(props.account.error)}</Text>
                 </View>
             )}
         </>
