@@ -349,10 +349,10 @@ function signInGoogle(email, token) {
     // eslint-disable-next-line rulesdir/no-api-side-effects-method
     API.makeRequestWithSideEffects('SignInGoogle', {token, email}, {optimisticData, successData, failureData})
         .then((response) => {
-            console.log('response', response);
+            console.log('XXXX response', response);
         })
         .catch((error) => {
-            console.log('error', error);
+            console.log('XXXX error', error);
         });
 }
 
