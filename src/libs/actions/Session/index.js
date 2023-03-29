@@ -1,6 +1,7 @@
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
+import appleAuth from '@invertase/react-native-apple-authentication';
 import ONYXKEYS from '../../../ONYXKEYS';
 import redirectToSignIn from '../SignInRedirect';
 import CONFIG from '../../../CONFIG';
@@ -223,6 +224,79 @@ function beginSignIn(login) {
     ];
 
     API.read('BeginSignIn', {email: login}, {optimisticData, successData, failureData});
+}
+
+function iOSAppleSignIn(apiCallback) {
+    appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+
+        // FULL_NAME must come first, see https://github.com/invertase/react-native-apple-authentication/issues/293
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    }).then((response) => {
+        appleAuth.getCredentialStateForUser(response.user).then((credentialState) => {
+            if (credentialState !== appleAuth.State.AUTHORIZED) {
+                Log.error('Authentication failed. Original response: ', response);
+                return;
+            }
+            apiCallback(response.identityToken);
+        }).catch((e) => {
+            Log.error('Obtaining credential state for user failed. Error: ', e);
+        });
+    }).catch((e) => {
+        Log.error('Request to Apple failed. Error: ', e);
+    });
+}
+
+/**
+ * Shows Apple sign-in process, and if an auth token is successfully obtained,
+ * passes the token on to the Expensify API to sign in with
+ *
+ * @param {String} login
+ */
+function beginAppleSignIn() {
+    const optimisticData = [
+        {
+            onyxMethod: Onyx.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                ...CONST.DEFAULT_ACCOUNT_DATA,
+                isLoading: true,
+            },
+        },
+    ];
+
+    const successData = [
+        {
+            onyxMethod: Onyx.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                isLoading: false,
+            },
+        },
+        {
+            onyxMethod: Onyx.METHOD.MERGE,
+            key: ONYXKEYS.CREDENTIALS,
+            value: {
+                validateCode: null,
+            },
+        },
+    ];
+
+    const failureData = [
+        {
+            onyxMethod: Onyx.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                isLoading: false,
+                errors: {
+                    [DateUtils.getMicroseconds()]: Localize.translateLocal('loginForm.cannotGetAccountDetails'),
+                },
+            },
+        },
+    ];
+    // eslint-disable-next-line rulesdir/no-api-side-effects-method
+    const apiCallback = idToken => API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {optimisticData, successData, failureData});
+    iOSAppleSignIn(apiCallback);
 }
 
 /**
@@ -652,7 +726,7 @@ function authenticatePusher(socketID, channelName, callback) {
  */
 function requestUnlinkValidationLink() {
     const optimisticData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             isLoading: true,
@@ -661,7 +735,7 @@ function requestUnlinkValidationLink() {
         },
     }];
     const successData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             isLoading: false,
@@ -669,7 +743,7 @@ function requestUnlinkValidationLink() {
         },
     }];
     const failureData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             isLoading: false,
@@ -681,7 +755,7 @@ function requestUnlinkValidationLink() {
 
 function unlinkLogin(accountID, validateCode) {
     const optimisticData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             ...CONST.DEFAULT_ACCOUNT_DATA,
@@ -689,7 +763,7 @@ function unlinkLogin(accountID, validateCode) {
         },
     }];
     const successData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             isLoading: false,
@@ -697,14 +771,14 @@ function unlinkLogin(accountID, validateCode) {
         },
     },
     {
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.CREDENTIALS,
         value: {
             login: '',
         },
     }];
     const failureData = [{
-        onyxMethod: CONST.ONYX.METHOD.MERGE,
+        onyxMethod: Onyx.METHOD.MERGE,
         key: ONYXKEYS.ACCOUNT,
         value: {
             isLoading: false,
@@ -716,6 +790,7 @@ function unlinkLogin(accountID, validateCode) {
 
 export {
     beginSignIn,
+    beginAppleSignIn,
     updatePasswordAndSignin,
     signIn,
     signInWithValidateCode,
