@@ -49,6 +49,11 @@ const defaultProps = {
     credentials: {},
 };
 
+function signInWithGoogleCallback() {
+    console.log('signInWithGoogleCallback');
+    signInWithGoogle().then(res => console.log(res));
+}
+
 class SignInPage extends Component {
     componentDidMount() {
         Performance.measureTTI();
@@ -108,7 +113,7 @@ class SignInPage extends Component {
                     <LoginForm isVisible={showLoginForm} blurOnSubmit={this.props.account.validated === false} />
                     {showValidateCodeForm ? <ValidateCodeForm isVisible={showValidateCodeForm} /> : <PasswordForm isVisible={showPasswordForm} />}
                     {showResendValidationForm && <ResendValidationForm />}
-                    <Button title="Sign In" onPress={() => signInWithGoogle().then(res => console.log(res))} />
+                    <Button title="Sign In" onPress={() => signInWithGoogleCallback()} />
                 </SignInPageLayout>
             </SafeAreaView>
         );
