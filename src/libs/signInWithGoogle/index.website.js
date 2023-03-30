@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, {useEffect} from 'react';
 
-const GoogleSignInButton = ({clientId, onCredentialResponse}) => {
+const GoogleSignInButtonWeb = ({clientId, onCredentialResponse}) => {
     useEffect(() => {
         if (window.google) {
             window.google.accounts.id.initialize({
@@ -26,4 +26,4 @@ const GoogleSignInButton = ({clientId, onCredentialResponse}) => {
     return <div id="google-signin-button" />;
 };
 
-export default GoogleSignInButton;
+export default GoogleSignInButtonWeb;

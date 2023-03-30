@@ -4,6 +4,7 @@ import {withOnyx} from 'react-native-onyx';
 import lodashGet from 'lodash/get';
 import Str from 'expensify-common/lib/str';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {platform} from 'process';
 import ONYXKEYS from '../../ONYXKEYS';
 import styles from '../../styles/styles';
 import compose from '../../libs/compose';
@@ -15,7 +16,8 @@ import ResendValidationForm from './ResendValidationForm';
 import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
 import Performance from '../../libs/Performance';
 import Permissions from '../../libs/Permissions';
-import GoogleSignInButton from '../../libs/signInWithGoogle';
+import GoogleSignInButton from '../../libs/signInWithGoogle/index.native';
+import GoogleSignInButtonWeb from '../../libs/signInWithGoogle/index.website';
 
 const propTypes = {
     /* Onyx Props */
@@ -46,12 +48,6 @@ const defaultProps = {
     account: {},
     betas: [],
     credentials: {},
-};
-
-const handleCredentialResponse = (response) => {
-    console.log('Credential response:', response);
-
-    // Handle the response (e.g., authenticate the user with your backend)
 };
 
 class SignInPage extends Component {
@@ -113,7 +109,12 @@ class SignInPage extends Component {
                     <LoginForm isVisible={showLoginForm} blurOnSubmit={this.props.account.validated === false} />
                     {showValidateCodeForm ? <ValidateCodeForm isVisible={showValidateCodeForm} /> : <PasswordForm isVisible={showPasswordForm} />}
                     {showResendValidationForm && <ResendValidationForm />}
-                    <GoogleSignInButton clientId="921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com" onCredentialResponse={handleCredentialResponse} />
+                    {platform === 'web' ? (
+                        <GoogleSignInButtonWeb clientId="921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com" onCredentialResponse={handleCredentialResponse} />
+                    ) : (
+                        <GoogleSignInButton />
+                    )}
+                    {/* <GoogleSignInButton clientId="921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com" onCredentialResponse={handleCredentialResponse} /> */}
                 </SignInPageLayout>
             </SafeAreaView>
         );
