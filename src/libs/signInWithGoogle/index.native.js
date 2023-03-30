@@ -1,4 +1,5 @@
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import * as Button from '../../components/Button';
 
 GoogleSignin.configure({
     webClientId: '921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com',
@@ -12,9 +13,17 @@ GoogleSignin.configure({
  *
  * @returns {Promise<{ token: string, email: string }>}
  */
-export default function signInWithGoogle() {
-    return GoogleSignin.signIn().then(res => ({
-        token: res.idToken,
-        email: res.user.email,
-    }));
-}
+
+const GoogleSignInButton = ({clientId, onCredentialResponse}) => {
+    console.log('GoogleSignInButton', clientId, onCredentialResponse);
+    function signInWithGoogle() {
+        return GoogleSignin.signIn().then(res => ({
+            token: res.idToken,
+            email: res.user.email,
+        }));
+    }
+
+    return <Button success title="Sign in with Google" onPress={signInWithGoogle} />;
+};
+
+export default GoogleSignInButton;

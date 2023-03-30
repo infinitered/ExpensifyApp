@@ -15,8 +15,7 @@ import ResendValidationForm from './ResendValidationForm';
 import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
 import Performance from '../../libs/Performance';
 import Permissions from '../../libs/Permissions';
-import Button from '../../components/Button';
-import signInWithGoogle from '../../libs/signInWithGoogle/index.native';
+import GoogleSignInButton from '../../libs/signInWithGoogle';
 
 const propTypes = {
     /* Onyx Props */
@@ -49,10 +48,11 @@ const defaultProps = {
     credentials: {},
 };
 
-function signInWithGoogleCallback() {
-    console.log('signInWithGoogleCallback');
-    signInWithGoogle().then(res => console.log(res));
-}
+const handleCredentialResponse = (response) => {
+    console.log('Credential response:', response);
+
+    // Handle the response (e.g., authenticate the user with your backend)
+};
 
 class SignInPage extends Component {
     componentDidMount() {
@@ -113,7 +113,7 @@ class SignInPage extends Component {
                     <LoginForm isVisible={showLoginForm} blurOnSubmit={this.props.account.validated === false} />
                     {showValidateCodeForm ? <ValidateCodeForm isVisible={showValidateCodeForm} /> : <PasswordForm isVisible={showPasswordForm} />}
                     {showResendValidationForm && <ResendValidationForm />}
-                    <Button title="Sign In" onPress={() => signInWithGoogleCallback()} />
+                    <GoogleSignInButton clientId="921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com" onCredentialResponse={handleCredentialResponse} />
                 </SignInPageLayout>
             </SafeAreaView>
         );
