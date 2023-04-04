@@ -12,6 +12,7 @@ const serve = require('electron-serve');
 const contextMenu = require('electron-context-menu');
 const {autoUpdater} = require('electron-updater');
 const log = require('electron-log');
+const {Deeplink} = require('electron-deeplink');
 const {machineId} = require('node-machine-id');
 const ELECTRON_EVENTS = require('./ELECTRON_EVENTS');
 const checkForUpdates = require('../src/libs/checkForUpdates');
@@ -243,18 +244,32 @@ const mainWindow = (() => {
         app.dock.setIcon(`${__dirname}/../icon-dev.png`);
         app.setName('New Expensify');
     }
+    const deeplink = new Deeplink({
+        app, mainWindow: browserWindow, protocol: appProtocol, isDev: __DEV__, debugLogging: true,
+    });
+
+    deeplink.on('recieved', (link) => {
+        console.log('RECEIVED LINK: ', link);
+        const urlObject = new URL(link);
+        deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
+
+        if (browserWindow) {
+            browserWindow.loadURL(deeplinkUrl);
+            browserWindow.show();
+        }
+    });
 
     app.on('will-finish-launching', () => {
-        app.on('open-url', (event, url) => {
-            event.preventDefault();
-            const urlObject = new URL(url);
-            deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
+        // app.on('open-url', (event, url) => {
+        //     event.preventDefault();
+        //     const urlObject = new URL(url);
+        //     deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
 
-            if (browserWindow) {
-                browserWindow.loadURL(deeplinkUrl);
-                browserWindow.show();
-            }
-        });
+        //     if (browserWindow) {
+        //         browserWindow.loadURL(deeplinkUrl);
+        //         browserWindow.show();
+        //     }
+        // });
     });
 
     /*
@@ -270,7 +285,7 @@ const mainWindow = (() => {
              * when the app is bundled electron-builder will take care of it.
              */
             if (__DEV__) {
-                app.setAsDefaultProtocolClient(appProtocol);
+                //          app.setAsDefaultProtocolClient(appProtocol);
             }
 
             browserWindow = new BrowserWindow({
