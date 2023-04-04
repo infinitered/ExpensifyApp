@@ -9,7 +9,7 @@ const log = require('electron-log');
 const {machineId} = require('node-machine-id');
 
 // const {Deeplink} = require('electron-deeplink');
-const isDev = require('electron-is-dev');
+// const isDev = require('electron-is-dev');
 const ELECTRON_EVENTS = require('./ELECTRON_EVENTS');
 const checkForUpdates = require('../src/libs/checkForUpdates');
 const CONFIG = require('../src/CONFIG').default;
