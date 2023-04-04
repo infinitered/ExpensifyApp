@@ -1,24 +1,25 @@
 import React from 'react';
-import {View} from 'react-native';
-import {withOnyx} from 'react-native-onyx';
+import { View } from 'react-native';
+import { withOnyx } from 'react-native-onyx';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 import Str from 'expensify-common/lib/str';
-import {parsePhoneNumber} from 'awesome-phonenumber';
+import { parsePhoneNumber } from 'awesome-phonenumber';
+import { GoogleSigninButton } from 'react-native-google-signin/google-signin';
 import styles from '../../styles/styles';
 import Text from '../../components/Text';
 import * as Session from '../../libs/actions/Session';
 import ONYXKEYS from '../../ONYXKEYS';
-import withWindowDimensions, {windowDimensionsPropTypes} from '../../components/withWindowDimensions';
+import withWindowDimensions, { windowDimensionsPropTypes } from '../../components/withWindowDimensions';
 import compose from '../../libs/compose';
 import canFocusInputOnScreenFocus from '../../libs/canFocusInputOnScreenFocus';
-import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
+import withLocalize, { withLocalizePropTypes } from '../../components/withLocalize';
 import TextInput from '../../components/TextInput';
 import * as ValidationUtils from '../../libs/ValidationUtils';
 import * as LoginUtils from '../../libs/LoginUtils';
-import withToggleVisibilityView, {toggleVisibilityViewPropTypes} from '../../components/withToggleVisibilityView';
+import withToggleVisibilityView, { toggleVisibilityViewPropTypes } from '../../components/withToggleVisibilityView';
 import FormAlertWithSubmitButton from '../../components/FormAlertWithSubmitButton';
-import {withNetwork} from '../../components/OnyxProvider';
+import { withNetwork } from '../../components/OnyxProvider';
 import networkPropTypes from '../../components/networkPropTypes';
 import * as ErrorUtils from '../../libs/ErrorUtils';
 import DotIndicatorMessage from '../../components/DotIndicatorMessage';
@@ -128,7 +129,7 @@ class LoginForm extends React.Component {
      * Clear Login from the state
      */
     clearLogin() {
-        this.setState({login: ''}, this.input.clear);
+        this.setState({ login: '' }, this.input.clear);
     }
 
     /**
@@ -146,7 +147,7 @@ class LoginForm extends React.Component {
 
         const login = this.state.login.trim();
         if (!login) {
-            this.setState({formError: 'common.pleaseEnterEmailOrPhoneNumber'});
+            this.setState({ formError: 'common.pleaseEnterEmailOrPhoneNumber' });
             return;
         }
 
@@ -155,9 +156,9 @@ class LoginForm extends React.Component {
 
         if (!Str.isValidEmail(login) && !parsedPhoneNumber.possible) {
             if (ValidationUtils.isNumericWithSpecialChars(login)) {
-                this.setState({formError: 'common.error.phoneNumber'});
+                this.setState({ formError: 'common.error.phoneNumber' });
             } else {
-                this.setState({formError: 'loginForm.error.invalidFormatEmailLogin'});
+                this.setState({ formError: 'loginForm.error.invalidFormatEmailLogin' });
             }
             return;
         }
@@ -203,7 +204,7 @@ class LoginForm extends React.Component {
                     <DotIndicatorMessage
                         style={[styles.mv2]}
                         type="success"
-                        messages={{0: this.props.closeAccount.success || this.props.account.message}}
+                        messages={{ 0: this.props.closeAccount.success || this.props.account.message }}
                     />
                 )}
                 {
@@ -240,8 +241,8 @@ LoginForm.defaultProps = defaultProps;
 
 export default compose(
     withOnyx({
-        account: {key: ONYXKEYS.ACCOUNT},
-        closeAccount: {key: ONYXKEYS.FORMS.CLOSE_ACCOUNT_FORM},
+        account: { key: ONYXKEYS.ACCOUNT },
+        closeAccount: { key: ONYXKEYS.FORMS.CLOSE_ACCOUNT_FORM },
     }),
     withWindowDimensions,
     withLocalize,

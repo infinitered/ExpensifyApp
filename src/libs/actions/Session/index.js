@@ -1,7 +1,8 @@
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
+import { GoogleSignin, statusCodes } from 'react-native-google-signin/google-signin';
 import ONYXKEYS from '../../../ONYXKEYS';
 import redirectToSignIn from '../SignInRedirect';
 import CONFIG from '../../../CONFIG';
@@ -151,7 +152,7 @@ function resendValidationLink(login = credentials.login) {
         },
     ];
 
-    API.write('RequestAccountValidationLink', {email: login}, {optimisticData, successData, failureData});
+    API.write('RequestAccountValidationLink', { email: login }, { optimisticData, successData, failureData });
 }
 
 /**
@@ -194,7 +195,7 @@ function resendValidateCode(login = credentials.login) {
             },
         },
     ];
-    API.write('RequestNewValidateCode', {email: login}, {optimisticData, successData, failureData});
+    API.write('RequestNewValidateCode', { email: login }, { optimisticData, successData, failureData });
 }
 
 /**
@@ -233,7 +234,7 @@ function resendLinkWithValidateCode(login = credentials.login) {
             },
         },
     ];
-    API.write('RequestNewValidateCode', {email: login}, {optimisticData, successData, failureData});
+    API.write('RequestNewValidateCode', { email: login }, { optimisticData, successData, failureData });
 }
 
 /**
@@ -294,8 +295,85 @@ function signInAttemptState() {
  */
 
 function beginSignIn(login) {
-    const {optimisticData, successData, failureData} = signInAttemptState();
-    API.read('BeginSignIn', {email: login}, {optimisticData, successData, failureData});
+    const { optimisticData, successData, failureData } = signInAttemptState();
+    API.read('BeginSignIn', { email: login }, { optimisticData, successData, failureData });
+}
+
+function signInWithGoogle(apiCallback) {
+    GoogleSignin.configure({
+        webClientId: '921154746561-gpsoaqgqfuqrfsjdf8l7vohfkfj7b9up.apps.googleusercontent.com',
+
+        iosClientId: '921154746561-s3uqn2oe4m85tufi6mqflbfbuajrm2i3.apps.googleusercontent.com',
+        offlineAccess: false,
+    });
+
+    GoogleSignin.signIn()
+        .then((response) => {
+            apiCallback({ token: response.idToken, email: response.user.email });
+        })
+        .catch((error) => {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                Log.error('Google sign in cancelled', true, { error });
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                Log.error('Google sign in already in progress', true, { error });
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                Log.error('Google play services not available or outdated', true, { error });
+            } else {
+                Log.error('Unknown Google sign in error', true, { error });
+            }
+        });
+}
+
+/**
+ * Shows Apple sign-in process, and if an auth token is successfully obtained,
+ * passes the token on to the Expensify API to sign in with
+ *
+ * @param {String} login
+ */
+function beginGoogleSignIn() {
+    const optimisticData = [
+        {
+            onyxMethod: CONST.ONYX.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                ...CONST.DEFAULT_ACCOUNT_DATA,
+                isLoading: true,
+            },
+        },
+    ];
+
+    const successData = [
+        {
+            onyxMethod: CONST.ONYX.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                isLoading: false,
+            },
+        },
+        {
+            onyxMethod: CONST.ONYX.METHOD.MERGE,
+            key: ONYXKEYS.CREDENTIALS,
+            value: {
+                validateCode: null,
+            },
+        },
+    ];
+
+    const failureData = [
+        {
+            onyxMethod: CONST.ONYX.METHOD.MERGE,
+            key: ONYXKEYS.ACCOUNT,
+            value: {
+                isLoading: false,
+                errors: {
+                    [DateUtils.getMicroseconds()]: Localize.translateLocal('loginForm.cannotGetAccountDetails'),
+                },
+            },
+        },
+    ];
+    // eslint-disable-next-line rulesdir/no-api-side-effects-method
+    const apiCallback = authToken => API.makeRequestWithSideEffects('SignInGoogle', { authToken }, { optimisticData, successData, failureData });
+    signInWithGoogle(apiCallback);
 }
 
 /**
@@ -306,8 +384,8 @@ function beginSignIn(login) {
  */
 
 function beginAppleSignIn(idToken) {
-    const {optimisticData, successData, failureData} = signInAttemptState();
-    API.write('SignInWithApple', {idToken}, {optimisticData, successData, failureData});
+    const { optimisticData, successData, failureData } = signInAttemptState();
+    API.write('SignInWithApple', { idToken }, { optimisticData, successData, failureData });
 }
 
 /**
@@ -364,7 +442,7 @@ function signInWithShortLivedAuthToken(email, authToken) {
     // scene 2: the user is transitioning to desktop app from a different account on web app.
     const oldPartnerUserID = credentials.login === email ? credentials.autoGeneratedLogin : '';
     // eslint-disable-next-line rulesdir/no-api-side-effects-method
-    API.makeRequestWithSideEffects('SignInWithShortLivedAuthToken', {authToken, oldPartnerUserID}, {optimisticData, successData, failureData}, null).then((response) => {
+    API.makeRequestWithSideEffects('SignInWithShortLivedAuthToken', { authToken, oldPartnerUserID }, { optimisticData, successData, failureData }, null).then((response) => {
         if (response) {
             return;
         }
@@ -437,7 +515,7 @@ function signIn(password, validateCode, twoFactorAuthCode, preferredLocale = CON
         params.password = password;
     }
     Device.getDeviceInfoWithID().then((deviceInfo) => {
-        API.write('SigninUser', {...params, deviceInfo}, {optimisticData, successData, failureData});
+        API.write('SigninUser', { ...params, deviceInfo }, { optimisticData, successData, failureData });
     });
 }
 
@@ -459,7 +537,7 @@ function signInWithValidateCode(accountID, code, twoFactorAuthCode, preferredLoc
         {
             onyxMethod: Onyx.METHOD.MERGE,
             key: ONYXKEYS.SESSION,
-            value: {autoAuthState: CONST.AUTO_AUTH_STATE.SIGNING_IN},
+            value: { autoAuthState: CONST.AUTO_AUTH_STATE.SIGNING_IN },
         },
     ];
 
@@ -483,7 +561,7 @@ function signInWithValidateCode(accountID, code, twoFactorAuthCode, preferredLoc
         {
             onyxMethod: Onyx.METHOD.MERGE,
             key: ONYXKEYS.SESSION,
-            value: {autoAuthState: CONST.AUTO_AUTH_STATE.JUST_SIGNED_IN},
+            value: { autoAuthState: CONST.AUTO_AUTH_STATE.JUST_SIGNED_IN },
         },
     ];
 
@@ -499,7 +577,7 @@ function signInWithValidateCode(accountID, code, twoFactorAuthCode, preferredLoc
         {
             onyxMethod: Onyx.METHOD.MERGE,
             key: ONYXKEYS.SESSION,
-            value: {autoAuthState: CONST.AUTO_AUTH_STATE.FAILED},
+            value: { autoAuthState: CONST.AUTO_AUTH_STATE.FAILED },
         },
     ];
     Device.getDeviceInfoWithID().then((deviceInfo) => {
@@ -512,7 +590,7 @@ function signInWithValidateCode(accountID, code, twoFactorAuthCode, preferredLoc
                 preferredLocale,
                 deviceInfo,
             },
-            {optimisticData, successData, failureData},
+            { optimisticData, successData, failureData },
         );
     });
 }
@@ -611,12 +689,12 @@ function resendResetPassword() {
 }
 
 function invalidateCredentials() {
-    Onyx.merge(ONYXKEYS.CREDENTIALS, {autoGeneratedLogin: '', autoGeneratedPassword: ''});
+    Onyx.merge(ONYXKEYS.CREDENTIALS, { autoGeneratedLogin: '', autoGeneratedPassword: '' });
 }
 
 function invalidateAuthToken() {
     NetworkStore.setAuthToken('pizza');
-    Onyx.merge(ONYXKEYS.SESSION, {authToken: 'pizza'});
+    Onyx.merge(ONYXKEYS.SESSION, { authToken: 'pizza' });
 }
 
 /**
@@ -707,7 +785,7 @@ function updatePasswordAndSignin(accountID, validateCode, password) {
             validateCode,
             password,
         },
-        {optimisticData, successData, failureData},
+        { optimisticData, successData, failureData },
     );
 }
 
@@ -724,7 +802,7 @@ const reauthenticatePusher = _.throttle(
             });
     },
     5000,
-    {trailing: false},
+    { trailing: false },
 );
 
 /**
@@ -733,7 +811,7 @@ const reauthenticatePusher = _.throttle(
  * @param {Function} callback
  */
 function authenticatePusher(socketID, channelName, callback) {
-    Log.info('[PusherAuthorizer] Attempting to authorize Pusher', false, {channelName});
+    Log.info('[PusherAuthorizer] Attempting to authorize Pusher', false, { channelName });
 
     // We use makeRequestWithSideEffects here because we need to authorize to Pusher (an external service) each time a user connects to any channel.
     // eslint-disable-next-line rulesdir/no-api-side-effects-method
@@ -746,7 +824,7 @@ function authenticatePusher(socketID, channelName, callback) {
         .then((response) => {
             if (response.jsonCode === CONST.JSON_CODE.NOT_AUTHENTICATED) {
                 Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher because authToken is expired');
-                callback(new Error('Pusher failed to authenticate because authToken is expired'), {auth: ''});
+                callback(new Error('Pusher failed to authenticate because authToken is expired'), { auth: '' });
 
                 // Attempt to refresh the authToken then reconnect to Pusher
                 reauthenticatePusher();
@@ -755,16 +833,16 @@ function authenticatePusher(socketID, channelName, callback) {
 
             if (response.jsonCode !== CONST.JSON_CODE.SUCCESS) {
                 Log.hmmm('[PusherAuthorizer] Unable to authenticate Pusher for reason other than expired session');
-                callback(new Error(`Pusher failed to authenticate because code: ${response.jsonCode} message: ${response.message}`), {auth: ''});
+                callback(new Error(`Pusher failed to authenticate because code: ${response.jsonCode} message: ${response.message}`), { auth: '' });
                 return;
             }
 
-            Log.info('[PusherAuthorizer] Pusher authenticated successfully', false, {channelName});
+            Log.info('[PusherAuthorizer] Pusher authenticated successfully', false, { channelName });
             callback(null, response);
         })
         .catch((error) => {
-            Log.hmmm('[PusherAuthorizer] Unhandled error: ', {channelName, error});
-            callback(new Error('AuthenticatePusher request failed'), {auth: ''});
+            Log.hmmm('[PusherAuthorizer] Unhandled error: ', { channelName, error });
+            callback(new Error('AuthenticatePusher request failed'), { auth: '' });
         });
 }
 
@@ -806,7 +884,7 @@ function requestUnlinkValidationLink() {
         },
     ];
 
-    API.write('RequestUnlinkValidationLink', {email: credentials.login}, {optimisticData, successData, failureData});
+    API.write('RequestUnlinkValidationLink', { email: credentials.login }, { optimisticData, successData, failureData });
 }
 
 function unlinkLogin(accountID, validateCode) {
@@ -897,7 +975,7 @@ function toggleTwoFactorAuth(enable) {
         },
     ];
 
-    API.write(enable ? 'EnableTwoFactorAuth' : 'DisableTwoFactorAuth', {}, {optimisticData, successData, failureData});
+    API.write(enable ? 'EnableTwoFactorAuth' : 'DisableTwoFactorAuth', {}, { optimisticData, successData, failureData });
 }
 
 function validateTwoFactorAuth(twoFactorAuthCode) {
@@ -931,13 +1009,14 @@ function validateTwoFactorAuth(twoFactorAuthCode) {
         },
     ];
 
-    API.write('TwoFactorAuth_Validate', {twoFactorAuthCode}, {optimisticData, successData, failureData});
+    API.write('TwoFactorAuth_Validate', { twoFactorAuthCode }, { optimisticData, successData, failureData });
 }
 
 export {
     beginSignIn,
     beginAppleSignIn,
     checkIfActionIsAllowed,
+    beginGoogleSignIn,
     updatePasswordAndSignin,
     signIn,
     signInWithValidateCode,
