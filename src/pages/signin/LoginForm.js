@@ -228,6 +228,13 @@ class LoginForm extends React.Component {
                                     <AppleSignIn />
                                 </View>
                             </View>
+                            <GoogleSigninButton
+                                style={{ width: 192, height: 48 }}
+                                size={GoogleSigninButton.Size.Wide}
+                                color={GoogleSigninButton.Color.Dark}
+                                onPress={Session.beginGoogleSignIn}
+                                disabled={this.state.isSigninInProgress}
+                            />
                         </View>
                     )
                 }
