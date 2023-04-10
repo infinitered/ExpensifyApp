@@ -31,7 +31,7 @@ Onyx.connect({
     callback: (session) => (authTokenType = lodashGet(session, 'authTokenType')),
 });
 import DateUtils from '../../DateUtils';
-import signInWithGoogle from '../SignInWithGoogle/SignInWithGoogle.native';
+import signInWithGoogle from '../signInWithGoogle/index.native';
 
 let credentials = {};
 Onyx.connect({

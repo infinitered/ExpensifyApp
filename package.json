@@ -74,6 +74,7 @@
     "@react-ng/bounds-observer": "^0.2.1",
     "@ua/react-native-airship": "^15.2.3",
     "awesome-phonenumber": "^5.4.0",
+    "@react-oauth/google": "^0.9.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-polyfill": "^6.26.0",
     "dom-serializer": "^0.2.2",

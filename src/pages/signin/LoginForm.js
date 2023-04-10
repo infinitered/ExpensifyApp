@@ -27,6 +27,7 @@ import * as CloseAccount from '../../libs/actions/CloseAccount';
 import CONST from '../../CONST';
 import AppleSignIn from '../../components/SignInButtons/AppleSignIn';
 import isInputAutoFilled from '../../libs/isInputAutoFilled';
+import Button from '../../components/Button';
 
 const propTypes = {
     /** Should we dismiss the keyboard when transitioning away from the page? */
@@ -235,6 +236,7 @@ class LoginForm extends React.Component {
                                 onPress={Session.beginGoogleSignIn}
                                 disabled={this.state.isSigninInProgress}
                             />
+                            <Button style={{ width: 192, height: 48 }} onPress={Session.beginGoogleSignIn} disabled={this.state.isSigninInProgress} text="Sign In With Google" />
                         </View>
                     )
                 }
