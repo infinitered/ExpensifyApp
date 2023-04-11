@@ -1,22 +1,22 @@
 import '../wdyr';
 import React from 'react';
-import {LogBox} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { LogBox, Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Onyx from 'react-native-onyx';
-import {PortalProvider} from '@gorhom/portal';
-import {PickerStateProvider} from 'react-native-picker-select';
+import { PortalProvider } from '@gorhom/portal';
+import { PickerStateProvider } from 'react-native-picker-select';
 import CustomStatusBar from './components/CustomStatusBar';
 import ErrorBoundary from './components/ErrorBoundary';
 import Expensify from './Expensify';
-import {LocaleContextProvider} from './components/withLocalize';
+import { LocaleContextProvider } from './components/withLocalize';
 import OnyxProvider from './components/OnyxProvider';
 import HTMLEngineProvider from './components/HTMLEngineProvider';
 import ComposeProviders from './components/ComposeProviders';
 import SafeArea from './components/SafeArea';
 import * as Environment from './libs/Environment/Environment';
-import {WindowDimensionsProvider} from './components/withWindowDimensions';
-import {KeyboardStateProvider} from './components/withKeyboardState';
+import { WindowDimensionsProvider } from './components/withWindowDimensions';
+import { KeyboardStateProvider } from './components/withKeyboardState';
 import GoogleProvider from './components/GoogleOAuthProvider';
 
 // For easier debugging and development, when we are in web we expose Onyx to the window, so you can more easily set data into Onyx
@@ -31,7 +31,7 @@ LogBox.ignoreLogs([
     'Setting a timer for a long period of time',
 ]);
 
-const fill = {flex: 1};
+const fill = { flex: 1 };
 
 const App = () => (
     <GestureHandlerRootView style={fill}>
@@ -40,13 +40,13 @@ const App = () => (
                 OnyxProvider,
                 SafeAreaProvider,
                 PortalProvider,
-                GoogleProvider,
                 SafeArea,
                 LocaleContextProvider,
                 HTMLEngineProvider,
                 WindowDimensionsProvider,
                 KeyboardStateProvider,
                 PickerStateProvider,
+                ...(Platform.OS === 'web' ? [GoogleProvider] : []),
             ]}
         >
             <CustomStatusBar />

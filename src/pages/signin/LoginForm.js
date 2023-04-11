@@ -27,7 +27,7 @@ import * as CloseAccount from '../../libs/actions/CloseAccount';
 import CONST from '../../CONST';
 import AppleSignIn from '../../components/SignInButtons/AppleSignIn';
 import isInputAutoFilled from '../../libs/isInputAutoFilled';
-import GoogleSignInButton from '../../components/GoogleSignInButton/index.website';
+import GoogleSignInButton from '../../components/GoogleSignInButton';
 
 const propTypes = {
     /** Should we dismiss the keyboard when transitioning away from the page? */
