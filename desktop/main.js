@@ -23,6 +23,11 @@ const Localize = require('../src/libs/Localize');
 const port = process.env.PORT || 8080;
 
 app.setName('New Expensify');
+let browserWindow;
+const appProtocol = CONST.DEEPLINK_BASE_URL.replace('://', '');
+const deeplink = new Deeplink({
+    app, mainWindow: browserWindow, protocol: appProtocol, isDev: __DEV__, debugLogging: true,
+});
 
 /**
  * Electron main process that handles wrapping the web application.
@@ -81,8 +86,6 @@ let downloadedVersion;
 // because the only way code can be shared between the main and renderer processes at runtime is via the context bridge
 // So we track preferredLocale separately via ELECTRON_EVENTS.LOCALE_UPDATED
 let preferredLocale = CONST.DEFAULT_LOCALE;
-
-const appProtocol = CONST.DEEPLINK_BASE_URL.replace('://', '');
 
 const quitAndInstallWithUpdate = () => {
     if (!downloadedVersion) {
@@ -232,7 +235,6 @@ const localizeMenuItems = (browserWindow, systemMenu) => {
 
 const mainWindow = (() => {
     let deeplinkUrl;
-    let browserWindow;
 
     const loadURL = __DEV__
         ? win => win.loadURL(`http://localhost:${port}`)
@@ -244,12 +246,9 @@ const mainWindow = (() => {
         app.dock.setIcon(`${__dirname}/../icon-dev.png`);
         app.setName('New Expensify');
     }
-    const deeplink = new Deeplink({
-        app, mainWindow: browserWindow, protocol: appProtocol, isDev: __DEV__, debugLogging: true,
-    });
 
     deeplink.on('recieved', (link) => {
-        console.log('RECEIVED LINK: ', link);
+        console.error('RECEIVED LINK: ', link);
         const urlObject = new URL(link);
         deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
 
@@ -260,16 +259,18 @@ const mainWindow = (() => {
     });
 
     app.on('will-finish-launching', () => {
-        // app.on('open-url', (event, url) => {
-        //     event.preventDefault();
-        //     const urlObject = new URL(url);
-        //     deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
+        app.on('open-url', (event, url) => {
+            console.error('OPEN URL EVENT');
+
+            //     event.preventDefault();
+            //     const urlObject = new URL(url);
+            //     deeplinkUrl = `${APP_DOMAIN}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
 
         //     if (browserWindow) {
         //         browserWindow.loadURL(deeplinkUrl);
         //         browserWindow.show();
         //     }
-        // });
+        });
     });
 
     /*
@@ -285,7 +286,7 @@ const mainWindow = (() => {
              * when the app is bundled electron-builder will take care of it.
              */
             if (__DEV__) {
-                //          app.setAsDefaultProtocolClient(appProtocol);
+                app.setAsDefaultProtocolClient(appProtocol);
             }
 
             browserWindow = new BrowserWindow({
