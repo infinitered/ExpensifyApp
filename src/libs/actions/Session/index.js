@@ -31,7 +31,7 @@ Onyx.connect({
     callback: (session) => (authTokenType = lodashGet(session, 'authTokenType')),
 });
 import DateUtils from '../../DateUtils';
-import signInWithGoogle from '../signInWithGoogle/index.native';
+import signInWithGoogle from '../signInWithGoogle';
 
 let credentials = {};
 Onyx.connect({
@@ -325,13 +325,7 @@ function signInWithGoogle(apiCallback) {
         });
 }
 
-/**
- * Shows Apple sign-in process, and if an auth token is successfully obtained,
- * passes the token on to the Expensify API to sign in with
- *
- * @param {String} login
- */
-function beginGoogleSignIn() {
+function googleApiCallback(authToken) {
     const optimisticData = [
         {
             onyxMethod: CONST.ONYX.METHOD.MERGE,
@@ -372,9 +366,19 @@ function beginGoogleSignIn() {
             },
         },
     ];
+    console.log(authToken);
     // eslint-disable-next-line rulesdir/no-api-side-effects-method
-    const apiCallback = authToken => API.makeRequestWithSideEffects('SignInGoogle', { authToken }, { optimisticData, successData, failureData });
-    signInWithGoogle(apiCallback);
+    API.makeRequestWithSideEffects('SignInGoogle', { authToken }, { optimisticData, successData, failureData });
+}
+
+/**
+ * Shows Google sign-in process, and if an auth token is successfully obtained,
+ * passes the token on to the Expensify API to sign in with
+ *
+ * @param {String} login
+ */
+function beginGoogleSignIn() {
+    signInWithGoogle(googleApiCallback);
 }
 
 /**
@@ -1018,6 +1022,7 @@ export {
     beginAppleSignIn,
     checkIfActionIsAllowed,
     beginGoogleSignIn,
+    googleApiCallback,
     updatePasswordAndSignin,
     signIn,
     signInWithValidateCode,
