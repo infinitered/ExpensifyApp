@@ -10,6 +10,8 @@ import defaultScreenOptions from './defaultScreenOptions';
 
 const RootStack = createStackNavigator();
 
+const TestScreen = () => null;
+
 const PublicScreens = () => (
     <RootStack.Navigator>
         <RootStack.Screen
@@ -36,6 +38,11 @@ const PublicScreens = () => (
             name="Concierge"
             options={defaultScreenOptions}
             component={ConciergePage}
+        />
+        <RootStack.Screen
+            name="AppleOAuth"
+            options={defaultScreenOptions}
+            component={TestScreen}
         />
     </RootStack.Navigator>
 );
