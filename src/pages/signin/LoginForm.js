@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import _ from 'underscore';
 import Str from 'expensify-common/lib/str';
 import {parsePhoneNumber} from 'awesome-phonenumber';
-import {AppleButton} from '@invertase/react-native-apple-authentication';
 import styles from '../../styles/styles';
 import Text from '../../components/Text';
 import * as Session from '../../libs/actions/Session';
@@ -25,6 +24,8 @@ import * as ErrorUtils from '../../libs/ErrorUtils';
 import DotIndicatorMessage from '../../components/DotIndicatorMessage';
 import * as CloseAccount from '../../libs/actions/CloseAccount';
 import CONST from '../../CONST';
+import AppleSignIn from '../../components/SignInButtons/AppleSignIn';
+import GoogleSignIn from '../../components/SignInButtons/GoogleSignIn';
 
 const propTypes = {
     /** Should we dismiss the keyboard when transitioning away from the page? */
@@ -200,7 +201,7 @@ class LoginForm extends React.Component {
                     <DotIndicatorMessage style={[styles.mv2]} type="success" messages={{0: this.props.closeAccount.success || this.props.account.message}} />
                 )}
                 { // We need to unmount the submit button when the component is not visible so that the Enter button
-                  // key handler gets unsubscribed and does not conflict with the Password Form
+                    // key handler gets unsubscribed and does not conflict with the Password Form
                     this.props.isVisible && (
                         <View style={[styles.mt5]}>
                             <FormAlertWithSubmitButton
@@ -211,13 +212,15 @@ class LoginForm extends React.Component {
                                 isAlertVisible={!_.isEmpty(serverErrorText)}
                                 containerStyles={[styles.mh0]}
                             />
-                            {/* TODO: Replace with custom button */}
-                            <AppleButton
-                                buttonStyle={AppleButton.Style.WHITE}
-                                buttonType={AppleButton.Type.SIGN_IN}
-                                style={{width: 160, height: 45}}
-                                onPress={Session.beginAppleSignIn}
-                            />
+                            <View style={{
+                                flexDirection: 'row',
+                                width: '100%',
+                                justifyContent: 'center',
+                            }}
+                            >
+                                <AppleSignIn />
+                                <GoogleSignIn />
+                            </View>
                         </View>
                     )
                 }
