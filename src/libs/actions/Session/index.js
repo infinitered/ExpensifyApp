@@ -17,9 +17,9 @@ import * as Authentication from '../../Authentication';
 import * as Welcome from '../Welcome';
 import * as API from '../../API';
 import * as NetworkStore from '../../Network/NetworkStore';
-import DateUtils from '../../DateUtils';
 import Navigation from '../../Navigation/Navigation';
 import subscribeToReportCommentPushNotifications from '../../Notification/PushNotification/subscribeToReportCommentPushNotifications';
+import * as OnyxData from './helper';
 import ROUTES from '../../../ROUTES';
 
 let credentials = {};
@@ -181,54 +181,18 @@ function resendLinkWithValidateCode(login = credentials.login) {
  *
  * @param {String} login
  */
+
 function beginSignIn(login) {
-    const optimisticData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                ...CONST.DEFAULT_ACCOUNT_DATA,
-                isLoading: true,
-                message: null,
-            },
-        },
-    ];
-
-    const successData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-            },
-        },
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.CREDENTIALS,
-            value: {
-                validateCode: null,
-            },
-        },
-    ];
-
-    const failureData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                errors: {
-                    [DateUtils.getMicroseconds()]: Localize.translateLocal('loginForm.cannotGetAccountDetails'),
-                },
-            },
-        },
-    ];
-
-    API.read('BeginSignIn', {email: login}, {optimisticData, successData, failureData});
+    const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+    API.read('BeginSignIn', {email: login}, {
+        optimisticData: OnyxData.generateOptimistic(),
+        successData: OnyxData.generateSuccess(),
+        failureData: OnyxData.generateFailure(errorMessage),
+    });
 }
 
 // TODO: Third-party provider sign-in logic should probably live somewhere else. Authentication lib file? Or new file?
-function iOSAppleSignIn(apiCallback) {
+function iOSAppleSignIn() {
     appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
 
@@ -240,7 +204,14 @@ function iOSAppleSignIn(apiCallback) {
                 Log.error('Authentication failed. Original response: ', response);
                 return;
             }
-            apiCallback(response.identityToken).then(apiResponse => Log.error('API response: ', apiResponse)).catch(apiError => Log.error('API Callback error: ', apiError));
+            const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+            const idToken = response.identityToken;
+            // eslint-disable-next-line rulesdir/no-api-side-effects-method
+            API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {
+                optimisticData: OnyxData.generateOptimistic(),
+                successData: OnyxData.generateSuccess(),
+                failureData: OnyxData.generateFailure(errorMessage),
+            }).then(apiResponse => Log.error('API response: ', apiResponse)).catch(apiError => Log.error('API Callback error: ', apiError));
         }).catch((e) => {
             Log.error('Obtaining credential state for user failed. Error: ', e);
         });
@@ -250,7 +221,7 @@ function iOSAppleSignIn(apiCallback) {
 }
 
 // Giving unhandled promise rejection? Not sure why.
-function androidAppleSignIn(apiCallback) {
+function androidAppleSignIn() {
     appleAuthAndroid.configure({
         clientId: 'com.expensify.expensifylite.AppleSignIn',
         redirectUri: 'https://www.expensify.com/partners/apple/loginCallback',
@@ -259,35 +230,18 @@ function androidAppleSignIn(apiCallback) {
     });
 
     appleAuthAndroid.signIn().then((response) => {
-        apiCallback(response.id_token).then(apiResponse => Log.error('API response: ', apiResponse)).catch(apiError => Log.error('API Callback error: ', apiError));
+        const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+        const idToken = response.id_token;
+        // eslint-disable-next-line rulesdir/no-api-side-effects-method
+        API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {
+            optimisticData: OnyxData.generateOptimistic(),
+            successData: OnyxData.generateSuccess(),
+            failureData: OnyxData.generateFailure(errorMessage),
+        }).then(apiResponse => Log.info('API response: ', apiResponse))
+            .catch(apiError => Log.error('API Callback error: ', apiError));
     }).catch((e) => {
         Log.error('Request to sign in with Apple failed. Error: ', e);
     });
-}
-
-async function aASIasync(apiCallback) {
-    appleAuthAndroid.configure({
-        clientId: 'com.expensify.expensifylite.AppleSignIn',
-        redirectUri: 'https://www.expensify.com/partners/apple/loginCallback',
-        responseType: appleAuthAndroid.ResponseType.ALL,
-        scope: appleAuthAndroid.Scope.ALL,
-    });
-
-    const response = await appleAuthAndroid.signIn();
-    console.log('RESPONSE', response);
-    apiCallback(response.id_token);
-}
-
-function appleSignInForPlatform(apiCallback) {
-    switch (Platform.OS) {
-        case 'ios':
-            iOSAppleSignIn(apiCallback);
-            break;
-        case 'android':
-            aASIasync(apiCallback);
-            break;
-        default:
-    }
 }
 
 /**
@@ -296,51 +250,19 @@ function appleSignInForPlatform(apiCallback) {
  *
  * @param {String} login
  */
+
 function beginAppleSignIn() {
-    const optimisticData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                ...CONST.DEFAULT_ACCOUNT_DATA,
-                isLoading: true,
-            },
-        },
-    ];
-
-    const successData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-            },
-        },
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.CREDENTIALS,
-            value: {
-                validateCode: null,
-            },
-        },
-    ];
-
-    const failureData = [
-        {
-            onyxMethod: Onyx.METHOD.MERGE,
-            key: ONYXKEYS.ACCOUNT,
-            value: {
-                isLoading: false,
-                errors: {
-                    [DateUtils.getMicroseconds()]: Localize.translateLocal('loginForm.cannotGetAccountDetails'),
-                },
-            },
-        },
-    ];
-    // eslint-disable-next-line rulesdir/no-api-side-effects-method
-    const apiCallback = idToken => API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {optimisticData, successData, failureData});
-    appleSignInForPlatform(apiCallback);
+    switch (Platform.OS) {
+        case 'ios':
+            iOSAppleSignIn();
+            break;
+        case 'android':
+            androidAppleSignIn();
+            break;
+        default:
+    }
 }
+
 
 /**
  * Will create a temporary login for the user in the passed authenticate response which is used when
@@ -557,58 +479,58 @@ function resetPassword() {
     API.write('RequestPasswordReset', {
         email: credentials.login,
     },
-    {
-        optimisticData: [
-            {
-                onyxMethod: Onyx.METHOD.MERGE,
-                key: ONYXKEYS.ACCOUNT,
-                value: {
-                    errors: null,
-                    forgotPassword: true,
-                    message: null,
+        {
+            optimisticData: [
+                {
+                    onyxMethod: Onyx.METHOD.MERGE,
+                    key: ONYXKEYS.ACCOUNT,
+                    value: {
+                        errors: null,
+                        forgotPassword: true,
+                        message: null,
+                    },
                 },
-            },
-        ],
-    });
+            ],
+        });
 }
 
 function resendResetPassword() {
     API.write('ResendRequestPasswordReset', {
         email: credentials.login,
     },
-    {
-        optimisticData: [
-            {
-                onyxMethod: Onyx.METHOD.MERGE,
-                key: ONYXKEYS.ACCOUNT,
-                value: {
-                    isLoading: true,
-                    forgotPassword: true,
-                    message: null,
-                    errors: null,
+        {
+            optimisticData: [
+                {
+                    onyxMethod: Onyx.METHOD.MERGE,
+                    key: ONYXKEYS.ACCOUNT,
+                    value: {
+                        isLoading: true,
+                        forgotPassword: true,
+                        message: null,
+                        errors: null,
+                    },
                 },
-            },
-        ],
-        successData: [
-            {
-                onyxMethod: Onyx.METHOD.MERGE,
-                key: ONYXKEYS.ACCOUNT,
-                value: {
-                    isLoading: false,
-                    message: 'resendValidationForm.linkHasBeenResent',
+            ],
+            successData: [
+                {
+                    onyxMethod: Onyx.METHOD.MERGE,
+                    key: ONYXKEYS.ACCOUNT,
+                    value: {
+                        isLoading: false,
+                        message: 'resendValidationForm.linkHasBeenResent',
+                    },
                 },
-            },
-        ],
-        failureData: [
-            {
-                onyxMethod: Onyx.METHOD.MERGE,
-                key: ONYXKEYS.ACCOUNT,
-                value: {
-                    isLoading: false,
+            ],
+            failureData: [
+                {
+                    onyxMethod: Onyx.METHOD.MERGE,
+                    key: ONYXKEYS.ACCOUNT,
+                    value: {
+                        isLoading: false,
+                    },
                 },
-            },
-        ],
-    });
+            ],
+        });
 }
 
 function invalidateCredentials() {
