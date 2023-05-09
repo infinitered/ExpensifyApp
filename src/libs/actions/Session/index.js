@@ -1,7 +1,6 @@
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
-import {Platform} from 'react-native';
 import ONYXKEYS from '../../../ONYXKEYS';
 import redirectToSignIn from '../SignInRedirect';
 import CONFIG from '../../../CONFIG';
@@ -18,9 +17,9 @@ import * as API from '../../API';
 import * as NetworkStore from '../../Network/NetworkStore';
 import Navigation from '../../Navigation/Navigation';
 import subscribeToReportCommentPushNotifications from '../../Notification/PushNotification/subscribeToReportCommentPushNotifications';
-import * as OnyxData from './helper';
 import ROUTES from '../../../ROUTES';
-import performAppleAuthRequest from '../../ThirdPartyAuth/Apple';
+import performAppleAuthRequest from '../../../components/SignInButtons/Apple';
+import DateUtils from '../../DateUtils';
 
 let credentials = {};
 Onyx.connect({
@@ -176,6 +175,52 @@ function resendLinkWithValidateCode(login = credentials.login) {
     API.write('RequestNewValidateCode', {email: login}, {optimisticData, successData, failureData});
 }
 
+function generateResponseData() {
+    const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+    return {
+        optimisticData: [
+            {
+                onyxMethod: Onyx.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    ...CONST.DEFAULT_ACCOUNT_DATA,
+                    isLoading: true,
+                    message: null,
+                },
+            },
+        ],
+        successData: [
+            {
+                onyxMethod: Onyx.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    isLoading: false,
+                },
+            },
+            {
+                onyxMethod: Onyx.METHOD.MERGE,
+                key: ONYXKEYS.CREDENTIALS,
+                value: {
+                    validateCode: null,
+                },
+            },
+        ],
+        failureData: [
+            {
+                onyxMethod: Onyx.METHOD.MERGE,
+                key: ONYXKEYS.ACCOUNT,
+                value: {
+                    isLoading: false,
+                    // eslint-disable-next-line rulesdir/prefer-localization
+                    errors: {
+                        [DateUtils.getMicroseconds()]: errorMessage,
+                    },
+                },
+            },
+        ],
+    };
+}
+
 /**
  * Checks the API to see if an account exists for the given login
  *
@@ -183,42 +228,16 @@ function resendLinkWithValidateCode(login = credentials.login) {
  */
 
 function beginSignIn(login) {
-    const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
-    API.read('BeginSignIn', {email: login}, {
-        optimisticData: OnyxData.generateOptimistic(),
-        successData: OnyxData.generateSuccess(),
-        failureData: OnyxData.generateFailure(errorMessage),
-    });
+    const {optimisticData, successData, failureData} = generateResponseData();
+    API.read('BeginSignIn', {email: login}, {optimisticData, successData, failureData});
 }
 
 function handleAppleAuthApiResponse(token) {
-    const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+    const {optimisticData, successData, failureData} = generateResponseData();
     // eslint-disable-next-line rulesdir/no-api-side-effects-method
-    API.makeRequestWithSideEffects('AuthenticateApple', {token}, {
-        optimisticData: OnyxData.generateOptimistic(),
-        successData: OnyxData.generateSuccess(),
-        failureData: OnyxData.generateFailure(errorMessage),
-    })
+    API.makeRequestWithSideEffects('AuthenticateApple', {token}, {optimisticData, successData, failureData})
         .then(apiResponse => Log.info('API response: ', apiResponse))
         .catch(apiError => Log.error('API Callback error: ', apiError));
-}
-
-function iOSAppleSignIn() {
-    performAppleAuthRequest()
-        .then(response => handleAppleAuthApiResponse(response.identityToken))
-        .catch((e) => {
-            Log.error('Request to sign in with Apple failed. Error: ', e);
-        });
-}
-
-function androidAppleSignIn() {
-    performAppleAuthRequest()
-        .then((idToken) => {
-            handleAppleAuthApiResponse(idToken);
-        })
-        .catch((e) => {
-            Log.error('Request to sign in with Apple failed. Error: ', e);
-        });
 }
 
 /**
@@ -229,15 +248,11 @@ function androidAppleSignIn() {
  */
 
 function beginAppleSignIn() {
-    switch (Platform.OS) {
-        case 'ios':
-            iOSAppleSignIn();
-            break;
-        case 'android':
-            androidAppleSignIn();
-            break;
-        default:
-    }
+    performAppleAuthRequest()
+        .then(response => handleAppleAuthApiResponse(response.identityToken))
+        .catch((e) => {
+            Log.error('Request to sign in with Apple failed. Error: ', e);
+        });
 }
 
 /**
