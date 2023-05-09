@@ -191,6 +191,18 @@ function beginSignIn(login) {
     });
 }
 
+function handleAppleAuthApiResponse(token) {
+    const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
+    // eslint-disable-next-line rulesdir/no-api-side-effects-method
+    API.makeRequestWithSideEffects('AuthenticateApple', {token}, {
+        optimisticData: OnyxData.generateOptimistic(),
+        successData: OnyxData.generateSuccess(),
+        failureData: OnyxData.generateFailure(errorMessage),
+    })
+        .then(apiResponse => Log.info('API response: ', apiResponse))
+        .catch(apiError => Log.error('API Callback error: ', apiError));
+}
+
 // TODO: Third-party provider sign-in logic should probably live somewhere else. Authentication lib file? Or new file?
 function iOSAppleSignIn() {
     appleAuth.performRequest({
@@ -204,14 +216,7 @@ function iOSAppleSignIn() {
                 Log.error('Authentication failed. Original response: ', response);
                 return;
             }
-            const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
-            const idToken = response.identityToken;
-            // eslint-disable-next-line rulesdir/no-api-side-effects-method
-            API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {
-                optimisticData: OnyxData.generateOptimistic(),
-                successData: OnyxData.generateSuccess(),
-                failureData: OnyxData.generateFailure(errorMessage),
-            }).then(apiResponse => Log.error('API response: ', apiResponse)).catch(apiError => Log.error('API Callback error: ', apiError));
+            handleAppleAuthApiResponse(response.identityToken);
         }).catch((e) => {
             Log.error('Obtaining credential state for user failed. Error: ', e);
         });
@@ -220,7 +225,6 @@ function iOSAppleSignIn() {
     });
 }
 
-// Giving unhandled promise rejection? Not sure why.
 function androidAppleSignIn() {
     appleAuthAndroid.configure({
         clientId: 'com.expensify.expensifylite.AppleSignIn',
@@ -228,18 +232,7 @@ function androidAppleSignIn() {
         responseType: appleAuthAndroid.ResponseType.ALL,
         scope: appleAuthAndroid.Scope.ALL,
     });
-
-    appleAuthAndroid.signIn().then((response) => {
-        const errorMessage = Localize.translateLocal('loginForm.cannotGetAccountDetails');
-        const idToken = response.id_token;
-        // eslint-disable-next-line rulesdir/no-api-side-effects-method
-        API.makeRequestWithSideEffects('AuthenticateApple', {idToken}, {
-            optimisticData: OnyxData.generateOptimistic(),
-            successData: OnyxData.generateSuccess(),
-            failureData: OnyxData.generateFailure(errorMessage),
-        }).then(apiResponse => Log.info('API response: ', apiResponse))
-            .catch(apiError => Log.error('API Callback error: ', apiError));
-    }).catch((e) => {
+    appleAuthAndroid.signIn().then(response => handleAppleAuthApiResponse(response.id_token)).catch((e) => {
         Log.error('Request to sign in with Apple failed. Error: ', e);
     });
 }
@@ -262,7 +255,6 @@ function beginAppleSignIn() {
         default:
     }
 }
-
 
 /**
  * Will create a temporary login for the user in the passed authenticate response which is used when
