@@ -1,7 +1,6 @@
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
-import appleAuth, {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
 import {Platform} from 'react-native';
 import ONYXKEYS from '../../../ONYXKEYS';
 import redirectToSignIn from '../SignInRedirect';
@@ -21,6 +20,7 @@ import Navigation from '../../Navigation/Navigation';
 import subscribeToReportCommentPushNotifications from '../../Notification/PushNotification/subscribeToReportCommentPushNotifications';
 import * as OnyxData from './helper';
 import ROUTES from '../../../ROUTES';
+import performAppleAuthRequest from '../../ThirdPartyAuth/Apple';
 
 let credentials = {};
 Onyx.connect({
@@ -203,38 +203,22 @@ function handleAppleAuthApiResponse(token) {
         .catch(apiError => Log.error('API Callback error: ', apiError));
 }
 
-// TODO: Third-party provider sign-in logic should probably live somewhere else. Authentication lib file? Or new file?
 function iOSAppleSignIn() {
-    appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-
-        // FULL_NAME must come first, see https://github.com/invertase/react-native-apple-authentication/issues/293
-        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    }).then((response) => {
-        appleAuth.getCredentialStateForUser(response.user).then((credentialState) => {
-            if (credentialState !== appleAuth.State.AUTHORIZED) {
-                Log.error('Authentication failed. Original response: ', response);
-                return;
-            }
-            handleAppleAuthApiResponse(response.identityToken);
-        }).catch((e) => {
-            Log.error('Obtaining credential state for user failed. Error: ', e);
+    performAppleAuthRequest()
+        .then(response => handleAppleAuthApiResponse(response.identityToken))
+        .catch((e) => {
+            Log.error('Request to sign in with Apple failed. Error: ', e);
         });
-    }).catch((e) => {
-        Log.error('Request to sign in with Apple failed. Error: ', e);
-    });
 }
 
 function androidAppleSignIn() {
-    appleAuthAndroid.configure({
-        clientId: 'com.expensify.expensifylite.AppleSignIn',
-        redirectUri: 'https://www.expensify.com/partners/apple/loginCallback',
-        responseType: appleAuthAndroid.ResponseType.ALL,
-        scope: appleAuthAndroid.Scope.ALL,
-    });
-    appleAuthAndroid.signIn().then(response => handleAppleAuthApiResponse(response.id_token)).catch((e) => {
-        Log.error('Request to sign in with Apple failed. Error: ', e);
-    });
+    performAppleAuthRequest()
+        .then((idToken) => {
+            handleAppleAuthApiResponse(idToken);
+        })
+        .catch((e) => {
+            Log.error('Request to sign in with Apple failed. Error: ', e);
+        });
 }
 
 /**
