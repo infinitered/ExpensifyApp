@@ -1,10 +1,8 @@
-/* eslint-disable rulesdir/prefer-early-return */
-
 import React from 'react';
 import {View} from 'react-native';
 import withLocalize, {withLocalizePropTypes} from '../../withLocalize';
-// eslint-disable-next-line import/extensions
-import getUserLanguage from './GetUserLanguage';
+import getUserLanguage from '../GetUserLanguage';
+import APPLE_CONFIG from './AppleConfig';
 
 const propTypes = {...withLocalizePropTypes};
 
@@ -21,11 +19,11 @@ const AppleSignIn = (props) => {
 
         const handleScriptLoad = () => {
             window.AppleID.auth.init({
-                clientId: 'com.chat.expensify.chat',
-                scope: 'name email',
-                redirectURI: 'https://www.expensify.com/partners/apple/loginCallback',
-                state: 'state',
-                usePopup: true,
+                clientId: APPLE_CONFIG.CLIENT_ID,
+                scope: APPLE_CONFIG.SCOPE,
+                redirectURI: APPLE_CONFIG.REDIRECT_URI,
+                state: APPLE_CONFIG.STATE,
+                usePopup: APPLE_CONFIG.USEPOPUP,
             });
         };
         script.addEventListener('load', handleScriptLoad);

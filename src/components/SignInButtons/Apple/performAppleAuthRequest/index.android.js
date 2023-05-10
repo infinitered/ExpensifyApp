@@ -1,10 +1,11 @@
 import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
 import Log from '../../../../libs/Log';
+import APPLE_CONFIG from '../AppleConfig';
 
 function performAppleAuthRequest() {
     appleAuthAndroid.configure({
-        clientId: 'com.expensify.expensifylite.AppleSignIn',
-        redirectUri: 'https://www.expensify.com/partners/apple/loginCallback',
+        clientId: APPLE_CONFIG.CLIENT_ID,
+        redirectUri: APPLE_CONFIG.REDIRECT_URI,
         responseType: appleAuthAndroid.ResponseType.ALL,
         scope: appleAuthAndroid.Scope.ALL,
     });
