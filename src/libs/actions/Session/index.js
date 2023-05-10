@@ -18,7 +18,6 @@ import * as NetworkStore from '../../Network/NetworkStore';
 import Navigation from '../../Navigation/Navigation';
 import subscribeToReportCommentPushNotifications from '../../Notification/PushNotification/subscribeToReportCommentPushNotifications';
 import ROUTES from '../../../ROUTES';
-import performAppleAuthRequest from '../../../components/SignInButtons/Apple';
 import DateUtils from '../../DateUtils';
 
 let credentials = {};
@@ -241,18 +240,18 @@ function handleAppleAuthApiResponse(token) {
 }
 
 /**
- * Shows Apple sign-in process, and if an auth token is successfully obtained,
- * passes the token on to the Expensify API to sign in with
+ * Obtains the token from apple authentication and passes the token on to
+ * the Expensify API to sign in with
  *
  * @param {String} login
  */
 
-function beginAppleSignIn() {
-    performAppleAuthRequest()
-        .then(response => handleAppleAuthApiResponse(response.identityToken))
-        .catch((e) => {
-            Log.error('Request to sign in with Apple failed. Error: ', e);
-        });
+function beginAppleSignIn(token) {
+    try {
+        handleAppleAuthApiResponse(token);
+    } catch (error) {
+        Log.error('Request to sign in with Apple failed. Error: ', error);
+    }
 }
 
 /**
