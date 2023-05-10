@@ -8,6 +8,7 @@ const ButtonBase = ({onPress, icon}) => (
 
 const style = {
     margin: 10,
+    padding: 2
 };
 
 ButtonBase.displayName = 'ButtonBase';
