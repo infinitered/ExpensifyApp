@@ -2,6 +2,7 @@ import {Pressable} from 'react-native';
 
 const style = {
     margin: 10,
+    padding: 2,
 };
 
 const ButtonBase = ({onPress, icon}) => (
