@@ -8,6 +8,7 @@ export default {
         yes: 'Yes',
         no: 'No',
         ok: 'OK',
+        or: 'Or',
         attachment: 'Attachment',
         to: 'To',
         optional: 'Optional',
@@ -220,6 +221,10 @@ export default {
             header: 'Split bills, request payments, and chat with friends.',
             body: 'Welcome to the future of Expensify, your new go-to place for financial collaboration with friends and teammates alike.',
         },
+    },
+    thirdPartySignIn: {
+        alreadySignedIn: ({email}) => `You are already signed in as ${email}.`,
+        continueWithMyCurrentSession: 'Continue with my current session',
     },
     reportActionCompose: {
         addAction: 'Actions',
