@@ -14,6 +14,9 @@ import ONYXKEYS from '../../ONYXKEYS';
 import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
 import Text from '../../components/Text';
 import Button from '../../components/Button';
+import Icon from '../../components/Icon';
+import * as Expensicons from '../../components/Icon/Expensicons';
+import themeColors from '../../styles/themes/default';
 
 const propTypes = {
     /** The report currently being looked at */
@@ -44,11 +47,9 @@ function TaskHeaderView(props) {
     console.log('TaskHeaderView', props.report);
     return (
         <>
-            <View style={[styles.sidebarLinkActive, styles.ph3, styles.flexRow, styles.containerWithSpaceBetween]}>
+            <View style={[styles.ph3, styles.peopleRow]}>
                 {props.report.assignee ? (
-                    <Text style={[styles.sidebarLinkText, styles.textStrong]}>
-                        {props.personalDetails[props.report.assignee] ? props.personalDetails[props.report.assignee].displayName : ''}
-                    </Text>
+                    <Text>{props.personalDetails[props.report.assignee] ? props.personalDetails[props.report.assignee].displayName : ''}</Text>
                 ) : (
                     <MenuItemWithTopDescription
                         shouldShowHeaderTitle
@@ -57,14 +58,22 @@ function TaskHeaderView(props) {
                         onPress={() => Navigation.navigate(ROUTES.getTaskReportAssigneeRoute(props.report.reportID))}
                     />
                 )}
-
-                <Button
-                    success
-                    style={[styles.p3]}
-                    text="Mark as Done"
-                    onPress={(event) => console.log(event)}
-                    pressOnEnter
-                />
+                {props.report.stateNum === 2 && props.report.statusNum === 3 ? (
+                    <View style={[styles.flexRow]}>
+                        <Icon
+                            src={Expensicons.Checkmark}
+                            fill={themeColors.iconSuccessFill}
+                        />
+                        <Text style={[styles.textSuccess, styles.ml1]}>{props.translate('task.messages.completed')}</Text>
+                    </View>
+                ) : (
+                    <Button
+                        success
+                        style={[styles.p3]}
+                        text="Mark as Done"
+                        onPress={() => TaskUtils.completeTask(props.report.reportID, props.report.parentReportID, props.report.reportName)}
+                    />
+                )}
             </View>
             <MenuItemWithTopDescription
                 shouldShowHeaderTitle
