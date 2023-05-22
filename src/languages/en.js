@@ -8,7 +8,6 @@ export default {
         yes: 'Yes',
         no: 'No',
         ok: 'OK',
-        or: 'Or',
         attachment: 'Attachment',
         to: 'To',
         optional: 'Optional',
@@ -223,8 +222,14 @@ export default {
         },
     },
     thirdPartySignIn: {
+        or: 'Or',
         alreadySignedIn: ({email}) => `You are already signed in as ${email}.`,
+        goBackMessage: ({provider}) => `Don't want to sign in with ${provider}?`,
         continueWithMyCurrentSession: 'Continue with my current session',
+        redirectToDesktopMessage: "We'll redirect you to the desktop app once you finish signing in.",
+        signInAgreementMessage: 'By signing in, you agree to the',
+        termsOfService: 'Terms of Service',
+        privacy: 'Privacy',
     },
     reportActionCompose: {
         addAction: 'Actions',
