@@ -23,7 +23,6 @@ export default {
     BANK_ACCOUNT_PERSONAL: 'bank-account/personal',
     getBankAccountRoute: (stepToOpen = '', policyID = '') => `bank-account/${stepToOpen}?policyID=${policyID}`,
     HOME: '',
-    THIRD_PARTY_SIGN_IN: 'third-party-sign-in',
     SETTINGS: 'settings',
     SETTINGS_PROFILE: 'settings/profile',
     SETTINGS_DISPLAY_NAME: 'settings/profile/display-name',

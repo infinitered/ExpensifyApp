@@ -4,7 +4,6 @@
  */
 export default {
     HOME: 'Home',
-    THIRD_PARTY_SIGN_IN: 'third-party-sign-in',
     LOADING: 'Loading',
     REPORT: 'Report',
     NOT_FOUND: 'not-found',
