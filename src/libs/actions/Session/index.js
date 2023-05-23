@@ -261,27 +261,9 @@ function beginSignIn(login) {
     API.read('BeginSignIn', {email: login}, {optimisticData, successData, failureData});
 }
 
-function handleAppleAuthApiResponse(idToken) {
+function beginAppleSignIn(idToken) {
     const {optimisticData, successData, failureData} = generateResponseData();
-    // eslint-disable-next-line rulesdir/no-api-side-effects-method
-    API.makeRequestWithSideEffects('SignInWithApple', {idToken}, {optimisticData, successData, failureData})
-        .then((apiResponse) => Log.info('API response: ', apiResponse))
-        .catch((apiError) => Log.error('API Callback error: ', apiError));
-}
-
-/**
- * Obtains the token from apple authentication and passes the token on to
- * the Expensify API to sign in with
- *
- * @param {String} login
- */
-
-function beginAppleSignIn(token) {
-    try {
-        handleAppleAuthApiResponse(token);
-    } catch (error) {
-        Log.error('Request to sign in with Apple failed. Error: ', error);
-    }
+    API.makeRequestWithSideEffects('SignInWithApple', {idToken}, {optimisticData, successData, failureData});
 }
 
 /**
