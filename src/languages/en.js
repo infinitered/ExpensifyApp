@@ -227,7 +227,7 @@ export default {
         goBackMessage: ({provider}) => `Don't want to sign in with ${provider}?`,
         continueWithMyCurrentSession: 'Continue with my current session',
         redirectToDesktopMessage: "We'll redirect you to the desktop app once you finish signing in.",
-        signInAgreementMessage: 'By signing in, you agree to the',
+        signInAgreementMessage: 'By logging in, you agree to the',
         termsOfService: 'Terms of Service',
         privacy: 'Privacy',
     },

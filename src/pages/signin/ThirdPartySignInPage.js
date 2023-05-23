@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
+import {Platform} from 'react-native';
 import PropTypes from 'prop-types';
 import {withOnyx} from 'react-native-onyx';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,10 +12,11 @@ import Performance from '../../libs/Performance';
 import * as App from '../../libs/actions/App';
 import Text from '../../components/Text';
 import TextLink from '../../components/TextLink';
-import {View} from 'react-native';
 import Button from '../../components/Button';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../../components/withWindowDimensions';
 import * as Localize from '../../libs/Localize';
+import ROUTES from '../../ROUTES';
+import Navigation from '../../libs/Navigation/Navigation';
 
 const propTypes = {
     /* Onyx Props */
@@ -36,7 +38,7 @@ const propTypes = {
 
     credentials: PropTypes.objectOf(PropTypes.string),
 
-    signInProvider: 'google' | 'apple',
+    signInProvider: PropTypes.oneOf(['google', 'apple']),
 
     ...withLocalizePropTypes,
 
@@ -52,78 +54,83 @@ const defaultProps = {
 
 const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
-class ThirdPartySignInPage extends Component {
-    componentDidMount() {
+function ThirdPartySignInPage(props) {
+    useEffect(() => {
         Performance.measureTTI();
 
         App.setLocale(Localize.getDevicePreferredLocale());
+    }, []);
+
+    if (Platform.OS !== 'web') {
+        return null;
     }
 
-    continueWithCurrentSession = () => {
+    const continueWithCurrentSession = () => {
         console.log('ContinueWithCurrentSession');
     };
 
-    goBack = () => {
-        // Doesn't work on web
-        // Navigation.navigate(ROUTES.HOME);
+    const goBack = () => {
+        Navigation.navigate(ROUTES.HOME);
     };
 
-    render() {
-        // If the user is already signed in, give them an option to continue with that session
-        window.account = this.props.account;
+    window.account = props.account;
 
-        return (
-            <SafeAreaView style={[styles.signInPage]}>
-                <SignInPageLayout
-                    welcomeHeader={this.props.translate('welcomeText.getStarted')}
-                    shouldShowWelcomeHeader
+    return (
+        <SafeAreaView style={[styles.signInPage]}>
+            <SignInPageLayout
+                welcomeHeader={props.translate('welcomeText.getStarted')}
+                shouldShowWelcomeHeader
+            >
+                <Text style={[styles.mb5]}>{props.translate('thirdPartySignIn.alreadySignedIn', {email: 'johndoe@example.com'})}</Text>
+                <Button
+                    large
+                    text={props.translate('thirdPartySignIn.continueWithMyCurrentSession')}
+                    onPress={continueWithCurrentSession}
+                />
+                {
+                    // Display buttons for the third party sign in provider}
+                }
+
+                <Text style={[styles.mb5, styles.mt5]}>{props.translate('thirdPartySignIn.or')}</Text>
+                <Button
+                    large
+                    text="Continue with Google"
+                    style={[styles.mb5]}
+                    onPress={continueWithCurrentSession}
+                />
+                <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
+                <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(props.signInProvider)})}</Text>
+                <TextLink
+                    style={[styles.link]}
+                    onPress={goBack}
                 >
-                    <Text style={[styles.mb5]}>{this.props.translate('thirdPartySignIn.alreadySignedIn', {email: 'johndoe@example.com'})}</Text>
-                    <Button
-                        large
-                        text={this.props.translate('thirdPartySignIn.continueWithMyCurrentSession')}
-                        style={[styles.mb3]}
-                        onPress={this.continueWithCurrentSession}
-                    />
-                    {
-                        // Display buttons for the third party sign in provider}
-                    }
-                    {this.props.signInProvider === 'google' && <></>}
-                    {this.props.signInProvider === 'apple' && <></>}
-                    <Text style={[styles.mb5]}>{this.props.translate('thirdPartySignIn.or')}</Text>
-                    <Text style={[styles.mb5]}>{this.props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
-                    <Text>{this.props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(this.props.signInProvider)})}</Text>
+                    {props.translate('common.goBack')}.
+                </TextLink>
+                <Text style={[styles.textExtraSmallSupporting, styles.mt5, styles.mb5]}>
+                    {props.translate('thirdPartySignIn.signInAgreementMessage')}
                     <TextLink
-                        style={[styles.link, styles.mb5]}
-                        href={'/'}
+                        style={[styles.textExtraSmallSupporting, styles.link]}
+                        href=""
                     >
-                        {this.props.translate('common.goBack')}.
+                        {` ${props.translate('common.termsOfService')}`}
                     </TextLink>
-                    <Text style={[styles.textExtraSmallSupporting]}>
-                        {this.props.translate('thirdPartySignIn.signInAgreementMessage')}
-                        <TextLink
-                            style={[styles.textExtraSmallSupporting, styles.link]}
-                            href={''}
-                        >
-                            {' ' + this.props.translate('common.termsOfService')}
-                        </TextLink>
-                        {' ' + this.props.translate('common.and') + ' '}
-                        <TextLink
-                            style={[styles.textExtraSmallSupporting, styles.link]}
-                            href={''}
-                        >
-                            {this.props.translate('common.privacy')}
-                        </TextLink>
-                        .
-                    </Text>
-                </SignInPageLayout>
-            </SafeAreaView>
-        );
-    }
+                    {` ${props.translate('common.and')} `}
+                    <TextLink
+                        style={[styles.textExtraSmallSupporting, styles.link]}
+                        href=""
+                    >
+                        {props.translate('common.privacy')}
+                    </TextLink>
+                    .
+                </Text>
+            </SignInPageLayout>
+        </SafeAreaView>
+    );
 }
 
 ThirdPartySignInPage.propTypes = propTypes;
 ThirdPartySignInPage.defaultProps = defaultProps;
+ThirdPartySignInPage.displayName = 'ThirdPartySignInPage';
 
 export default compose(
     withLocalize,
