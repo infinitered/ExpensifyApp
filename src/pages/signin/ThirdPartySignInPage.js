@@ -61,10 +61,6 @@ function ThirdPartySignInPage(props) {
         App.setLocale(Localize.getDevicePreferredLocale());
     }, []);
 
-    if (Platform.OS !== 'web') {
-        return null;
-    }
-
     const continueWithCurrentSession = () => {
         console.log('ContinueWithCurrentSession');
     };
@@ -87,17 +83,15 @@ function ThirdPartySignInPage(props) {
                     text={props.translate('thirdPartySignIn.continueWithMyCurrentSession')}
                     onPress={continueWithCurrentSession}
                 />
-                {
-                    // Display buttons for the third party sign in provider}
-                }
-
                 <Text style={[styles.mb5, styles.mt5]}>{props.translate('thirdPartySignIn.or')}</Text>
-                <Button
-                    large
-                    text="Continue with Google"
-                    style={[styles.mb5]}
-                    onPress={continueWithCurrentSession}
-                />
+                {props.signInProvider === 'google' && (
+                    <Button
+                        large
+                        text="Continue with Google"
+                        style={[styles.mb5]}
+                        onPress={continueWithCurrentSession}
+                    />
+                )}
                 <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
                 <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(props.signInProvider)})}</Text>
                 <TextLink

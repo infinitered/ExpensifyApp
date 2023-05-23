@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import getCurrentUrl from '../currentUrl';
 import ROUTES from '../../../ROUTES';
 
-
 const propTypes = {
     /** If we have an authToken this is true */
     authenticated: PropTypes.bool.isRequired,
