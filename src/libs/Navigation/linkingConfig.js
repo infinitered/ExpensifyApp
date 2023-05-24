@@ -22,7 +22,6 @@ export default {
             ValidateLogin: ROUTES.VALIDATE_LOGIN,
             UnlinkLogin: ROUTES.UNLINK_LOGIN,
             [SCREENS.TRANSITION_FROM_OLD_DOT]: ROUTES.TRANSITION_FROM_OLD_DOT,
-            [SCREENS.THIRD_PARTY_SIGN_IN]: ROUTES.THIRD_PARTY_SIGN_IN,
             Concierge: ROUTES.CONCIERGE,
 
             // Modal Screens

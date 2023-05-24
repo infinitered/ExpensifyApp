@@ -1,7 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import SignInPage from '../../../pages/signin/SignInPage';
-import ThirdPartySignInPage from '../../../pages/signin/ThirdPartySignInPage';
 import SetPasswordPage from '../../../pages/SetPasswordPage';
 import ValidateLoginPage from '../../../pages/ValidateLoginPage';
 import LogInWithShortLivedAuthTokenPage from '../../../pages/LogInWithShortLivedAuthTokenPage';
@@ -17,11 +16,6 @@ const PublicScreens = () => (
             name={SCREENS.HOME}
             options={defaultScreenOptions}
             component={SignInPage}
-        />
-        <RootStack.Screen
-            name={SCREENS.THIRD_PARTY_SIGN_IN}
-            options={defaultScreenOptions}
-            component={ThirdPartySignInPage}
         />
         <RootStack.Screen
             name={SCREENS.TRANSITION_FROM_OLD_DOT}
