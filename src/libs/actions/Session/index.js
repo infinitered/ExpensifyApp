@@ -263,7 +263,7 @@ function beginSignIn(login) {
 
 function beginAppleSignIn(idToken) {
     const {optimisticData, successData, failureData} = generateResponseData();
-    API.makeRequestWithSideEffects('SignInWithApple', {idToken}, {optimisticData, successData, failureData});
+    API.write('SignInWithApple', {idToken}, {optimisticData, successData, failureData});
 }
 
 /**
