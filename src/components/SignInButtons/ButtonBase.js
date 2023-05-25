@@ -1,20 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Pressable} from 'react-native';
+import styles from '../../styles/styles';
 
-const style = {
-    margin: 10,
-    padding: 2,
+const propTypes = {
+    onPress: PropTypes.func.isRequired,
+    icon: PropTypes.node.isRequired,
 };
 
-const ButtonBase = ({onPress, icon}) => (
-    <Pressable
-        onPress={onPress}
-        style={style}
-    >
-        {icon}
-    </Pressable>
-);
+function ButtonBase({onPress, icon}) {
+    return (
+        <Pressable
+            onPress={onPress}
+            style={styles.signInButtonBase}
+        >
+            {icon}
+        </Pressable>
+    );
+}
 
-ButtonBase.displayName = 'ButtonBase';
+ButtonBase.propTypes = propTypes;
 
 export default ButtonBase;

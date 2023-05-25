@@ -1108,6 +1108,17 @@ const styles = {
         width: 300,
     },
 
+    signInButtonBase: {
+        margin: 10,
+        padding: 2,
+    },
+
+    signInButtonContainer: {
+        width: 40,
+        height: 40,
+        marginRight: 20,
+    },
+
     changeExpensifyLoginLinkContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
