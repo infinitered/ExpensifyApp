@@ -13,7 +13,6 @@ const AppNavigator = (props) => {
         // These are the protected screens and only accessible when an authToken is present
         return <AuthScreens />;
     }
-
     const PublicScreens = require('./PublicScreens').default;
     return <PublicScreens />;
 };
