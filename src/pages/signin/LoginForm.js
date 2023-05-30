@@ -25,6 +25,7 @@ import DotIndicatorMessage from '../../components/DotIndicatorMessage';
 import * as CloseAccount from '../../libs/actions/CloseAccount';
 import CONST from '../../CONST';
 import AppleSignIn from '../../components/SignInButtons/AppleSignIn';
+import GoogleSignIn from '../../components/SignInButtons/GoogleSignIn';
 
 const propTypes = {
     /** Should we dismiss the keyboard when transitioning away from the page? */
@@ -222,6 +223,7 @@ class LoginForm extends React.Component {
                                 }}
                             >
                                 <AppleSignIn />
+                                <GoogleSignIn id="google-sign-in-main" />
                             </View>
                         </View>
                     )

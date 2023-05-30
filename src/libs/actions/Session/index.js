@@ -272,6 +272,11 @@ function beginAppleSignIn(idToken) {
     API.write('SignInWithApple', {idToken}, {optimisticData, successData, failureData});
 }
 
+function beginGoogleSignIn(token) {
+    const {optimisticData, successData, failureData} = signInAttemptState();
+    API.write('SignInWithGoogle', {token}, {optimisticData, successData, failureData});
+}
+
 /**
  * Will create a temporary login for the user in the passed authenticate response which is used when
  * re-authenticating after an authToken expires.
@@ -788,6 +793,7 @@ function unlinkLogin(accountID, validateCode) {
 export {
     beginSignIn,
     beginAppleSignIn,
+    beginGoogleSignIn,
     updatePasswordAndSignin,
     signIn,
     signInWithValidateCode,
