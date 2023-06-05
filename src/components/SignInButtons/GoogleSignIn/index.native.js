@@ -29,7 +29,7 @@ function googleSignInRequest() {
         .then((token) => Session.beginGoogleSignIn(token))
         .catch((error) => {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                Log.error('Google sign in cancelled', true, {error});
+                // do nothing
             } else if (error.code === statusCodes.IN_PROGRESS) {
                 Log.error('Google sign in already in progress', true, {error});
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
