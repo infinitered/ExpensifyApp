@@ -311,6 +311,24 @@ function beginAppleSignIn(idToken) {
 }
 
 /**
+ * Given an idToken from Sign in with Apple, we call beginAppleSignIn while also setting the loading state
+ *
+ * @param {String} idToken
+ * @param {Function} setLoading
+ */
+
+function setLoadingAndSignInWithApple(token, setLoading) {
+    beginAppleSignIn(token)
+        .then(() => {
+            setLoading(false);
+        })
+        .catch((e) => {
+            setLoading(false);
+            Log.error('Apple authentication failed', e);
+        });
+}
+
+/**
  * Will create a temporary login for the user in the passed authenticate response which is used when
  * re-authenticating after an authToken expires.
  *
@@ -937,6 +955,7 @@ function validateTwoFactorAuth(twoFactorAuthCode) {
 export {
     beginSignIn,
     beginAppleSignIn,
+    setLoadingAndSignInWithApple,
     checkIfActionIsAllowed,
     updatePasswordAndSignin,
     signIn,

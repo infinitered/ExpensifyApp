@@ -54,7 +54,7 @@ const config = {
 const successListener = (event, setLoading) => {
     setLoading(true);
     const token = !Environment.isDevelopment() ? event.detail.id_token : lodashGet(Config, 'ASI_TOKEN_OVERRIDE', event.detail.id_token);
-    Session.beginAppleSignIn(token);
+    Session.setLoadingAndSignInWithApple(token, setLoading);
 };
 
 const failureListener = (event, setLoading) => {
@@ -76,13 +76,12 @@ function AppleSignInDiv({isDesktopFlow, setLoading}) {
     }, []);
     //  Result listeners need to live within the focused item to avoid duplicate
     //  side effects on success and failure
-    React.useEffect(() => {
+    useEffect(() => {
         const successHandler = (event) => successListener(event, setLoading);
         const failureHandler = (event) => failureListener(event, setLoading);
         document.addEventListener('AppleIDSignInOnSuccess', successHandler);
         document.addEventListener('AppleIDSignInOnFailure', failureHandler);
         return () => {
-            setLoading(false);
             document.removeEventListener('AppleIDSignInOnSuccess', successListener);
             document.removeEventListener('AppleIDSignInOnFailure', failureListener);
         };
