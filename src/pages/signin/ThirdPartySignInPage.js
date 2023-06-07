@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {withOnyx} from 'react-native-onyx';
 import styles from '../../styles/styles';
 import compose from '../../libs/compose';
 import SignInPageLayout from './SignInPageLayout';
@@ -14,14 +15,25 @@ import ROUTES from '../../ROUTES';
 import Navigation from '../../libs/Navigation/Navigation';
 import CONST from '../../CONST';
 import themeColors from '../../styles/themes/default';
+import ONYXKEYS from '../../ONYXKEYS';
 
 const propTypes = {
     /** Which sign in provider we are using */
     signInProvider: PropTypes.oneOf(['google', 'apple']).isRequired,
 
+    /** State for the account */
+    account: PropTypes.shape({
+        /** Whether or not the user is loading */
+        loading: PropTypes.bool,
+    }),
+
     ...withLocalizePropTypes,
 
     ...windowDimensionsPropTypes,
+};
+
+const defaultProps = {
+    account: {},
 };
 
 /**
@@ -36,19 +48,17 @@ const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
  * to desktop once we have an Expensify auth token.
  */
 function ThirdPartySignInPage(props) {
-    const [loading, setLoading] = useState(false);
-
     const goBack = () => {
         Navigation.navigate(ROUTES.HOME);
     };
 
-    const handleLoading = (val) => {
-        setLoading(val);
-    };
+    useEffect(() => {
+        console.log('ThirdPartySignInPage useEffect', props.account);
+    }, [props.account]);
 
     return (
         <SafeAreaView style={[styles.signInPage]}>
-            {loading ? (
+            {props.account.isLoading ? (
                 <View style={styles.thirdPartyLoadingContainer}>
                     <ActivityIndicator
                         size="large"
@@ -60,12 +70,7 @@ function ThirdPartySignInPage(props) {
                     welcomeHeader={props.translate('welcomeText.getStarted')}
                     shouldShowWelcomeHeader
                 >
-                    {props.signInProvider === CONST.SIGN_IN_METHOD.APPLE ? (
-                        <AppleSignIn
-                            isDesktopFlow
-                            setLoading={handleLoading}
-                        />
-                    ) : null}
+                    {props.signInProvider === CONST.SIGN_IN_METHOD.APPLE ? <AppleSignIn isDesktopFlow /> : null}
                     <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
                     <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(props.signInProvider)})}</Text>
                     <TextLink
@@ -98,6 +103,15 @@ function ThirdPartySignInPage(props) {
 }
 
 ThirdPartySignInPage.propTypes = propTypes;
+ThirdPartySignInPage.defaultProps = defaultProps;
 ThirdPartySignInPage.displayName = 'ThirdPartySignInPage';
 
-export default compose(withLocalize, withWindowDimensions)(ThirdPartySignInPage);
+export default compose(
+    withLocalize,
+    withWindowDimensions,
+    withOnyx({
+        account: {
+            key: ONYXKEYS.ACCOUNT,
+        },
+    }),
+)(ThirdPartySignInPage);

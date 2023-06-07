@@ -15,21 +15,14 @@ const lodashGet = (config, key, defaultValue) => get(config, key, defaultValue).
 
 const requiredPropTypes = {
     isDesktopFlow: PropTypes.bool.isRequired,
-
-    // Function to set the loading state of the parent component
-    setLoading: PropTypes.func.isRequired,
 };
 
 const propTypes = {
     // Prop to indicate if this is the desktop flow or not
     isDesktopFlow: PropTypes.bool,
-
-    // Function to set the loading state of the parent component
-    setLoading: PropTypes.func,
 };
 const defaultProps = {
     isDesktopFlow: false,
-    setLoading: () => {},
 };
 
 /**
@@ -51,15 +44,13 @@ const config = {
  * in the parent component
  */
 
-const successListener = (event, setLoading) => {
-    setLoading(true);
+const successListener = (event) => {
     const token = !Environment.isDevelopment() ? event.detail.id_token : lodashGet(Config, 'ASI_TOKEN_OVERRIDE', event.detail.id_token);
-    Session.setLoadingAndSignInWithApple(token, setLoading);
+    Session.beginAppleSignIn(token);
 };
 
-const failureListener = (event, setLoading) => {
+const failureListener = (event) => {
     if (!event.detail || event.detail.error === 'popup_closed_by_user') return null;
-    setLoading(false);
     Log.warn(`Apple sign-in failed: ${event.detail}`);
 };
 
@@ -68,7 +59,7 @@ const failureListener = (event, setLoading) => {
  * @returns {React.Component}
  */
 
-function AppleSignInDiv({isDesktopFlow, setLoading}) {
+function AppleSignInDiv({isDesktopFlow}) {
     useEffect(() => {
         // `init` renders the button, so it must be called after the div is
         // first mounted
@@ -77,15 +68,15 @@ function AppleSignInDiv({isDesktopFlow, setLoading}) {
     //  Result listeners need to live within the focused item to avoid duplicate
     //  side effects on success and failure
     useEffect(() => {
-        const successHandler = (event) => successListener(event, setLoading);
-        const failureHandler = (event) => failureListener(event, setLoading);
+        const successHandler = (event) => successListener(event);
+        const failureHandler = (event) => failureListener(event);
         document.addEventListener('AppleIDSignInOnSuccess', successHandler);
         document.addEventListener('AppleIDSignInOnFailure', failureHandler);
         return () => {
             document.removeEventListener('AppleIDSignInOnSuccess', successListener);
             document.removeEventListener('AppleIDSignInOnFailure', failureListener);
         };
-    }, [setLoading]);
+    }, []);
 
     return isDesktopFlow ? (
         <div
@@ -118,22 +109,17 @@ AppleSignInDiv.propTypes = requiredPropTypes;
 // The Sign in with Apple script may fail to render button if there are multiple
 // of these divs present in the app, as it matches based on div id. So we'll
 // only mount the div when it should be visible.
-function SingletonAppleSignInButton({isDesktopFlow, setLoading}) {
+function SingletonAppleSignInButton({isDesktopFlow}) {
     const isFocused = useIsFocused();
     if (!isFocused) {
         return null;
     }
-    return (
-        <AppleSignInDiv
-            isDesktopFlow={isDesktopFlow}
-            setLoading={setLoading}
-        />
-    );
+    return <AppleSignInDiv isDesktopFlow={isDesktopFlow} />;
 }
 
 SingletonAppleSignInButton.propTypes = requiredPropTypes;
 
-function AppleSignIn({isDesktopFlow, setLoading}) {
+function AppleSignIn({isDesktopFlow}) {
     const [scriptLoaded, setScriptLoaded] = useState(false);
     useEffect(() => {
         if (window.appleAuthScriptLoaded) return;
@@ -151,12 +137,7 @@ function AppleSignIn({isDesktopFlow, setLoading}) {
         return null;
     }
 
-    return (
-        <SingletonAppleSignInButton
-            isDesktopFlow={isDesktopFlow}
-            setLoading={setLoading}
-        />
-    );
+    return <SingletonAppleSignInButton isDesktopFlow={isDesktopFlow} />;
 }
 
 AppleSignIn.propTypes = propTypes;
