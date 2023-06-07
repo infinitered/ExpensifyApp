@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -51,10 +51,6 @@ function ThirdPartySignInPage(props) {
     const goBack = () => {
         Navigation.navigate(ROUTES.HOME);
     };
-
-    useEffect(() => {
-        console.log('ThirdPartySignInPage useEffect', props.account);
-    }, [props.account]);
 
     return (
         <SafeAreaView style={[styles.signInPage]}>
