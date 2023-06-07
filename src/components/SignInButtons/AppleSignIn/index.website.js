@@ -40,8 +40,6 @@ const config = {
 
 /**
  * Apple Sign In success and failure listeners
- * We also pass in the setLoading function to set the loading state
- * in the parent component
  */
 
 const successListener = (event) => {
@@ -68,10 +66,8 @@ function AppleSignInDiv({isDesktopFlow}) {
     //  Result listeners need to live within the focused item to avoid duplicate
     //  side effects on success and failure
     useEffect(() => {
-        const successHandler = (event) => successListener(event);
-        const failureHandler = (event) => failureListener(event);
-        document.addEventListener('AppleIDSignInOnSuccess', successHandler);
-        document.addEventListener('AppleIDSignInOnFailure', failureHandler);
+        document.addEventListener('AppleIDSignInOnSuccess', successListener);
+        document.addEventListener('AppleIDSignInOnFailure', failureListener);
         return () => {
             document.removeEventListener('AppleIDSignInOnSuccess', successListener);
             document.removeEventListener('AppleIDSignInOnFailure', failureListener);
