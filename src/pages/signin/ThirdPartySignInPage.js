@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {View, ActivityIndicator} from 'react-native';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import styles from '../../styles/styles';
@@ -12,6 +13,7 @@ import withWindowDimensions, {windowDimensionsPropTypes} from '../../components/
 import ROUTES from '../../ROUTES';
 import Navigation from '../../libs/Navigation/Navigation';
 import CONST from '../../CONST';
+import themeColors from '../../styles/themes/default';
 
 const propTypes = {
     /** Which sign in provider we are using */
@@ -34,43 +36,63 @@ const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
  * to desktop once we have an Expensify auth token.
  */
 function ThirdPartySignInPage(props) {
+    const [loading, setLoading] = useState(false);
+
     const goBack = () => {
         Navigation.navigate(ROUTES.HOME);
     };
 
+    const handleLoading = (val) => {
+        setLoading(val);
+    };
+
     return (
         <SafeAreaView style={[styles.signInPage]}>
-            <SignInPageLayout
-                welcomeHeader={props.translate('welcomeText.getStarted')}
-                shouldShowWelcomeHeader
-            >
-                {props.signInProvider === CONST.SIGN_IN_METHOD.APPLE ? <AppleSignIn isDesktopFlow /> : null}
-                <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
-                <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(props.signInProvider)})}</Text>
-                <TextLink
-                    style={[styles.link]}
-                    onPress={goBack}
+            {loading ? (
+                <View style={styles.thirdPartyLoadingContainer}>
+                    <ActivityIndicator
+                        size="large"
+                        color={themeColors.spinner}
+                    />
+                </View>
+            ) : (
+                <SignInPageLayout
+                    welcomeHeader={props.translate('welcomeText.getStarted')}
+                    shouldShowWelcomeHeader
                 >
-                    {props.translate('common.goBack')}.
-                </TextLink>
-                <Text style={[styles.textExtraSmallSupporting, styles.mt5, styles.mb5]}>
-                    {props.translate('thirdPartySignIn.signInAgreementMessage')}
+                    {props.signInProvider === CONST.SIGN_IN_METHOD.APPLE ? (
+                        <AppleSignIn
+                            isDesktopFlow
+                            setLoading={handleLoading}
+                        />
+                    ) : null}
+                    <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.redirectToDesktopMessage')}</Text>
+                    <Text style={[styles.mt5]}>{props.translate('thirdPartySignIn.goBackMessage', {provider: capitalize(props.signInProvider)})}</Text>
                     <TextLink
-                        style={[styles.textExtraSmallSupporting, styles.link]}
-                        href=""
+                        style={[styles.link]}
+                        onPress={goBack}
                     >
-                        {` ${props.translate('common.termsOfService')}`}
+                        {props.translate('common.goBack')}.
                     </TextLink>
-                    {` ${props.translate('common.and')} `}
-                    <TextLink
-                        style={[styles.textExtraSmallSupporting, styles.link]}
-                        href=""
-                    >
-                        {props.translate('common.privacy')}
-                    </TextLink>
-                    .
-                </Text>
-            </SignInPageLayout>
+                    <Text style={[styles.textExtraSmallSupporting, styles.mt5, styles.mb5]}>
+                        {props.translate('thirdPartySignIn.signInAgreementMessage')}
+                        <TextLink
+                            style={[styles.textExtraSmallSupporting, styles.link]}
+                            href=""
+                        >
+                            {` ${props.translate('common.termsOfService')}`}
+                        </TextLink>
+                        {` ${props.translate('common.and')} `}
+                        <TextLink
+                            style={[styles.textExtraSmallSupporting, styles.link]}
+                            href=""
+                        >
+                            {props.translate('common.privacy')}
+                        </TextLink>
+                        .
+                    </Text>
+                </SignInPageLayout>
+            )}
         </SafeAreaView>
     );
 }

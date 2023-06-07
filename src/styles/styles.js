@@ -3414,6 +3414,12 @@ const styles = {
         marginTop: 0,
         padding: 2,
     },
+
+    thirdPartyLoadingContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 450,
+    },
 };
 
 export default styles;
