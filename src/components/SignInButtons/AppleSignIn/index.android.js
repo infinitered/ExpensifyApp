@@ -49,6 +49,7 @@ const AppleSignIn = () => {
     };
     return (
         <ButtonBase
+            accessibilityLabel="common.signInWithApple"
             onPress={handleSignIn}
             icon={appleLogoIcon}
         />

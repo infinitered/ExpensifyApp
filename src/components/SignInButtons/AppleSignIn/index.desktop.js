@@ -23,6 +23,7 @@ const AppleSignIn = (props) => (
         accessibilityLabel={props.translate('common.signInWithApple')}
     >
         <ButtonBase
+            accessibilityLabel="common.signInWithApple"
             onPress={() => {
                 window.open(appleSignInWebRouteForDesktopFlow);
             }}
