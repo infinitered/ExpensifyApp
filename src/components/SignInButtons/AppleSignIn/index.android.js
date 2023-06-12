@@ -5,8 +5,6 @@ import ButtonBase from '../ButtonBase';
 import * as Session from '../../../libs/actions/Session';
 import CONST from '../../../CONST';
 
-const appleLogoIcon = require('../../../../assets/images/signIn/apple-logo.svg').default;
-
 /**
  * Apple Sign In Configuration for Android
  */
@@ -49,9 +47,8 @@ const AppleSignIn = () => {
     };
     return (
         <ButtonBase
-            accessibilityLabel="common.signInWithApple"
+            provider={CONST.SIGN_IN_METHOD.APPLE}
             onPress={handleSignIn}
-            icon={appleLogoIcon}
         />
     );
 };
