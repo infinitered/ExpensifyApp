@@ -1,31 +1,37 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {createNavigationContainerRef, NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import lodashGet from 'lodash/get';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
 import {AppRegistry, Pressable, ScrollView, Text, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Onyx, {withOnyx} from 'react-native-onyx';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import _ from 'underscore';
-// import OnyxProvider from './src/components/OnyxProvider';
-// import {SafeAreaProvider} from 'react-native-safe-area-context';
-import CONFIG from './src/CONFIG';
-import ONYXKEYS from './src/ONYXKEYS';
-import ExpensifyWordmark from './src/components/ExpensifyWordmark';
-// import SafeArea from './src/components/SafeArea';
-// import {KeyboardStateProvider} from './src/components/withKeyboardState';
+import Button from './src/components/Button';
 import ComposeProviders from './src/components/ComposeProviders';
 import CustomStatusBar from './src/components/CustomStatusBar';
+import ExpensifyWordmark from './src/components/ExpensifyWordmark';
 import HeaderWithCloseButton from './src/components/HeaderWithCloseButton';
+import MenuItem from './src/components/MenuItem';
+import OnyxProvider from './src/components/OnyxProvider';
 import OptionsSelector from './src/components/OptionsSelector';
+import SafeArea from './src/components/SafeArea';
+import TextInput from './src/components/TextInput';
+import {KeyboardStateProvider} from './src/components/withKeyboardState';
 import withLocalize, {LocaleContextProvider, withLocalizePropTypes} from './src/components/withLocalize';
-import {WindowDimensionsProvider, windowDimensionsPropTypes} from './src/components/withWindowDimensions';
-import NetworkConnection from './src/libs/NetworkConnection';
-import * as Pusher from './src/libs/Pusher/pusher';
-import PusherConnectionManager from './src/libs/PusherConnectionManager';
+import {windowDimensionsPropTypes, WindowDimensionsProvider} from './src/components/withWindowDimensions';
+import CONFIG from './src/CONFIG';
 import * as App from './src/libs/actions/App';
 import * as User from './src/libs/actions/User';
 import compose from './src/libs/compose';
+import NetworkConnection from './src/libs/NetworkConnection';
+import * as Pusher from './src/libs/Pusher/pusher';
+import PusherConnectionManager from './src/libs/PusherConnectionManager';
+import * as UserUtils from './src/libs/UserUtils';
+import ONYXKEYS from './src/ONYXKEYS';
 import personalDetailsPropType from './src/pages/personalDetailsPropType';
+import ShareExtensionPage from './src/pages/ShareExtensionPage';
 import styles from './src/styles/styles';
 
 const propTypes = {
@@ -161,54 +167,110 @@ const Home = compose(
 Home.propTypes = propTypes;
 Home.defaultProps = defaultProps;
 
-const Message = withLocalize((props) => (
-    <Pressable
-        onPress={props.navigation.goBack}
-        style={{alignItems: 'center', backgroundColor: '#07271F', flex: 1, justifyContent: 'center'}}
-    >
-        <Text style={{color: '#E7ECE9', fontWeight: 'bold'}}>{props.translate('common.goBack')}</Text>
-    </Pressable>
-));
+const Message = withLocalize((props) => {
+    const toDetails = props.route.params.option;
+    return (
+        <View style={{backgroundColor: '#07271F', flex: 1}}>
+            <Pressable
+                onPress={props.navigation.goBack}
+                style={{padding: 24}}
+            >
+                <Text style={{color: '#E7ECE9', fontWeight: 'bold'}}>{props.translate('common.goBack')}</Text>
+            </Pressable>
+            <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
+            <MenuItem
+                title={toDetails.text}
+                description={toDetails.alternateText}
+                icon={UserUtils.getAvatar(lodashGet(toDetails, 'avatar', ''), lodashGet(toDetails, 'login', ''))}
+                iconHeight={40}
+                iconWidth={40}
+                shouldShowRightIcon
+            />
+            <View style={{padding: 24}}>
+                <TextInput
+                    inputID="addAMessage"
+                    name="addAMessage"
+                    label={props.translate('moneyRequestConfirmationList.whatsItFor')}
+                />
+            </View>
+            <View style={{padding: 24}}>
+                <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
+            </View>
+            <View style={{padding: 24}}>
+                <Button
+                    success
+                    pressOnEnter
+                    text={props.translate('common.share')}
+                />
+            </View>
+        </View>
+    );
+});
 
 Message.propTypes = {
     ...withLocalizePropTypes,
 };
 Message.defaultProps = {};
 
+// eslint-disable-next-line
+export const navigationRef = createNavigationContainerRef();
+
 const Stack = createStackNavigator();
 
-const ShareExtension = () => (
-    <GestureHandlerRootView style={{flex: 1}}>
-        <ComposeProviders
-            components={[
-                // OnyxProvider,
-                // SafeAreaProvider,
-                // PortalProvider,
-                // SafeArea,
-                LocaleContextProvider,
-                WindowDimensionsProvider,
-                // KeyboardStateProvider,
-                // PickerStateProvider,
-            ]}
-        >
-            <CustomStatusBar />
-            {/* this appears to require firebase */}
-            {/* <ErrorBoundary errorMessage="NewExpensify crash caught by error boundary"> */}
-            <NavigationContainer>
-                <Stack.Navigator screenOptions={{headerShown: false}}>
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
-                    />
-                    <Stack.Screen
-                        name="Message"
-                        component={Message}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
-            {/* </ErrorBoundary> */}
-        </ComposeProviders>
-    </GestureHandlerRootView>
-);
+const ShareExtension = withOnyx({
+    session: {
+        key: ONYXKEYS.SESSION,
+    },
+})((props) => {
+    useEffect(() => {
+        NetworkConnection.listenForReconnect();
+        NetworkConnection.onReconnect(() => App.reconnectApp());
+        PusherConnectionManager.init();
+        Pusher.init({
+            appKey: CONFIG.PUSHER.APP_KEY,
+            cluster: CONFIG.PUSHER.CLUSTER,
+            authEndpoint: `${CONFIG.EXPENSIFY.DEFAULT_API_ROOT}api?command=AuthenticatePusher`,
+        }).then(() => {
+            User.subscribeToUserEvents();
+        });
+
+        App.openApp();
+        App.setUpPoliciesAndNavigate(props.session);
+    }, [props.session]);
+
+    return (
+        <GestureHandlerRootView style={{flex: 1}}>
+            <ComposeProviders
+                components={[
+                    OnyxProvider,
+                    SafeAreaProvider,
+                    // PortalProvider,
+                    SafeArea,
+                    LocaleContextProvider,
+                    WindowDimensionsProvider,
+                    KeyboardStateProvider,
+                    // PickerStateProvider,
+                ]}
+            >
+                <CustomStatusBar />
+                {/* this appears to require firebase */}
+                {/* <ErrorBoundary errorMessage="NewExpensify crash caught by error boundary"> */}
+                <NavigationContainer ref={navigationRef}>
+                    <Stack.Navigator screenOptions={{headerShown: false}}>
+                        <Stack.Screen
+                            name="Home"
+                            component={ShareExtensionPage}
+                        />
+                        <Stack.Screen
+                            name="Message"
+                            component={Message}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+                {/* </ErrorBoundary> */}
+            </ComposeProviders>
+        </GestureHandlerRootView>
+    );
+});
 
 AppRegistry.registerComponent('ShareMenuModuleComponent', () => ShareExtension);
