@@ -94,6 +94,7 @@ target 'share' do
 
   pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
   # Manually link packages here to keep your extension bundle size minimal
+  pod 'react-native-quick-sqlite', :path => '../node_modules/react-native-quick-sqlite'
 end
 
 post_install do |installer|
