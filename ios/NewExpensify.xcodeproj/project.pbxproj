@@ -22,6 +22,7 @@
 		2A9F8CDA983746B0B9204209 /* ExpensifyNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52796131E6554494B2DDB056 /* ExpensifyNeue-Bold.otf */; };
 		30581EA8AAFD4FCE88C5D191 /* ExpensifyNeue-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */; };
 		374FB8D728A133FE000D84EF /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
+		463A01B3C660A414029F270C /* libPods-share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D3C471F8E5312F298DDCD48 /* libPods-share.a */; };
 		62486DB62A324E9000B5DD7E /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62486DB52A324E9000B5DD7E /* ReactShareViewController.swift */; };
 		627DD5512A31008800D0544E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 627DD54F2A31008800D0544E /* MainInterface.storyboard */; };
 		627DD5552A31008800D0544E /* share.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 627DD54B2A31008800D0544E /* share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -32,7 +33,6 @@
 		9A65F0F374EC04ABB5FF40AF /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD35F00FB84D9FCF60D56A7 /* libPods-NewExpensify.a */; };
 		B54A7C3AA98189A600323C02 /* libPods-NewExpensify-NewExpensifyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F679A86058F8C4B331D239C3 /* libPods-NewExpensify-NewExpensifyTests.a */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
-		C5288D8521EC45B7AE5D7D1B /* libPods-NewExpensify-share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9903BDDB74AF1D4C4694443E /* libPods-NewExpensify-share.a */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
 		E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		E9DF872D2525201700607FDC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
@@ -86,6 +86,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewExpensify/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NewExpensify/main.m; sourceTree = "<group>"; };
 		18D050DF262400AF000D658B /* BridgingFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgingFile.swift; sourceTree = "<group>"; };
+		28F34A88EB6E392A3978D62C /* Pods-share.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share.release.xcconfig"; path = "Target Support Files/Pods-share/Pods-share.release.xcconfig"; sourceTree = "<group>"; };
 		2FD35F00FB84D9FCF60D56A7 /* libPods-NewExpensify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		374FB8D528A133A7000D84EF /* OriginImageRequestHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OriginImageRequestHandler.h; path = NewExpensify/OriginImageRequestHandler.h; sourceTree = "<group>"; };
 		374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = OriginImageRequestHandler.mm; path = NewExpensify/OriginImageRequestHandler.mm; sourceTree = "<group>"; };
@@ -100,12 +101,13 @@
 		627DD55A2A31012D00D0544E /* share-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "share-Bridging-Header.h"; sourceTree = "<group>"; };
 		627DD55B2A31012D00D0544E /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = "../../node_modules/react-native-share-menu/ios/ShareViewController.swift"; sourceTree = "<group>"; };
 		627DD55D2A3104B000D0544E /* share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = share.entitlements; sourceTree = "<group>"; };
+		6D3C471F8E5312F298DDCD48 /* libPods-share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7041848326A8E40900E09F4D /* RCTStartupTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTStartupTimer.h; path = NewExpensify/RCTStartupTimer.h; sourceTree = "<group>"; };
 		7041848426A8E47D00E09F4D /* RCTStartupTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTStartupTimer.m; path = NewExpensify/RCTStartupTimer.m; sourceTree = "<group>"; };
 		70CF6E81262E297300711ADC /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = NewExpensify/BootSplash.storyboard; sourceTree = "<group>"; };
 		86554A494222784CDE8731D6 /* Pods-NewExpensify-share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.debug.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.debug.xcconfig"; sourceTree = "<group>"; };
 		8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-BoldItalic.otf"; path = "../assets/fonts/native/ExpensifyNeue-BoldItalic.otf"; sourceTree = "<group>"; };
-		9903BDDB74AF1D4C4694443E /* libPods-NewExpensify-share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify-share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		970784664F19474CA3F96F43 /* Pods-share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-share.debug.xcconfig"; path = "Target Support Files/Pods-share/Pods-share.debug.xcconfig"; sourceTree = "<group>"; };
 		B37C757CE02B734BFED38097 /* Pods-NewExpensify-NewExpensifyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.debug.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-Italic.otf"; path = "../assets/fonts/native/ExpensifyNeue-Italic.otf"; sourceTree = "<group>"; };
 		CA3A3642AEED7CF2D4CD3716 /* Pods-NewExpensify-NewExpensifyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,7 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5288D8521EC45B7AE5D7D1B /* libPods-NewExpensify-share.a in Frameworks */,
+				463A01B3C660A414029F270C /* libPods-share.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,7 +195,7 @@
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				F679A86058F8C4B331D239C3 /* libPods-NewExpensify-NewExpensifyTests.a */,
 				2FD35F00FB84D9FCF60D56A7 /* libPods-NewExpensify.a */,
-				9903BDDB74AF1D4C4694443E /* libPods-NewExpensify-share.a */,
+				6D3C471F8E5312F298DDCD48 /* libPods-share.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -277,6 +279,8 @@
 				CA3A3642AEED7CF2D4CD3716 /* Pods-NewExpensify-NewExpensifyTests.release.xcconfig */,
 				86554A494222784CDE8731D6 /* Pods-NewExpensify-share.debug.xcconfig */,
 				E7821B2C91242122BB686727 /* Pods-NewExpensify-share.release.xcconfig */,
+				970784664F19474CA3F96F43 /* Pods-share.debug.xcconfig */,
+				28F34A88EB6E392A3978D62C /* Pods-share.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -631,26 +635,16 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipAutomationResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipCoreResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipExtendedActionsResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipMessageCenterResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipPreferenceCenterResources.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-share/Pods-share-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipAutomationResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipCoreResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipExtendedActionsResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipMessageCenterResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipPreferenceCenterResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-share/Pods-share-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D86F192E7E836C985A6C3887 /* [CP] Copy Pods Resources */ = {
@@ -696,7 +690,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NewExpensify-share-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-share-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -899,7 +893,7 @@
 		};
 		627DD5572A31008900D0544E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86554A494222784CDE8731D6 /* Pods-NewExpensify-share.debug.xcconfig */;
+			baseConfigurationReference = 970784664F19474CA3F96F43 /* Pods-share.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -940,7 +934,7 @@
 		};
 		627DD5582A31008900D0544E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7821B2C91242122BB686727 /* Pods-NewExpensify-share.release.xcconfig */;
+			baseConfigurationReference = 28F34A88EB6E392A3978D62C /* Pods-share.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
