@@ -32,6 +32,9 @@ import * as UserUtils from './src/libs/UserUtils';
 import ONYXKEYS from './src/ONYXKEYS';
 import personalDetailsPropType from './src/pages/personalDetailsPropType';
 import ShareExtensionPage from './src/pages/ShareExtensionPage';
+// import additionalAppSetup from './src/setup';
+import CONST from './src/CONST';
+import * as Metrics from './src/libs/Metrics';
 import styles from './src/styles/styles';
 
 const propTypes = {
@@ -73,7 +76,26 @@ const defaultProps = {
     session: {},
 };
 
-Onyx.init({keys: ONYXKEYS});
+Onyx.init({
+    keys: ONYXKEYS,
+
+    // Increase the cached key count so that the app works more consistently for accounts with large numbers of reports
+    maxCachedKeysCount: 10000,
+    safeEvictionKeys: [ONYXKEYS.COLLECTION.REPORT_ACTIONS],
+    captureMetrics: Metrics.canCaptureOnyxMetrics(),
+    initialKeyStates: {
+        // Clear any loading and error messages so they do not appear on app startup
+        [ONYXKEYS.SESSION]: {loading: false},
+        [ONYXKEYS.ACCOUNT]: CONST.DEFAULT_ACCOUNT_DATA,
+        [ONYXKEYS.NETWORK]: {isOffline: false},
+        [ONYXKEYS.IOU]: {
+            loading: false,
+            error: false,
+        },
+        [ONYXKEYS.IS_SIDEBAR_LOADED]: false,
+        [ONYXKEYS.SHOULD_SHOW_COMPOSE_INPUT]: true,
+    },
+});
 
 const Home = compose(
     withLocalize,
@@ -274,3 +296,5 @@ const ShareExtension = withOnyx({
 });
 
 AppRegistry.registerComponent('ShareMenuModuleComponent', () => ShareExtension);
+// this also appears to require firebase
+// additionalAppSetup();
