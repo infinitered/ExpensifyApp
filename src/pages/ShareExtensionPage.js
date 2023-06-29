@@ -273,14 +273,8 @@ export default compose(
     withLocalize,
     withWindowDimensions,
     withOnyx({
-        reports: {
-            key: ONYXKEYS.COLLECTION.REPORT,
-        },
-        personalDetails: {
-            key: ONYXKEYS.PERSONAL_DETAILS,
-        },
-        betas: {
-            key: ONYXKEYS.BETAS,
-        },
+        reports: {key: ONYXKEYS.COLLECTION.REPORT},
+        personalDetails: {key: ONYXKEYS.PERSONAL_DETAILS_LIST},
+        betas: {key: ONYXKEYS.BETAS},
     }),
 )(ShareExtensionPage);

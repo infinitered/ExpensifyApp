@@ -103,7 +103,7 @@ const Home = compose(
     withLocalize,
     withOnyx({
         account: {key: ONYXKEYS.ACCOUNT},
-        personalDetails: {key: ONYXKEYS.PERSONAL_DETAILS},
+        personalDetails: {key: ONYXKEYS.PERSONAL_DETAILS_LIST},
         preferredLocale: {key: ONYXKEYS.NVP_PREFERRED_LOCALE},
         session: {key: ONYXKEYS.SESSION},
     }),
@@ -199,8 +199,6 @@ const Message = withLocalize((props) => {
         ShareMenuReactView.data().then(({data}) => setAttachment(data[0]));
     }, []);
 
-    console.log({attachment: JSON.stringify(attachment)});
-
     return (
         <View style={{backgroundColor: '#07271F', flex: 1}}>
             <Pressable
@@ -226,8 +224,7 @@ const Message = withLocalize((props) => {
                 />
             </View>
             <View style={{padding: 24}}>
-                {/* <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text> */}
-                <Text style={styles.textLabelSupporting}>Sharing</Text>
+                <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
                 {attachment && (
                     <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
                         <AttachmentView source={attachment.data} />
