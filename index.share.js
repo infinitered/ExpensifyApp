@@ -33,6 +33,7 @@ import ONYXKEYS from './src/ONYXKEYS';
 import personalDetailsPropType from './src/pages/personalDetailsPropType';
 import ShareExtensionPage from './src/pages/ShareExtensionPage';
 // import additionalAppSetup from './src/setup';
+import {ShareMenuReactView} from 'react-native-share-menu';
 import CONST from './src/CONST';
 import * as Metrics from './src/libs/Metrics';
 import styles from './src/styles/styles';
@@ -191,6 +192,13 @@ Home.defaultProps = defaultProps;
 
 const Message = withLocalize((props) => {
     const toDetails = props.route.params.option;
+
+    useEffect(() => {
+        ShareMenuReactView.data().then(({mimeType, data}) => {
+            console.log({mimeType, data});
+        });
+    }, []);
+
     return (
         <View style={{backgroundColor: '#07271F', flex: 1}}>
             <Pressable

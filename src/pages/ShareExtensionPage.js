@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
+import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 import {navigationRef} from '../../index.share';
 import CONST from '../CONST';
@@ -11,7 +12,6 @@ import OptionsSelector from '../components/OptionsSelector';
 import ScreenWrapper from '../components/ScreenWrapper';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
-import Navigation from '../libs/Navigation/Navigation';
 import * as OptionsListUtils from '../libs/OptionsListUtils';
 import * as ReportUtils from '../libs/ReportUtils';
 import * as Report from '../libs/actions/Report';
@@ -238,7 +238,7 @@ class ShareExtensionPage extends Component {
                         <HeaderWithCloseButton
                             // title={this.props.translate('common.share')}
                             title="Share to Expensify"
-                            onCloseButtonPress={() => Navigation.dismissModal(true)}
+                            onCloseButtonPress={() => ShareMenuReactView.dismissExtension()}
                         />
                         <View style={[styles.flex1, styles.w100, styles.pRelative, this.state.selectedOptions.length > 0 ? safeAreaPaddingBottomStyle : {}]}>
                             <OptionsSelector
