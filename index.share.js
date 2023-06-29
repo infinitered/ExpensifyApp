@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import lodashGet from 'lodash/get';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
-import {AppRegistry, Image, Pressable, ScrollView, Text, View} from 'react-native';
+import {AppRegistry, Pressable, ScrollView, Text, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Onyx, {withOnyx} from 'react-native-onyx';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -34,6 +34,7 @@ import personalDetailsPropType from './src/pages/personalDetailsPropType';
 import ShareExtensionPage from './src/pages/ShareExtensionPage';
 // import additionalAppSetup from './src/setup';
 import {ShareMenuReactView} from 'react-native-share-menu';
+import AttachmentView from './src/components/AttachmentView';
 import CONST from './src/CONST';
 import * as Metrics from './src/libs/Metrics';
 import styles from './src/styles/styles';
@@ -227,18 +228,10 @@ const Message = withLocalize((props) => {
             <View style={{padding: 24}}>
                 {/* <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text> */}
                 <Text style={styles.textLabelSupporting}>Sharing</Text>
-                {attachment && attachment.mimeType === 'text/plain' && <Text>{attachment.data}</Text>}
-                {attachment && attachment.mimeType.startsWith('image/') && (
-                    <Image
-                        style={{
-                            width: '100%',
-                            borderRadius: 10,
-                            height: 200,
-                            marginVertical: 10,
-                        }}
-                        // resizeMode="contain"
-                        source={{uri: attachment.data}}
-                    />
+                {attachment && (
+                    <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
+                        <AttachmentView source={attachment.data} />
+                    </View>
                 )}
             </View>
             <View style={{padding: 24}}>
