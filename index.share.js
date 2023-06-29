@@ -3,7 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import lodashGet from 'lodash/get';
 import PropTypes from 'prop-types';
 import {useEffect, useState} from 'react';
-import {AppRegistry, Pressable, ScrollView, Text, View} from 'react-native';
+import {AppRegistry, Image, Pressable, ScrollView, Text, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Onyx, {withOnyx} from 'react-native-onyx';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -192,12 +192,13 @@ Home.defaultProps = defaultProps;
 
 const Message = withLocalize((props) => {
     const toDetails = props.route.params.option;
+    const [attachment, setAttachment] = useState();
 
     useEffect(() => {
-        ShareMenuReactView.data().then(({mimeType, data}) => {
-            console.log({mimeType, data});
-        });
+        ShareMenuReactView.data().then(({data}) => setAttachment(data[0]));
     }, []);
+
+    console.log({attachment: JSON.stringify(attachment)});
 
     return (
         <View style={{backgroundColor: '#07271F', flex: 1}}>
@@ -224,7 +225,21 @@ const Message = withLocalize((props) => {
                 />
             </View>
             <View style={{padding: 24}}>
-                <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
+                {/* <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text> */}
+                <Text style={styles.textLabelSupporting}>Sharing</Text>
+                {attachment && attachment.mimeType === 'text/plain' && <Text>{attachment.data}</Text>}
+                {attachment && attachment.mimeType.startsWith('image/') && (
+                    <Image
+                        style={{
+                            width: '100%',
+                            borderRadius: 10,
+                            height: 200,
+                            marginVertical: 10,
+                        }}
+                        // resizeMode="contain"
+                        source={{uri: attachment.data}}
+                    />
+                )}
             </View>
             <View style={{padding: 24}}>
                 <Button
