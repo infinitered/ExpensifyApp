@@ -7,7 +7,7 @@ on:
     - cron:  '0 7 * * 1,2,3,4,5'
     # scheduled at 07:00 every Monday through Friday
 
-  workflow_dispatch:  # click the button on Github repo!
+  workflow_dispatch:
 
 jobs:
   sync_latest_from_upstream:
@@ -15,23 +15,18 @@ jobs:
     name: Sync latest commits from upstream repo
 
     steps:
-    # REQUIRED step
-    # Step 1: run a standard checkout action, provided by github
     - name: Checkout target repo
       uses: actions/checkout@v3
       with:
-        # optional: set the branch to checkout,
-        # sync action checks out your 'target_sync_branch' anyway
         ref:  main
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
 
-    # REQUIRED step
-    # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
       with:
         target_sync_branch: main
-        # REQUIRED 'target_repo_token' exactly like this!
         target_repo_token: ${{ secrets.GITHUB_TOKEN }}
         upstream_sync_branch: main
         upstream_sync_repo: Expensify/App
