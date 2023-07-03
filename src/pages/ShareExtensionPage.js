@@ -7,7 +7,7 @@ import _ from 'underscore';
 import {navigationRef} from '../../index.share';
 import CONST from '../CONST';
 import ONYXKEYS from '../ONYXKEYS';
-import HeaderWithCloseButton from '../components/HeaderWithCloseButton';
+import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import OptionsSelector from '../components/OptionsSelector';
 import ScreenWrapper from '../components/ScreenWrapper';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
@@ -235,10 +235,12 @@ class ShareExtensionPage extends Component {
             >
                 {({didScreenTransitionEnd, safeAreaPaddingBottomStyle}) => (
                     <>
-                        <HeaderWithCloseButton
+                        <HeaderWithBackButton
                             // title={this.props.translate('common.share')}
                             title="Share to Expensify"
                             onCloseButtonPress={() => ShareMenuReactView.dismissExtension()}
+                            shouldShowCloseButton
+                            shouldShowBackButton={false}
                         />
                         <View style={[styles.flex1, styles.w100, styles.pRelative, this.state.selectedOptions.length > 0 ? safeAreaPaddingBottomStyle : {}]}>
                             <OptionsSelector
