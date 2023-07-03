@@ -29,6 +29,7 @@ import ShareExtensionPage from './src/pages/ShareExtensionPage';
 import {ShareMenuReactView} from 'react-native-share-menu';
 import AttachmentView from './src/components/AttachmentView';
 import CONST from './src/CONST';
+import * as Report from './src/libs/actions/Report';
 import * as Metrics from './src/libs/Metrics';
 import styles from './src/styles/styles';
 
@@ -57,6 +58,7 @@ Onyx.init({
 const Message = withLocalize((props) => {
     const toDetails = props.route.params.option;
     const [attachment, setAttachment] = useState();
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         ShareMenuReactView.data().then(({data}) => setAttachment(data[0]));
@@ -84,6 +86,8 @@ const Message = withLocalize((props) => {
                     inputID="addAMessage"
                     name="addAMessage"
                     label={props.translate('moneyRequestConfirmationList.whatsItFor')}
+                    onChangeText={setMessage}
+                    value={message}
                 />
             </View>
             <View style={{padding: 24}}>
@@ -99,6 +103,7 @@ const Message = withLocalize((props) => {
                     success
                     pressOnEnter
                     text={props.translate('common.share')}
+                    onPress={() => Report.addAttachment(toDetails.reportID, message, attachment.data)}
                 />
             </View>
         </View>
