@@ -103,7 +103,7 @@ const Message = withLocalize((props) => {
                     success
                     pressOnEnter
                     text={props.translate('common.share')}
-                    onPress={() => Report.addAttachment(toDetails.reportID, message, attachment.data)}
+                    onPress={() => Report.addAttachment(toDetails.reportID, attachment.data, message)}
                 />
             </View>
         </View>
