@@ -5,6 +5,8 @@ import IconButton from '../IconButton';
 import CONFIG from '../../../CONFIG';
 import ROUTES from '../../../ROUTES';
 import styles from '../../../styles/styles';
+import * as Expensicons from '../../Icon/Expensicons';
+import * as Session from '../../../libs/actions/Session';
 import CONST from '../../../CONST';
 
 const propTypes = {...withLocalizePropTypes};
@@ -25,6 +27,7 @@ function AppleSignIn(props) {
         >
             <IconButton
                 onPress={() => {
+                    Session.setSignInAttemptPlatform(CONST.SIGN_IN_PLATFORM.DESKTOP);
                     window.open(appleSignInWebRouteForDesktopFlow);
                 }}
                 provider={CONST.SIGN_IN_METHOD.APPLE}
