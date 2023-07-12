@@ -8,6 +8,7 @@ import * as Report from './libs/actions/Report';
 import BootSplash from './libs/BootSplash';
 import * as ActiveClientManager from './libs/ActiveClientManager';
 import ONYXKEYS from './ONYXKEYS';
+import ROUTES from './ROUTES';
 import ConfirmModal from './components/ConfirmModal';
 import compose from './libs/compose';
 import withLocalize, {withLocalizePropTypes} from './components/withLocalize';
@@ -165,7 +166,12 @@ function Expensify(props) {
             Report.openReportFromDeepLink(state.url, isAuthenticated);
         });
 
-        const handleShare = () => Navigation.navigate('share');
+        const handleShare = (share) => {
+            Navigation.isNavigationReady().then(() => {
+                Navigation.navigate(ROUTES.SHARE);
+                Navigation.setParams({share});
+            });
+        };
         ShareMenu.getInitialShare(handleShare);
         const shareListener = ShareMenu.addNewShareListener(handleShare);
 
