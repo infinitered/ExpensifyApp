@@ -1,7 +1,7 @@
-import ROUTES from '../../ROUTES';
-import SCREENS from '../../SCREENS';
 import CONST from '../../CONST';
 import NAVIGATORS from '../../NAVIGATORS';
+import ROUTES from '../../ROUTES';
+import SCREENS from '../../SCREENS';
 
 export default {
     prefixes: ['new-expensify://', 'https://www.expensify.cash', 'https://staging.expensify.cash', 'http://localhost', CONST.NEW_EXPENSIFY_URL, CONST.STAGING_NEW_EXPENSIFY_URL],
@@ -16,6 +16,8 @@ export default {
             AppleSignInDesktop: ROUTES.APPLE_SIGN_IN,
             GoogleSignInDesktop: ROUTES.GOOGLE_SIGN_IN,
             [SCREENS.DESKTOP_SIGN_IN_REDIRECT]: ROUTES.DESKTOP_SIGN_IN_REDIRECT,
+            Share: ROUTES.SHARE,
+            ShareMessage: ROUTES.SHARE_MESSAGE,
             [SCREENS.REPORT_ATTACHMENTS]: ROUTES.REPORT_ATTACHMENTS,
 
             // Sidebar
