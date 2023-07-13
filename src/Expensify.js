@@ -167,6 +167,7 @@ function Expensify(props) {
         });
 
         const handleShare = (share) => {
+            if (!share || !share.data) return;
             Navigation.isNavigationReady().then(() => {
                 Navigation.navigate(ROUTES.SHARE);
                 Navigation.setParams({share});
