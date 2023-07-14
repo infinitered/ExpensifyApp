@@ -11,34 +11,26 @@ import CONST from '../CONST';
 import * as OptionsListUtils from './OptionsListUtils';
 import * as CollectionUtils from './CollectionUtils';
 import * as LocalePhoneNumber from './LocalePhoneNumber';
+import * as UserUtils from './UserUtils';
+import * as PersonalDetailsUtils from './PersonalDetailsUtils';
 
 // Note: It is very important that the keys subscribed to here are the same
 // keys that are connected to SidebarLinks withOnyx(). If there was a key missing from SidebarLinks and it's data was updated
 // for that key, then there would be no re-render and the options wouldn't reflect the new data because SidebarUtils.getOrderedReportIDs() wouldn't be triggered.
-// There are a couple of keys here which are OK to have stale data. iouReports for example, doesn't need to exist in withOnyx() because
-// when IOUs change, it also triggers a change on the reports collection. Having redundant subscriptions causes more re-renders which should be avoided.
+// There are a couple of keys here which are OK to have stale data. Having redundant subscriptions causes more re-renders which should be avoided.
 // Session also can remain stale because the only way for the current user to change is to sign out and sign in, which would clear out all the Onyx
 // data anyway and cause SidebarLinks to rerender.
 
-const chatReports = {};
-const iouReports = {};
+let allReports;
 Onyx.connect({
     key: ONYXKEYS.COLLECTION.REPORT,
-    callback: (report, key) => {
-        if (!report) {
-            delete iouReports[key];
-            delete chatReports[key];
-        } else if (ReportUtils.isIOUReport(report)) {
-            iouReports[key] = report;
-        } else {
-            chatReports[key] = report;
-        }
-    },
+    waitForCollectionCallback: true,
+    callback: (val) => (allReports = val),
 });
 
 let personalDetails;
 Onyx.connect({
-    key: ONYXKEYS.PERSONAL_DETAILS,
+    key: ONYXKEYS.PERSONAL_DETAILS_LIST,
     callback: (val) => (personalDetails = val),
 });
 
@@ -87,10 +79,16 @@ Onyx.connect({
     callback: (val) => (policies = val),
 });
 
-let currentUserLogin;
+let currentUserAccountID;
 Onyx.connect({
     key: ONYXKEYS.SESSION,
-    callback: (val) => (currentUserLogin = val),
+    callback: (val) => {
+        if (!val) {
+            return;
+        }
+
+        currentUserAccountID = val.accountID;
+    },
 });
 
 let preferredLocale;
@@ -99,16 +97,43 @@ Onyx.connect({
     callback: (val) => (preferredLocale = val || CONST.LOCALES.DEFAULT),
 });
 
+let resolveSidebarIsReadyPromise;
+
+let sidebarIsReadyPromise = new Promise((resolve) => {
+    resolveSidebarIsReadyPromise = resolve;
+});
+
+function resetIsSidebarLoadedReadyPromise() {
+    sidebarIsReadyPromise = new Promise((resolve) => {
+        resolveSidebarIsReadyPromise = resolve;
+    });
+}
+
+function isSidebarLoadedReady() {
+    return sidebarIsReadyPromise;
+}
+
+function setIsSidebarLoadedReady() {
+    resolveSidebarIsReadyPromise();
+}
+
 /**
- * @param {String} reportIDFromRoute
+ * @param {String} currentReportId
  * @returns {String[]} An array of reportIDs sorted in the proper order
  */
-function getOrderedReportIDs(reportIDFromRoute) {
+function getOrderedReportIDs(currentReportId) {
     const isInGSDMode = priorityMode === CONST.PRIORITY_MODE.GSD;
     const isInDefaultMode = !isInGSDMode;
 
     // Filter out all the reports that shouldn't be displayed
-    const reportsToDisplay = _.filter(chatReports, (report) => ReportUtils.shouldReportBeInOptionList(report, reportIDFromRoute, isInGSDMode, currentUserLogin, iouReports, betas, policies));
+    const reportsToDisplay = _.filter(allReports, (report) => ReportUtils.shouldReportBeInOptionList(report, currentReportId, isInGSDMode, allReports, betas, policies));
+    if (_.isEmpty(reportsToDisplay)) {
+        // Display Concierge chat report when there is no report to be displayed
+        const conciergeChatReport = _.find(allReports, ReportUtils.isConciergeChatReport);
+        if (conciergeChatReport) {
+            reportsToDisplay.push(conciergeChatReport);
+        }
+    }
 
     // There are a few properties that need to be calculated for the report which are used when sorting reports.
     _.each(reportsToDisplay, (report) => {
@@ -119,7 +144,7 @@ function getOrderedReportIDs(reportIDFromRoute) {
         report.displayName = ReportUtils.getReportName(report);
 
         // eslint-disable-next-line no-param-reassign
-        report.iouReportAmount = ReportUtils.getIOUTotal(report, iouReports);
+        report.iouReportAmount = ReportUtils.getMoneyRequestTotal(report, allReports);
     });
 
     // The LHN is split into five distinct groups, and each group is sorted a little differently. The groups will ALWAYS be in this order:
@@ -144,7 +169,7 @@ function getOrderedReportIDs(reportIDFromRoute) {
             return;
         }
 
-        if (report.hasOutstandingIOU && !ReportUtils.isIOUOwnedByCurrentUser(report, iouReports)) {
+        if (report.hasOutstandingIOU && !ReportUtils.isIOUOwnedByCurrentUser(report, allReports)) {
             outstandingIOUReports.push(report);
             return;
         }
@@ -159,7 +184,8 @@ function getOrderedReportIDs(reportIDFromRoute) {
             return;
         }
 
-        if (ReportUtils.isTaskReport(report)) {
+        if (ReportUtils.isTaskReport(report) && ReportUtils.isCompletedTaskReport(report)) {
+            archivedReports.push(report);
             return;
         }
 
@@ -192,7 +218,8 @@ function getOrderedReportIDs(reportIDFromRoute) {
  * @returns {Object}
  */
 function getOptionData(reportID) {
-    const report = chatReports[`${ONYXKEYS.COLLECTION.REPORT}${reportID}`];
+    const reportKey = `${ONYXKEYS.COLLECTION.REPORT}${reportID}`;
+    const report = allReports[reportKey];
 
     // When a user signs out, Onyx is cleared. Due to the lazy rendering with a virtual list, it's possible for
     // this method to be called after the Onyx data has been cleared out. In that case, it's fine to do
@@ -208,10 +235,11 @@ function getOptionData(reportID) {
         brickRoadIndicator: null,
         icons: null,
         tooltipText: null,
-        ownerEmail: null,
+        ownerAccountID: null,
         subtitle: null,
         participantsList: null,
         login: null,
+        accountID: null,
         reportID: null,
         phoneNumber: null,
         payPalMeAddress: null,
@@ -229,20 +257,29 @@ function getOptionData(reportID) {
         isArchivedRoom: false,
         shouldShowSubscript: false,
         isPolicyExpenseChat: false,
+        isMoneyRequestReport: false,
+        isExpenseRequest: false,
     };
 
-    const participantPersonalDetailList = _.values(OptionsListUtils.getPersonalDetailsForLogins(report.participants, personalDetails));
+    const participantPersonalDetailList = _.values(OptionsListUtils.getPersonalDetailsForAccountIDs(report.participantAccountIDs, personalDetails));
     const personalDetail = participantPersonalDetailList[0] || {};
 
+    result.isThread = ReportUtils.isChatThread(report);
     result.isChatRoom = ReportUtils.isChatRoom(report);
     result.isTaskReport = ReportUtils.isTaskReport(report);
+    if (result.isTaskReport) {
+        result.isCompletedTaskReport = ReportUtils.isCompletedTaskReport(report);
+        result.isTaskAssignee = ReportUtils.isTaskAssignee(report);
+    }
     result.isArchivedRoom = ReportUtils.isArchivedRoom(report);
     result.isPolicyExpenseChat = ReportUtils.isPolicyExpenseChat(report);
-    result.shouldShowSubscript = result.isPolicyExpenseChat && !report.isOwnPolicyExpenseChat && !result.isArchivedRoom;
+    result.isExpenseRequest = ReportUtils.isExpenseRequest(report);
+    result.isMoneyRequestReport = ReportUtils.isMoneyRequestReport(report);
+    result.shouldShowSubscript = ReportUtils.shouldReportShowSubscript(report);
     result.pendingAction = report.pendingFields ? report.pendingFields.addWorkspaceRoom || report.pendingFields.createChat : null;
     result.allReportErrors = OptionsListUtils.getAllReportErrors(report, reportActions);
     result.brickRoadIndicator = !_.isEmpty(result.allReportErrors) ? CONST.BRICK_ROAD_INDICATOR_STATUS.ERROR : '';
-    result.ownerEmail = report.ownerEmail;
+    result.ownerAccountID = report.ownerAccountID;
     result.reportID = report.reportID;
     result.isUnread = ReportUtils.isUnread(report);
     result.isUnreadWithMention = ReportUtils.isUnreadWithMention(report);
@@ -250,11 +287,9 @@ function getOptionData(reportID) {
     result.isPinned = report.isPinned;
     result.iouReportID = report.iouReportID;
     result.keyForList = String(report.reportID);
-    result.tooltipText = ReportUtils.getReportParticipantsTitle(report.participants || []);
+    result.tooltipText = ReportUtils.getReportParticipantsTitle(report.participantAccountIDs || []);
     result.hasOutstandingIOU = report.hasOutstandingIOU;
     result.parentReportID = report.parentReportID || null;
-
-    const parentReport = result.parentReportID ? chatReports[`${ONYXKEYS.COLLECTION.REPORT}${result.parentReportID}`] : null;
     const hasMultipleParticipants = participantPersonalDetailList.length > 1 || result.isChatRoom || result.isPolicyExpenseChat;
     const subtitle = ReportUtils.getChatRoomSubtitle(report);
 
@@ -263,28 +298,23 @@ function getOptionData(reportID) {
 
     // We only create tooltips for the first 10 users or so since some reports have hundreds of users, causing performance to degrade.
     const displayNamesWithTooltips = ReportUtils.getDisplayNamesWithTooltips((participantPersonalDetailList || []).slice(0, 10), hasMultipleParticipants);
-
-    let lastMessageTextFromReport = '';
-    if (ReportUtils.isReportMessageAttachment({text: report.lastMessageText, html: report.lastMessageHtml})) {
-        lastMessageTextFromReport = `[${Localize.translateLocal('common.attachment')}]`;
-    } else {
-        lastMessageTextFromReport = report ? report.lastMessageText || '' : '';
-    }
+    const lastMessageTextFromReport = OptionsListUtils.getLastMessageTextForReport(report);
 
     // If the last actor's details are not currently saved in Onyx Collection,
     // then try to get that from the last report action if that action is valid
     // to get data from.
-    let lastActorDetails = personalDetails[report.lastActorEmail] || null;
+    let lastActorDetails = personalDetails[report.lastActorAccountID] || null;
     if (!lastActorDetails && visibleReportActionItems[report.reportID]) {
         const lastActorDisplayName = lodashGet(visibleReportActionItems[report.reportID], 'person[0].text');
         lastActorDetails = lastActorDisplayName
             ? {
                   displayName: lastActorDisplayName,
-                  login: report.lastActorEmail,
+                  accountID: report.lastActorAccountID,
               }
             : null;
     }
-    let lastMessageText = hasMultipleParticipants && lastActorDetails && lastActorDetails.login !== currentUserLogin.email ? `${lastActorDetails.displayName}: ` : '';
+    let lastMessageText =
+        hasMultipleParticipants && lastActorDetails && lastActorDetails.accountID && Number(lastActorDetails.accountID) !== currentUserAccountID ? `${lastActorDetails.displayName}: ` : '';
     lastMessageText += report ? lastMessageTextFromReport : '';
 
     if (result.isArchivedRoom) {
@@ -292,15 +322,23 @@ function getOptionData(reportID) {
             (lastReportActions[report.reportID] && lastReportActions[report.reportID].originalMessage && lastReportActions[report.reportID].originalMessage.reason) ||
             CONST.REPORT.ARCHIVE_REASON.DEFAULT;
         lastMessageText = Localize.translate(preferredLocale, `reportArchiveReasons.${archiveReason}`, {
-            displayName: archiveReason.displayName || report.lastActorEmail,
+            displayName: archiveReason.displayName || PersonalDetailsUtils.getDisplayNameOrDefault(lastActorDetails, 'displayName'),
             policyName: ReportUtils.getPolicyName(report),
         });
     }
 
-    if ((result.isChatRoom || result.isPolicyExpenseChat) && !result.isArchivedRoom) {
-        result.alternateText = lastMessageTextFromReport.length > 0 ? lastMessageText : Localize.translate(preferredLocale, 'report.noActivityYet');
-    } else if (result.isTaskReport) {
-        result.alternateText = Localize.translate(preferredLocale, 'newTaskPage.task');
+    if ((result.isChatRoom || result.isPolicyExpenseChat || result.isThread || result.isTaskReport) && !result.isArchivedRoom) {
+        const lastAction = visibleReportActionItems[report.reportID];
+        if (lodashGet(lastAction, 'actionName', '') === CONST.REPORT.ACTIONS.TYPE.RENAMED) {
+            const newName = lodashGet(lastAction, 'originalMessage.newName', '');
+            result.alternateText = Localize.translate(preferredLocale, 'newRoomPage.roomRenamedTo', {newName});
+        } else if (lodashGet(lastAction, 'actionName', '') === CONST.REPORT.ACTIONS.TYPE.TASKREOPENED) {
+            result.alternateText = `${Localize.translate(preferredLocale, 'task.messages.reopened')}: ${report.reportName}`;
+        } else if (lodashGet(lastAction, 'actionName', '') === CONST.REPORT.ACTIONS.TYPE.TASKCOMPLETED) {
+            result.alternateText = `${Localize.translate(preferredLocale, 'task.messages.completed')}: ${report.reportName}`;
+        } else {
+            result.alternateText = lastMessageTextFromReport.length > 0 ? lastMessageText : Localize.translate(preferredLocale, 'report.noActivityYet');
+        }
     } else {
         if (!lastMessageText) {
             // Here we get the beginning of chat history message and append the display name for each user, adding pronouns if there are any.
@@ -325,28 +363,32 @@ function getOptionData(reportID) {
         result.alternateText = lastMessageText || formattedLogin;
     }
 
-    result.isIOUReportOwner = ReportUtils.isIOUOwnedByCurrentUser(result, iouReports);
-    result.iouReportAmount = ReportUtils.getIOUTotal(result, iouReports);
+    result.isIOUReportOwner = ReportUtils.isIOUOwnedByCurrentUser(result, allReports);
+    result.iouReportAmount = ReportUtils.getMoneyRequestTotal(result, allReports);
 
     if (!hasMultipleParticipants) {
+        result.accountID = personalDetail.accountID;
         result.login = personalDetail.login;
         result.phoneNumber = personalDetail.phoneNumber;
         result.payPalMeAddress = personalDetail.payPalMeAddress;
     }
 
     const reportName = ReportUtils.getReportName(report);
+
     result.text = reportName;
     result.subtitle = subtitle;
     result.participantsList = participantPersonalDetailList;
 
-    result.icons = ReportUtils.getIcons(result.isTaskReport ? parentReport : report, personalDetails, policies, ReportUtils.getAvatar(personalDetail.avatar, personalDetail.login));
-    result.searchText = OptionsListUtils.getSearchText(report, reportName, participantPersonalDetailList, result.isChatRoom || result.isPolicyExpenseChat);
+    result.icons = ReportUtils.getIcons(report, personalDetails, UserUtils.getAvatar(personalDetail.avatar, personalDetail.accountID), true);
+    result.searchText = OptionsListUtils.getSearchText(report, reportName, participantPersonalDetailList, result.isChatRoom || result.isPolicyExpenseChat, result.isThread);
     result.displayNamesWithTooltips = displayNamesWithTooltips;
-
     return result;
 }
 
 export default {
     getOptionData,
     getOrderedReportIDs,
+    setIsSidebarLoadedReady,
+    isSidebarLoadedReady,
+    resetIsSidebarLoadedReadyPromise,
 };

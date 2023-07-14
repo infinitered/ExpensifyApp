@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {View, ScrollView} from 'react-native';
 import {withSafeAreaInsets} from 'react-native-safe-area-context';
 import PropTypes from 'prop-types';
@@ -6,15 +6,16 @@ import compose from '../../../libs/compose';
 import SignInPageContent from './SignInPageContent';
 import Footer from './Footer';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../../../components/withWindowDimensions';
+import withLocalize, {withLocalizePropTypes} from '../../../components/withLocalize';
 import styles from '../../../styles/styles';
 import SignInPageHero from '../SignInPageHero';
 import * as StyleUtils from '../../../styles/StyleUtils';
 import scrollViewContentContainerStyles from './signInPageStyles';
 import themeColors from '../../../styles/themes/default';
-import SignInHeroBackgroundImage from '../../../../assets/images/home-background--desktop.svg';
-import SignInHeroBackgroundImageMobile from '../../../../assets/images/home-background--mobile.svg';
+import BackgroundImage from './BackgroundImage';
 import SignInGradient from '../../../../assets/images/home-fade-gradient.svg';
 import variables from '../../../styles/variables';
+import usePrevious from '../../../hooks/usePrevious';
 
 const propTypes = {
     /** The children to show inside the layout */
@@ -35,10 +36,12 @@ const propTypes = {
     shouldShowWelcomeHeader: PropTypes.bool.isRequired,
 
     ...windowDimensionsPropTypes,
+    ...withLocalizePropTypes,
 };
 
-const SignInPageLayout = (props) => {
-    const scrollViewRef = useRef(null);
+function SignInPageLayout(props) {
+    const scrollViewRef = useRef();
+    const prevPreferredLocale = usePrevious(props.preferredLocale);
     let containerStyles = [styles.flex1, styles.signInPageInner];
     let contentContainerStyles = [styles.flex1, styles.flexRow];
 
@@ -49,6 +52,21 @@ const SignInPageLayout = (props) => {
         containerStyles = [styles.flex1];
         contentContainerStyles = [styles.flex1, styles.flexColumn];
     }
+
+    const scrollPageToTop = (animated = false) => {
+        if (!scrollViewRef.current) {
+            return;
+        }
+        scrollViewRef.current.scrollTo({y: 0, animated});
+    };
+
+    useEffect(() => {
+        if (prevPreferredLocale !== props.preferredLocale) {
+            return;
+        }
+
+        scrollPageToTop();
+    }, [props.welcomeHeader, props.welcomeText, prevPreferredLocale, props.preferredLocale]);
 
     return (
         <View style={containerStyles}>
@@ -69,7 +87,8 @@ const SignInPageLayout = (props) => {
                     >
                         <View style={[styles.flex1]}>
                             <View style={styles.signInPageHeroCenter}>
-                                <SignInHeroBackgroundImage
+                                <BackgroundImage
+                                    isSmallScreen={false}
                                     pointerEvents="none"
                                     width={variables.signInHeroBackgroundWidth}
                                 />
@@ -90,7 +109,7 @@ const SignInPageLayout = (props) => {
                                     ]}
                                 >
                                     <SignInPageHero />
-                                    <Footer scrollViewRef={scrollViewRef} />
+                                    <Footer scrollPageToTop={scrollPageToTop} />
                                 </View>
                             </View>
                         </View>
@@ -103,7 +122,8 @@ const SignInPageLayout = (props) => {
                     ref={scrollViewRef}
                 >
                     <View style={[styles.flex1, styles.flexColumn, StyleUtils.getMinimumHeight(Math.max(variables.signInContentMinHeight, containerHeight))]}>
-                        <SignInHeroBackgroundImageMobile
+                        <BackgroundImage
+                            isSmallScreen
                             pointerEvents="none"
                             width={variables.signInHeroBackgroundWidthMobile}
                             style={styles.signInBackgroundMobile}
@@ -118,15 +138,15 @@ const SignInPageLayout = (props) => {
                         </SignInPageContent>
                     </View>
                     <View style={[styles.flex0]}>
-                        <Footer scrollViewRef={scrollViewRef} />
+                        <Footer scrollPageToTop={scrollPageToTop} />
                     </View>
                 </ScrollView>
             )}
         </View>
     );
-};
+}
 
 SignInPageLayout.propTypes = propTypes;
 SignInPageLayout.displayName = 'SignInPageLayout';
 
-export default compose(withWindowDimensions, withSafeAreaInsets)(SignInPageLayout);
+export default compose(withWindowDimensions, withSafeAreaInsets, withLocalize)(SignInPageLayout);

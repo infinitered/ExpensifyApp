@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import lodashGet from 'lodash/get';
 import styles from '../../styles/styles';
 import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize';
-import HeaderWithCloseButton from '../../components/HeaderWithCloseButton';
-import Navigation from '../../libs/Navigation/Navigation';
+import HeaderWithBackButton from '../../components/HeaderWithBackButton';
 import Text from '../../components/Text';
 import compose from '../../libs/compose';
 import ONYXKEYS from '../../ONYXKEYS';
@@ -22,7 +21,6 @@ import userPropTypes from '../settings/userPropTypes';
 import Section from '../../components/Section';
 import * as Illustrations from '../../components/Icon/Illustrations';
 import * as Link from '../../libs/actions/Link';
-import * as User from '../../libs/actions/User';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import * as BankAccounts from '../../libs/actions/ReimbursementAccount';
 import WorkspaceResetBankAccountModal from '../workspace/WorkspaceResetBankAccountModal';
@@ -45,7 +43,7 @@ const defaultProps = {
     policyName: '',
 };
 
-const EnableStep = (props) => {
+function EnableStep(props) {
     const isUsingExpensifyCard = props.user.isUsingExpensifyCard;
     const achData = lodashGet(props.reimbursementAccount, 'achData') || {};
     const {icon, iconSize} = getBankIcon(achData.bankName);
@@ -59,14 +57,11 @@ const EnableStep = (props) => {
             style={[styles.flex1, styles.justifyContentBetween]}
             includeSafeAreaPaddingBottom={false}
         >
-            <HeaderWithCloseButton
-                title={props.translate('workspace.common.bankAccount')}
+            <HeaderWithBackButton
+                title={props.translate('workspace.common.connectBankAccount')}
                 subtitle={props.policyName}
-                onCloseButtonPress={Navigation.dismissModal}
                 shouldShowGetAssistanceButton
                 guidesCallTaskID={CONST.GUIDES_CALL_TASK_IDS.WORKSPACE_BANK_ACCOUNT}
-                shouldShowBackButton
-                onBackButtonPress={() => Navigation.goBack()}
             />
             <ScrollView style={[styles.flex1]}>
                 <Section
@@ -85,7 +80,6 @@ const EnableStep = (props) => {
                             icon={icon}
                             iconWidth={iconSize}
                             iconHeight={iconSize}
-                            disabled
                             interactive={false}
                             wrapperStyle={[styles.cardMenuItem, styles.mv3]}
                         />
@@ -99,7 +93,6 @@ const EnableStep = (props) => {
                                 text={props.translate('workspace.bankAccount.addWorkEmail')}
                                 onPress={() => {
                                     Link.openOldDotLink(CONST.ADD_SECONDARY_LOGIN_URL);
-                                    User.subscribeToExpensifyCardUpdates();
                                 }}
                                 icon={Expensicons.Mail}
                                 style={[styles.mt4]}
@@ -123,7 +116,7 @@ const EnableStep = (props) => {
             {props.reimbursementAccount.shouldShowResetModal && <WorkspaceResetBankAccountModal reimbursementAccount={props.reimbursementAccount} />}
         </ScreenWrapper>
     );
-};
+}
 
 EnableStep.displayName = 'EnableStep';
 EnableStep.propTypes = propTypes;

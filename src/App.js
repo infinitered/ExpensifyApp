@@ -17,10 +17,13 @@ import SafeArea from './components/SafeArea';
 import * as Environment from './libs/Environment/Environment';
 import {WindowDimensionsProvider} from './components/withWindowDimensions';
 import {KeyboardStateProvider} from './components/withKeyboardState';
+import {CurrentReportIDContextProvider} from './components/withCurrentReportID';
+import * as Session from './libs/actions/Session';
 
 // For easier debugging and development, when we are in web we expose Onyx to the window, so you can more easily set data into Onyx
 if (window && Environment.isDevelopment()) {
     window.Onyx = Onyx;
+    window.setSupportToken = Session.setSupportAuthToken;
 }
 
 LogBox.ignoreLogs([
@@ -32,28 +35,31 @@ LogBox.ignoreLogs([
 
 const fill = {flex: 1};
 
-const App = () => (
-    <GestureHandlerRootView style={fill}>
-        <ComposeProviders
-            components={[
-                OnyxProvider,
-                SafeAreaProvider,
-                PortalProvider,
-                SafeArea,
-                LocaleContextProvider,
-                HTMLEngineProvider,
-                WindowDimensionsProvider,
-                KeyboardStateProvider,
-                PickerStateProvider,
-            ]}
-        >
-            <CustomStatusBar />
-            <ErrorBoundary errorMessage="NewExpensify crash caught by error boundary">
-                <Expensify />
-            </ErrorBoundary>
-        </ComposeProviders>
-    </GestureHandlerRootView>
-);
+function App() {
+    return (
+        <GestureHandlerRootView style={fill}>
+            <ComposeProviders
+                components={[
+                    OnyxProvider,
+                    SafeAreaProvider,
+                    PortalProvider,
+                    SafeArea,
+                    LocaleContextProvider,
+                    HTMLEngineProvider,
+                    WindowDimensionsProvider,
+                    KeyboardStateProvider,
+                    CurrentReportIDContextProvider,
+                    PickerStateProvider,
+                ]}
+            >
+                <CustomStatusBar />
+                <ErrorBoundary errorMessage="NewExpensify crash caught by error boundary">
+                    <Expensify />
+                </ErrorBoundary>
+            </ComposeProviders>
+        </GestureHandlerRootView>
+    );
+}
 
 App.displayName = 'App';
 

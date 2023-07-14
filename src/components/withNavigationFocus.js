@@ -8,7 +8,7 @@ const withNavigationFocusPropTypes = {
 };
 
 export default function withNavigationFocus(WrappedComponent) {
-    const WithNavigationFocus = (props) => {
+    function WithNavigationFocus(props) {
         const isFocused = useIsFocused();
         return (
             <WrappedComponent
@@ -18,11 +18,12 @@ export default function withNavigationFocus(WrappedComponent) {
                 isFocused={isFocused}
             />
         );
-    };
+    }
 
     WithNavigationFocus.displayName = `withNavigationFocus(${getComponentDisplayName(WrappedComponent)})`;
     WithNavigationFocus.propTypes = {
-        forwardedRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({current: PropTypes.instanceOf(React.Component)})]),
+        // eslint-disable-next-line react/forbid-prop-types
+        forwardedRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({current: PropTypes.object})]),
     };
     WithNavigationFocus.defaultProps = {
         forwardedRef: undefined,

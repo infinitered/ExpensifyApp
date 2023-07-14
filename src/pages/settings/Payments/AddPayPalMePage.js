@@ -1,9 +1,13 @@
 import React, {useRef, useState, useCallback} from 'react';
-import {View, TouchableWithoutFeedback, Linking} from 'react-native';
+import {View, Linking} from 'react-native';
 import _ from 'underscore';
+import {withOnyx} from 'react-native-onyx';
+import lodashGet from 'lodash/get';
 import CONST from '../../../CONST';
 import ROUTES from '../../../ROUTES';
-import HeaderWithCloseButton from '../../../components/HeaderWithCloseButton';
+import compose from '../../../libs/compose';
+import ONYXKEYS from '../../../ONYXKEYS';
+import HeaderWithBackButton from '../../../components/HeaderWithBackButton';
 import TextLink from '../../../components/TextLink';
 import Text from '../../../components/Text';
 import ScreenWrapper from '../../../components/ScreenWrapper';
@@ -19,13 +23,28 @@ import * as User from '../../../libs/actions/User';
 import Icon from '../../../components/Icon';
 import * as Expensicons from '../../../components/Icon/Expensicons';
 import variables from '../../../styles/variables';
+import PressableWithoutFeedback from '../../../components/Pressable/PressableWithoutFeedback';
+import paypalMeDataPropTypes from '../../../components/paypalMeDataPropTypes';
 
-const AddPayPalMePage = (props) => {
-    const [payPalMeUsername, setPayPalMeUsername] = useState('');
+const propTypes = {
+    /** Account details for PayPal.Me */
+    payPalMeData: paypalMeDataPropTypes,
+
+    ...withLocalizePropTypes,
+};
+
+const defaultProps = {
+    payPalMeData: {},
+};
+
+function AddPayPalMePage(props) {
+    const [payPalMeUsername, setPayPalMeUsername] = useState(lodashGet(props.payPalMeData, 'accountData.username', ''));
     const [payPalMeUsernameError, setPayPalMeUsernameError] = useState(false);
     const payPalMeInput = useRef(null);
 
-    const growlMessageOnSave = props.translate('addPayPalMePage.growlMessageOnSave');
+    const hasPaypalAccount = !_.isEmpty(props.payPalMeData);
+
+    const growlMessageOnSave = props.translate(hasPaypalAccount ? 'addPayPalMePage.growlMessageOnUpdate' : 'addPayPalMePage.growlMessageOnSave');
 
     /**
      * Sets the payPalMe username and error data for the current user
@@ -44,11 +63,9 @@ const AddPayPalMePage = (props) => {
 
     return (
         <ScreenWrapper onEntryTransitionEnd={() => payPalMeInput.current && payPalMeInput.current.focus()}>
-            <HeaderWithCloseButton
+            <HeaderWithBackButton
                 title={props.translate('common.payPalMe')}
-                shouldShowBackButton
-                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_PAYMENTS)}
-                onCloseButtonPress={() => Navigation.dismissModal(true)}
+                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_PAYMENTS)}
             />
             <View style={[styles.flex1, styles.p5]}>
                 <View style={[styles.flex1]}>
@@ -56,6 +73,8 @@ const AddPayPalMePage = (props) => {
                     <TextInput
                         ref={payPalMeInput}
                         label={props.translate('addPayPalMePage.payPalMe')}
+                        accessibilityLabel={props.translate('addPayPalMePage.payPalMe')}
+                        accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
                         autoCompleteType="off"
                         autoCorrect={false}
                         value={payPalMeUsername}
@@ -70,8 +89,10 @@ const AddPayPalMePage = (props) => {
                     />
                     <View style={[styles.mt3, styles.flexRow, styles.justifyContentBetween, styles.alignSelfStart]}>
                         <Text style={[styles.textMicro, styles.flexRow]}>{props.translate('addPayPalMePage.checkListOf')}</Text>
-                        <TouchableWithoutFeedback
-                            // eslint-disable-next-line max-len
+                        <PressableWithoutFeedback
+                            shouldUseAutoHitSlop={false}
+                            accessibilityRole={CONST.ACCESSIBILITY_ROLE.LINK}
+                            accessibilityLabel={props.translate('addPayPalMePage.supportedCurrencies')}
                             onPress={() => Linking.openURL('https://developer.paypal.com/docs/reports/reference/paypal-supported-currencies')}
                         >
                             <View style={[styles.flexRow, styles.cursorPointer]}>
@@ -90,7 +111,7 @@ const AddPayPalMePage = (props) => {
                                     />
                                 </View>
                             </View>
-                        </TouchableWithoutFeedback>
+                        </PressableWithoutFeedback>
                     </View>
                 </View>
             </View>
@@ -101,14 +122,22 @@ const AddPayPalMePage = (props) => {
                     pressOnEnter
                     style={[styles.mt3]}
                     isDisabled={_.isEmpty(payPalMeUsername.trim())}
-                    text={props.translate('addPayPalMePage.addPayPalAccount')}
+                    text={props.translate(hasPaypalAccount ? 'addPayPalMePage.updatePaypalAccount' : 'addPayPalMePage.addPayPalAccount')}
                 />
             </FixedFooter>
         </ScreenWrapper>
     );
-};
+}
 
-AddPayPalMePage.propTypes = {...withLocalizePropTypes};
+AddPayPalMePage.propTypes = propTypes;
+AddPayPalMePage.defaultProps = defaultProps;
 AddPayPalMePage.displayName = 'AddPayPalMePage';
 
-export default withLocalize(AddPayPalMePage);
+export default compose(
+    withLocalize,
+    withOnyx({
+        payPalMeData: {
+            key: ONYXKEYS.PAYPAL,
+        },
+    }),
+)(AddPayPalMePage);

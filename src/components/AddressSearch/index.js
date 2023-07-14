@@ -91,7 +91,7 @@ const defaultProps = {
 // Do not convert to class component! It's been tried before and presents more challenges than it's worth.
 // Relevant thread: https://expensify.slack.com/archives/C03TQ48KC/p1634088400387400
 // Reference: https://github.com/FaridSafi/react-native-google-places-autocomplete/issues/609#issuecomment-886133839
-const AddressSearch = (props) => {
+function AddressSearch(props) {
     const [displayListViewBorder, setDisplayListViewBorder] = useState(false);
     const containerRef = useRef();
     const query = useMemo(
@@ -119,7 +119,8 @@ const AddressSearch = (props) => {
             postal_town: postalTown,
             postal_code: zipCode,
             administrative_area_level_1: state,
-            country,
+            administrative_area_level_2: stateFallback,
+            country: countryPrimary,
         } = GooglePlacesUtils.getAddressComponents(addressComponents, {
             street_number: 'long_name',
             route: 'long_name',
@@ -129,6 +130,7 @@ const AddressSearch = (props) => {
             postal_town: 'long_name',
             postal_code: 'long_name',
             administrative_area_level_1: 'short_name',
+            administrative_area_level_2: 'long_name',
             country: 'short_name',
         });
 
@@ -140,7 +142,15 @@ const AddressSearch = (props) => {
 
         // Make sure that the order of keys remains such that the country is always set above the state.
         // Refer to https://github.com/Expensify/App/issues/15633 for more information.
-        const {state: stateAutoCompleteFallback = '', city: cityAutocompleteFallback = ''} = GooglePlacesUtils.getPlaceAutocompleteTerms(autocompleteData.terms);
+        const {
+            country: countryFallbackLongName = '',
+            state: stateAutoCompleteFallback = '',
+            city: cityAutocompleteFallback = '',
+        } = GooglePlacesUtils.getPlaceAutocompleteTerms(autocompleteData.terms);
+
+        const countryFallback = _.findKey(CONST.ALL_COUNTRIES, (country) => country === countryFallbackLongName);
+
+        const country = countryPrimary || countryFallback;
 
         const values = {
             street: `${streetNumber} ${streetName}`.trim(),
@@ -162,6 +172,12 @@ const AddressSearch = (props) => {
         // state / province in a TextInput instead of in a picker.
         if (country !== CONST.COUNTRY.US) {
             values.state = longStateName;
+        }
+
+        // UK addresses return countries (e.g. England) in the state field (administrative_area_level_1)
+        // So we use a secondary field (administrative_area_level_2) as a fallback
+        if (country === CONST.COUNTRY.GB) {
+            values.state = stateFallback;
         }
 
         // Not all pages define the Address Line 2 field, so in that case we append any additional address details
@@ -283,7 +299,7 @@ const AddressSearch = (props) => {
             </View>
         </ScrollView>
     );
-};
+}
 
 AddressSearch.propTypes = propTypes;
 AddressSearch.defaultProps = defaultProps;

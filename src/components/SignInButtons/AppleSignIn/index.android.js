@@ -1,10 +1,13 @@
 import React from 'react';
 import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
 import Log from '../../../libs/Log';
-import ButtonBase from '../ButtonBase';
-import AppleLogoIcon from '../../../../assets/images/signIn/apple-logo.svg';
+import IconButton from '../IconButton';
 import * as Session from '../../../libs/actions/Session';
 import CONST from '../../../CONST';
+
+/**
+ * Apple Sign In Configuration for Android.
+ */
 
 const config = {
     clientId: CONST.APPLE_SIGN_IN_SERVICE_ID,
@@ -13,32 +16,42 @@ const config = {
     scope: appleAuthAndroid.Scope.ALL,
 };
 
+/**
+ * Apple Sign In method for Android that returns authToken.
+ * @returns {Promise<string>}
+ */
+
 function appleSignInRequest() {
     appleAuthAndroid.configure(config);
     return appleAuthAndroid
         .signIn()
         .then((response) => response.id_token)
         .catch((e) => {
-            Log.error('Request to sign in with Apple failed. Error: ', e);
             throw e;
         });
 }
 
-const AppleSignIn = () => {
+/**
+ * Apple Sign In button for Android.
+ * @returns {React.Component}
+ */
+
+function AppleSignIn() {
     const handleSignIn = () => {
         appleSignInRequest()
             .then((token) => Session.beginAppleSignIn(token))
             .catch((e) => {
+                if (e.message === appleAuthAndroid.Error.SIGNIN_CANCELLED) return null;
                 Log.error('Apple authentication failed', e);
             });
     };
     return (
-        <ButtonBase
+        <IconButton
             onPress={handleSignIn}
-            icon={<AppleLogoIcon />}
+            provider={CONST.SIGN_IN_METHOD.APPLE}
         />
     );
-};
+}
 
 AppleSignIn.displayName = 'AppleSignIn';
 

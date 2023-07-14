@@ -21,7 +21,7 @@ const propTypes = {
     ...withLocalizePropTypes,
 };
 
-const NewPasswordForm = (props) => {
+function NewPasswordForm(props) {
     const [passwordHintError, setPasswordHintError] = useState(false);
 
     const isValidPassword = () => props.password.match(CONST.PASSWORD_COMPLEXITY_REGEX_STRING);
@@ -51,6 +51,8 @@ const NewPasswordForm = (props) => {
             <TextInput
                 autoFocus
                 label={`${props.translate('setPasswordPage.enterPassword')}`}
+                accessibilityLabel={props.translate('setPasswordPage.enterPassword')}
+                accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
                 secureTextEntry
                 autoComplete={ComponentUtils.NEW_PASSWORD_AUTOCOMPLETE_TYPE}
                 textContentType="newPassword"
@@ -61,7 +63,7 @@ const NewPasswordForm = (props) => {
             <Text style={[styles.formHelp, styles.mt1, isInvalidPassword() && styles.formError]}>{props.translate('setPasswordPage.newPasswordPrompt')}</Text>
         </View>
     );
-};
+}
 
 NewPasswordForm.propTypes = propTypes;
 NewPasswordForm.displayName = 'NewPasswordForm';

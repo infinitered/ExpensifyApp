@@ -1,16 +1,21 @@
 import React from 'react';
 import appleAuth from '@invertase/react-native-apple-authentication';
 import Log from '../../../libs/Log';
-import ButtonBase from '../ButtonBase';
-import AppleLogoIcon from '../../../../assets/images/signIn/apple-logo.svg';
+import IconButton from '../IconButton';
 import * as Session from '../../../libs/actions/Session';
+import CONST from '../../../CONST';
+
+/**
+ * Apple Sign In method for iOS that returns identityToken.
+ * @returns {Promise<string>}
+ */
 
 function appleSignInRequest() {
     return appleAuth
         .performRequest({
             requestedOperation: appleAuth.Operation.LOGIN,
 
-            // FULL_NAME must come first, see https://github.com/invertase/react-native-apple-authentication/issues/293
+            // FULL_NAME must come first, see https://github.com/invertase/react-native-apple-authentication/issues/293.
             requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
         })
         .then((response) =>
@@ -24,21 +29,27 @@ function appleSignInRequest() {
         );
 }
 
-const AppleSignIn = () => {
+/**
+ * Apple Sign In button for iOS.
+ * @returns {React.Component}
+ */
+
+function AppleSignIn() {
     const handleSignIn = () => {
         appleSignInRequest()
             .then((token) => Session.beginAppleSignIn(token))
             .catch((e) => {
+                if (e.code === appleAuth.Error.CANCELED) return null;
                 Log.error('Apple authentication failed', e);
             });
     };
     return (
-        <ButtonBase
+        <IconButton
             onPress={handleSignIn}
-            icon={<AppleLogoIcon />}
+            provider={CONST.SIGN_IN_METHOD.APPLE}
         />
     );
-};
+}
 
 AppleSignIn.displayName = 'AppleSignIn';
 

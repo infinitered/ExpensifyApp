@@ -32,37 +32,41 @@ function createModalStackNavigator(screens) {
 }
 
 // We use getComponent/require syntax so that file used by screens are not loaded until we need them.
-const IOUBillStackNavigator = createModalStackNavigator([
+const MoneyRequestModalStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
-            const IOUBillPage = require('../../../pages/iou/IOUBillPage').default;
-            return IOUBillPage;
+            const MoneyRequestAmountPage = require('../../../pages/iou/steps/MoneyRequestAmountPage').default;
+            return MoneyRequestAmountPage;
         },
-        name: 'IOU_Bill_Root',
+        name: 'Money_Request',
+    },
+    {
+        getComponent: () => {
+            const MoneyRequestEditAmountPage = require('../../../pages/iou/steps/MoneyRequestAmountPage').default;
+            return MoneyRequestEditAmountPage;
+        },
+        name: 'Money_Request_Amount',
+    },
+    {
+        getComponent: () => {
+            const MoneyRequestParticipantsPage = require('../../../pages/iou/steps/MoneyRequstParticipantsPage/MoneyRequestParticipantsPage').default;
+            return MoneyRequestParticipantsPage;
+        },
+        name: 'Money_Request_Participants',
+    },
+    {
+        getComponent: () => {
+            const MoneyRequestConfirmPage = require('../../../pages/iou/steps/MoneyRequestConfirmPage').default;
+            return MoneyRequestConfirmPage;
+        },
+        name: 'Money_Request_Confirmation',
     },
     {
         getComponent: () => {
             const IOUCurrencySelection = require('../../../pages/iou/IOUCurrencySelection').default;
             return IOUCurrencySelection;
         },
-        name: 'IOU_Bill_Currency',
-    },
-]);
-
-const IOURequestModalStackNavigator = createModalStackNavigator([
-    {
-        getComponent: () => {
-            const IOURequestPage = require('../../../pages/iou/IOURequestPage').default;
-            return IOURequestPage;
-        },
-        name: 'IOU_Request_Root',
-    },
-    {
-        getComponent: () => {
-            const IOUCurrencySelection = require('../../../pages/iou/IOUCurrencySelection').default;
-            return IOUCurrencySelection;
-        },
-        name: 'IOU_Request_Currency',
+        name: 'Money_Request_Currency',
     },
     {
         getComponent: () => {
@@ -70,23 +74,6 @@ const IOURequestModalStackNavigator = createModalStackNavigator([
             return MoneyRequestDescriptionPage;
         },
         name: 'Money_Request_Description',
-    },
-]);
-
-const IOUSendModalStackNavigator = createModalStackNavigator([
-    {
-        getComponent: () => {
-            const IOUSendPage = require('../../../pages/iou/IOUSendPage').default;
-            return IOUSendPage;
-        },
-        name: 'IOU_Send_Root',
-    },
-    {
-        getComponent: () => {
-            const IOUCurrencySelection = require('../../../pages/iou/IOUCurrencySelection').default;
-            return IOUCurrencySelection;
-        },
-        name: 'IOU_Send_Currency',
     },
     {
         getComponent: () => {
@@ -111,34 +98,13 @@ const IOUSendModalStackNavigator = createModalStackNavigator([
     },
 ]);
 
-const IOUDetailsModalStackNavigator = createModalStackNavigator([
+const SplitDetailsModalStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
-            const IOUDetailsModal = require('../../../pages/iou/IOUDetailsModal').default;
-            return IOUDetailsModal;
+            const SplitBillDetailsPage = require('../../../pages/iou/SplitBillDetailsPage').default;
+            return SplitBillDetailsPage;
         },
-        name: 'IOU_Details_Root',
-    },
-    {
-        getComponent: () => {
-            const AddPersonalBankAccountPage = require('../../../pages/AddPersonalBankAccountPage').default;
-            return AddPersonalBankAccountPage;
-        },
-        name: 'IOU_Details_Add_Bank_Account',
-    },
-    {
-        getComponent: () => {
-            const AddDebitCardPage = require('../../../pages/settings/Payments/AddDebitCardPage').default;
-            return AddDebitCardPage;
-        },
-        name: 'IOU_Details_Add_Debit_Card',
-    },
-    {
-        getComponent: () => {
-            const EnablePaymentsPage = require('../../../pages/EnablePayments/EnablePaymentsPage').default;
-            return EnablePaymentsPage;
-        },
-        name: 'IOU_Details_Enable_Payments',
+        name: 'SplitDetails_Root',
     },
 ]);
 
@@ -152,6 +118,16 @@ const DetailsModalStackNavigator = createModalStackNavigator([
     },
 ]);
 
+const ProfileModalStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const ProfilePage = require('../../../pages/ProfilePage').default;
+            return ProfilePage;
+        },
+        name: 'Profile_Root',
+    },
+]);
+
 const ReportDetailsModalStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
@@ -159,6 +135,44 @@ const ReportDetailsModalStackNavigator = createModalStackNavigator([
             return ReportDetailsPage;
         },
         name: 'Report_Details_Root',
+    },
+    {
+        getComponent: () => {
+            const ShareCodePage = require('../../../pages/home/report/ReportDetailsShareCodePage').default;
+            return ShareCodePage;
+        },
+        name: 'Report_Details_Share_Code',
+    },
+]);
+
+const ReportSettingsModalStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const ReportSettingsPage = require('../../../pages/settings/Report/ReportSettingsPage').default;
+            return ReportSettingsPage;
+        },
+        name: 'Report_Settings_Root',
+    },
+    {
+        getComponent: () => {
+            const RoomNamePage = require('../../../pages/settings/Report/RoomNamePage').default;
+            return RoomNamePage;
+        },
+        name: 'Report_Settings_Room_Name',
+    },
+    {
+        getComponent: () => {
+            const NotificationPreferencesPage = require('../../../pages/settings/Report/NotificationPreferencePage').default;
+            return NotificationPreferencesPage;
+        },
+        name: 'Report_Settings_Notification_Preferences',
+    },
+    {
+        getComponent: () => {
+            const WriteCapabilityPage = require('../../../pages/settings/Report/WriteCapabilityPage').default;
+            return WriteCapabilityPage;
+        },
+        name: 'Report_Settings_Write_Capability',
     },
 ]);
 
@@ -177,15 +191,22 @@ const TaskModalStackNavigator = createModalStackNavigator([
         },
         name: 'Task_Description',
     },
-]);
-
-const ReportSettingsModalStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
-            const ReportSettingsPage = require('../../../pages/ReportSettingsPage').default;
-            return ReportSettingsPage;
+            const TaskAssigneeSelectorPage = require('../../../pages/tasks/TaskAssigneeSelectorModal').default;
+            return TaskAssigneeSelectorPage;
         },
-        name: 'Report_Settings_Root',
+        name: 'Task_Assignee',
+    },
+]);
+
+const ReportWelcomeMessageModalStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const ReportWelcomeMessagePage = require('../../../pages/ReportWelcomeMessagePage').default;
+            return ReportWelcomeMessagePage;
+        },
+        name: 'Report_WelcomeMessage_Root',
     },
 ]);
 
@@ -196,13 +217,6 @@ const ReportParticipantsModalStackNavigator = createModalStackNavigator([
             return ReportParticipantsPage;
         },
         name: 'ReportParticipants_Root',
-    },
-    {
-        getComponent: () => {
-            const DetailsPage = require('../../../pages/DetailsPage').default;
-            return DetailsPage;
-        },
-        name: 'ReportParticipants_Details',
     },
 ]);
 
@@ -288,6 +302,13 @@ const SettingsModalStackNavigator = createModalStackNavigator([
             return SettingsInitialPage;
         },
         name: 'Settings_Root',
+    },
+    {
+        getComponent: () => {
+            const ShareCodePage = require('../../../pages/ShareCodePage').default;
+            return ShareCodePage;
+        },
+        name: 'Settings_Share_Code',
     },
     {
         getComponent: () => {
@@ -401,6 +422,14 @@ const SettingsModalStackNavigator = createModalStackNavigator([
         },
         name: 'Settings_Preferences_Language',
     },
+    // Will be uncommented as part of https://github.com/Expensify/App/issues/21670
+    // {
+    //     getComponent: () => {
+    //         const SettingsPreferencesThemePage = require('../../../pages/settings/Preferences/ThemePage').default;
+    //         return SettingsPreferencesThemePage;
+    //     },
+    //     name: 'Settings_Preferences_Theme',
+    // },
     {
         getComponent: () => {
             const SettingsPasswordPage = require('../../../pages/settings/PasswordPage').default;
@@ -435,6 +464,13 @@ const SettingsModalStackNavigator = createModalStackNavigator([
             return SettingsAppDownloadLinks;
         },
         name: 'Settings_App_Download_Links',
+    },
+    {
+        getComponent: () => {
+            const SettingsLoungeAccessPage = require('../../../pages/settings/Profile/LoungeAccessPage').default;
+            return SettingsLoungeAccessPage;
+        },
+        name: 'Settings_Lounge_Access',
     },
     {
         getComponent: () => {
@@ -515,6 +551,13 @@ const SettingsModalStackNavigator = createModalStackNavigator([
     },
     {
         getComponent: () => {
+            const WorkspaceRateAndUnitPage = require('../../../pages/workspace/reimburse/WorkspaceRateAndUnitPage').default;
+            return WorkspaceRateAndUnitPage;
+        },
+        name: 'Workspace_RateAndUnit',
+    },
+    {
+        getComponent: () => {
             const WorkspaceBillsPage = require('../../../pages/workspace/bills/WorkspaceBillsPage').default;
             return WorkspaceBillsPage;
         },
@@ -577,6 +620,41 @@ const SettingsModalStackNavigator = createModalStackNavigator([
         },
         name: 'GetAssistance',
     },
+    {
+        getComponent: () => {
+            const SettingsTwoFactorAuthIsEnabled = require('../../../pages/settings/Security/TwoFactorAuth/IsEnabledPage').default;
+            return SettingsTwoFactorAuthIsEnabled;
+        },
+        name: 'Settings_TwoFactorAuthIsEnabled',
+    },
+    {
+        getComponent: () => {
+            const SettingsTwoFactorAuthDisable = require('../../../pages/settings/Security/TwoFactorAuth/DisablePage').default;
+            return SettingsTwoFactorAuthDisable;
+        },
+        name: 'Settings_TwoFactorAuthDisable',
+    },
+    {
+        getComponent: () => {
+            const SettingsTwoFactorAuthCodes = require('../../../pages/settings/Security/TwoFactorAuth/CodesPage').default;
+            return SettingsTwoFactorAuthCodes;
+        },
+        name: 'Settings_TwoFactorAuthCodes',
+    },
+    {
+        getComponent: () => {
+            const SettingsTwoFactorAuthVerify = require('../../../pages/settings/Security/TwoFactorAuth/VerifyPage').default;
+            return SettingsTwoFactorAuthVerify;
+        },
+        name: 'Settings_TwoFactorAuthVerify',
+    },
+    {
+        getComponent: () => {
+            const SettingsTwoFactorAuthSuccess = require('../../../pages/settings/Security/TwoFactorAuth/SuccessPage').default;
+            return SettingsTwoFactorAuthSuccess;
+        },
+        name: 'Settings_TwoFactorAuthSuccess',
+    },
 ]);
 
 const EnablePaymentsStackNavigator = createModalStackNavigator([
@@ -619,25 +697,35 @@ const WalletStatementStackNavigator = createModalStackNavigator([
     },
 ]);
 
-const YearPickerStackNavigator = createModalStackNavigator([
+const FlagCommentStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
-            const YearPickerPage = require('../../../pages/YearPickerPage').default;
-            return YearPickerPage;
+            const FlagCommentPage = require('../../../pages/FlagCommentPage').default;
+            return FlagCommentPage;
         },
-        name: 'YearPicker_Root',
+        name: 'FlagComment_Root',
+    },
+]);
+
+const EditRequestStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const EditRequestPage = require('../../../pages/EditRequestPage').default;
+            return EditRequestPage;
+        },
+        name: 'EditRequest_Root',
     },
 ]);
 
 export {
-    IOUBillStackNavigator,
-    IOURequestModalStackNavigator,
-    IOUSendModalStackNavigator,
-    IOUDetailsModalStackNavigator,
+    MoneyRequestModalStackNavigator,
+    SplitDetailsModalStackNavigator,
     DetailsModalStackNavigator,
+    ProfileModalStackNavigator,
     ReportDetailsModalStackNavigator,
     TaskModalStackNavigator,
     ReportSettingsModalStackNavigator,
+    ReportWelcomeMessageModalStackNavigator,
     ReportParticipantsModalStackNavigator,
     SearchModalStackNavigator,
     NewGroupModalStackNavigator,
@@ -648,5 +736,6 @@ export {
     AddPersonalBankAccountModalStackNavigator,
     ReimbursementAccountModalStackNavigator,
     WalletStatementStackNavigator,
-    YearPickerStackNavigator,
+    FlagCommentStackNavigator,
+    EditRequestStackNavigator,
 };

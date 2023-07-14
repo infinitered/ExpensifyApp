@@ -3,6 +3,7 @@ import AdminRoomAvatar from '../../../assets/images/avatars/admin-room.svg';
 import Android from '../../../assets/images/android.svg';
 import AnnounceRoomAvatar from '../../../assets/images/avatars/announce-room.svg';
 import Apple from '../../../assets/images/apple.svg';
+import AppleLogo from '../../../assets/images/signIn/apple-logo.svg';
 import ArrowRight from '../../../assets/images/arrow-right.svg';
 import ArrowRightLong from '../../../assets/images/arrow-right-long.svg';
 import ArrowsUpDown from '../../../assets/images/arrows-updown.svg';
@@ -41,6 +42,10 @@ import ExpensifyWordmark from '../../../assets/images/expensify-wordmark.svg';
 import Expand from '../../../assets/images/expand.svg';
 import Eye from '../../../assets/images/eye.svg';
 import EyeDisabled from '../../../assets/images/eye-disabled.svg';
+import Flag from '../../../assets/images/flag.svg';
+import FlagLevelOne from '../../../assets/images/flag_level_01.svg';
+import FlagLevelTwo from '../../../assets/images/flag_level_02.svg';
+import FlagLevelThree from '../../../assets/images/flag_level_03.svg';
 import Gallery from '../../../assets/images/gallery.svg';
 import Gear from '../../../assets/images/gear.svg';
 import Globe from '../../../assets/images/globe.svg';
@@ -56,6 +61,7 @@ import Keyboard from '../../../assets/images/keyboard.svg';
 import Link from '../../../assets/images/link.svg';
 import LinkCopy from '../../../assets/images/link-copy.svg';
 import Lock from '../../../assets/images/lock.svg';
+import LoungeAccess from '../../../assets/images/lounge-access.svg';
 import Luggage from '../../../assets/images/luggage.svg';
 import MagnifyingGlass from '../../../assets/images/magnifying-glass.svg';
 import Mail from '../../../assets/images/mail.svg';
@@ -77,6 +83,7 @@ import Pin from '../../../assets/images/pin.svg';
 import Plus from '../../../assets/images/plus.svg';
 import Printer from '../../../assets/images/printer.svg';
 import Profile from '../../../assets/images/profile.svg';
+import QrCode from '../../../assets/images/qrcode.svg';
 import QuestionMark from '../../../assets/images/question-mark-circle.svg';
 import Receipt from '../../../assets/images/receipt.svg';
 import ReceiptSearch from '../../../assets/images/receipt-search.svg';
@@ -118,6 +125,7 @@ export {
     Android,
     AnnounceRoomAvatar,
     Apple,
+    AppleLogo,
     ArrowRight,
     ArrowRightLong,
     ArrowsUpDown,
@@ -161,6 +169,10 @@ export {
     EyeDisabled,
     FallbackAvatar,
     FallbackWorkspaceAvatar,
+    Flag,
+    FlagLevelOne,
+    FlagLevelTwo,
+    FlagLevelThree,
     Gallery,
     Gear,
     Globe,
@@ -176,6 +188,7 @@ export {
     Link,
     LinkCopy,
     Lock,
+    LoungeAccess,
     Luggage,
     MagnifyingGlass,
     Mail,
@@ -197,6 +210,7 @@ export {
     Plus,
     Printer,
     Profile,
+    QrCode,
     QuestionMark,
     Receipt,
     ReceiptSearch,

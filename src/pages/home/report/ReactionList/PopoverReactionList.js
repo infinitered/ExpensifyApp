@@ -1,14 +1,36 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
-
+import _ from 'underscore';
 import lodashGet from 'lodash/get';
+import {withOnyx} from 'react-native-onyx';
+import PropTypes from 'prop-types';
+import * as Report from '../../../../libs/actions/Report';
 import withLocalize, {withLocalizePropTypes} from '../../../../components/withLocalize';
 import PopoverWithMeasuredContent from '../../../../components/PopoverWithMeasuredContent';
-
 import BaseReactionList from './BaseReactionList';
+import compose from '../../../../libs/compose';
+import reportPropTypes from '../../../reportPropTypes';
+import reportActionPropTypes from '../reportActionPropTypes';
+import ONYXKEYS from '../../../../ONYXKEYS';
+import withCurrentUserPersonalDetails from '../../../../components/withCurrentUserPersonalDetails';
+import * as PersonalDetailsUtils from '../../../../libs/PersonalDetailsUtils';
+import * as EmojiUtils from '../../../../libs/EmojiUtils';
+import * as ReportActionsUtils from '../../../../libs/ReportActionsUtils';
+import * as ReportUtils from '../../../../libs/ReportUtils';
+import CONST from '../../../../CONST';
 
 const propTypes = {
+    /** The report currently being looked at */
+    report: reportPropTypes.isRequired,
+
+    /** Actions from the ChatReport */
+    reportActions: PropTypes.shape(reportActionPropTypes),
+
     ...withLocalizePropTypes,
+};
+
+const defaultProps = {
+    reportActions: {},
 };
 
 class PopoverReactionList extends React.Component {
@@ -32,19 +54,18 @@ class PopoverReactionList extends React.Component {
             emojiName: '',
             emojiCount: 0,
             hasUserReacted: false,
+            reportActionID: '',
         };
 
         this.onPopoverHideActionCallback = () => {};
         this.reactionListAnchor = undefined;
         this.showReactionList = this.showReactionList.bind(this);
-
         this.hideReactionList = this.hideReactionList.bind(this);
-        this.measureContent = this.measureContent.bind(this);
         this.measureReactionListPosition = this.measureReactionListPosition.bind(this);
         this.getReactionListMeasuredLocation = this.getReactionListMeasuredLocation.bind(this);
-
+        this.getSelectedReaction = this.getSelectedReaction.bind(this);
+        this.getReactionInformation = this.getReactionInformation.bind(this);
         this.dimensionsEventListener = null;
-
         this.contentRef = React.createRef();
     }
 
@@ -53,9 +74,44 @@ class PopoverReactionList extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        const previousLocale = lodashGet(this.props, 'preferredLocale', 'en');
-        const nextLocale = lodashGet(nextProps, 'preferredLocale', 'en');
-        return this.state.isPopoverVisible !== nextState.isPopoverVisible || this.state.popoverAnchorPosition !== nextState.popoverAnchorPosition || previousLocale !== nextLocale;
+        const selectedReaction = this.getSelectedReaction(nextProps.reportActions, nextState.reportActionID, nextState.emojiName);
+        const {emojiCount, emojiCodes, hasUserReacted, users} = this.getReactionInformation(selectedReaction);
+        const previousLocale = lodashGet(this.props, 'preferredLocale', CONST.LOCALES.DEFAULT);
+        const nextLocale = lodashGet(nextProps, 'preferredLocale', CONST.LOCALES.DEFAULT);
+
+        return (
+            this.state.isPopoverVisible !== nextState.isPopoverVisible ||
+            this.state.popoverAnchorPosition !== nextState.popoverAnchorPosition ||
+            previousLocale !== nextLocale ||
+            (this.state.isPopoverVisible &&
+                (this.state.reportActionID !== nextState.reportActionID ||
+                    this.state.emojiName !== nextState.emojiName ||
+                    this.state.emojiCount !== emojiCount ||
+                    this.state.hasUserReacted !== hasUserReacted ||
+                    !_.isEqual(this.state.emojiCodes, emojiCodes) ||
+                    !_.isEqual(this.state.users, users)))
+        );
+    }
+
+    componentDidUpdate() {
+        if (!this.state.emojiName) {
+            return;
+        }
+
+        const selectedReaction = this.getSelectedReaction(this.props.reportActions, this.state.reportActionID, this.state.emojiName);
+        if (!selectedReaction) {
+            this.setState({
+                isPopoverVisible: false,
+            });
+        } else {
+            const {emojiCount, emojiCodes, hasUserReacted, users} = this.getReactionInformation(selectedReaction);
+            this.setState({
+                users,
+                emojiCodes,
+                emojiCount,
+                hasUserReacted,
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -82,22 +138,77 @@ class PopoverReactionList extends React.Component {
     }
 
     /**
+     * Get the selected reaction from report action.
+     *
+     * @param {Object} reportAction
+     * @param {String} emojiName - Name of emoji
+     * @returns {Object}
+     */
+    getSelectedReactionFromAction(reportAction, emojiName) {
+        const reactions = lodashGet(reportAction, ['message', 0, 'reactions'], []);
+        const reactionsWithCount = _.filter(reactions, (reaction) => reaction.users.length > 0);
+        return _.find(reactionsWithCount, (reaction) => reaction.emoji === emojiName);
+    }
+
+    /**
+     * Get the selected reaction.
+     *
+     * @param {Array<Object>} reportActions
+     * @param {String} reportActionID
+     * @param {String} emojiName - Name of emoji
+     * @returns {Object}
+     */
+    getSelectedReaction(reportActions, reportActionID, emojiName) {
+        const reportAction = _.find(reportActions, (action) => action.reportActionID === reportActionID);
+        if (!reportAction || ReportUtils.isThreadFirstChat(reportAction, this.props.report.reportID)) {
+            const parentReportAction = ReportActionsUtils.getParentReportAction(this.props.report);
+            return this.getSelectedReactionFromAction(parentReportAction, emojiName);
+        }
+        return this.getSelectedReactionFromAction(reportAction, emojiName);
+    }
+
+    /**
+     * Get the reaction information.
+     *
+     * @param {Object} selectedReaction
+     * @returns {Object}
+     */
+    getReactionInformation(selectedReaction) {
+        if (!selectedReaction) {
+            return {
+                users: [],
+                emojiCodes: [],
+                emojiName: '',
+                emojiCount: 0,
+            };
+        }
+        const emojiCount = selectedReaction.users.length;
+        const reactionUsers = _.map(selectedReaction.users, (sender) => sender.accountID);
+        const emoji = EmojiUtils.findEmojiByName(selectedReaction.emoji);
+        const emojiCodes = EmojiUtils.getUniqueEmojiCodes(emoji, selectedReaction.users);
+        const hasUserReacted = Report.hasAccountIDReacted(this.props.currentUserPersonalDetails.accountID, reactionUsers);
+        const users = PersonalDetailsUtils.getPersonalDetailsByIDs(reactionUsers, this.props.currentUserPersonalDetails.accountID, true);
+        return {
+            emojiCount,
+            emojiCodes,
+            hasUserReacted,
+            users,
+        };
+    }
+
+    /**
      * Show the ReactionList modal popover.
      *
      * @param {Object} [event] - A press event.
      * @param {Element} reactionListAnchor - reactionListAnchor
-     * @param {Array} users - Array of personal detail objects
      * @param {String} emojiName - Name of emoji
-     * @param {Array} emojiCodes - The emoji codes to display in the bubble.
-     * @param {Number} emojiCount - Count of emoji
-     * @param {Boolean} hasUserReacted - whether the current user has reacted to this emoji
-
+     * @param {String} reportActionID
      */
-    showReactionList(event, reactionListAnchor, users, emojiName, emojiCodes, emojiCount, hasUserReacted) {
+    showReactionList(event, reactionListAnchor, emojiName, reportActionID) {
         const nativeEvent = event.nativeEvent || {};
-
         this.reactionListAnchor = reactionListAnchor;
-
+        const selectedReaction = this.getSelectedReaction(this.props.reportActions, reportActionID, emojiName);
+        const {emojiCount, emojiCodes, hasUserReacted, users} = this.getReactionInformation(selectedReaction);
         this.getReactionListMeasuredLocation().then(({x, y}) => {
             this.setState({
                 cursorRelativePosition: {
@@ -114,6 +225,7 @@ class PopoverReactionList extends React.Component {
                 emojiCount,
                 isPopoverVisible: true,
                 hasUserReacted,
+                reportActionID,
             });
         });
     }
@@ -147,26 +259,6 @@ class PopoverReactionList extends React.Component {
         });
     }
 
-    /**
-     * Used to calculate the PopoverReactionList Dimensions
-     *
-     * @returns {JSX}
-     */
-    measureContent() {
-        return (
-            <BaseReactionList
-                type={this.state.type}
-                isVisible
-                users={this.state.users}
-                emojiName={this.state.emojiName}
-                emojiCodes={this.state.emojiCodes}
-                emojiCount={this.state.emojiCount}
-                onClose={this.hideReactionList}
-                hasUserReacted={this.state.hasUserReacted}
-            />
-        );
-    }
-
     render() {
         return (
             <>
@@ -177,7 +269,6 @@ class PopoverReactionList extends React.Component {
                     animationIn="fadeIn"
                     disableAnimation={false}
                     animationOutTiming={1}
-                    measureContent={this.measureContent}
                     shouldSetModalVisibility={false}
                     fullscreen
                 >
@@ -198,5 +289,15 @@ class PopoverReactionList extends React.Component {
 }
 
 PopoverReactionList.propTypes = propTypes;
+PopoverReactionList.defaultProps = defaultProps;
 
-export default withLocalize(PopoverReactionList);
+export default compose(
+    withLocalize,
+    withOnyx({
+        reportActions: {
+            key: ({report}) => `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${report.reportID}`,
+            canEvict: false,
+        },
+    }),
+    withCurrentUserPersonalDetails,
+)(PopoverReactionList);

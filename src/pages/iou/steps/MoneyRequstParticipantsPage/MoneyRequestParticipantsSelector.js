@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {withOnyx} from 'react-native-onyx';
 import _ from 'underscore';
 import * as OptionsListUtils from '../../../../libs/OptionsListUtils';
+import * as ReportUtils from '../../../../libs/ReportUtils';
 import OptionsSelector from '../../../../components/OptionsSelector';
 import ONYXKEYS from '../../../../ONYXKEYS';
 import withLocalize, {withLocalizePropTypes} from '../../../../components/withLocalize';
@@ -27,9 +28,6 @@ const propTypes = {
     /** All reports shared with the user */
     reports: PropTypes.objectOf(reportPropTypes),
 
-    /** Indicates whether report data is ready */
-    isLoadingReportData: PropTypes.bool,
-
     /** padding bottom style of safe area */
     safeAreaPaddingBottomStyle: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]),
 
@@ -44,7 +42,6 @@ const defaultProps = {
     personalDetails: {},
     reports: {},
     betas: [],
-    isLoadingReportData: true,
 };
 
 class MoneyRequestParticipantsSelector extends Component {
@@ -85,8 +82,7 @@ class MoneyRequestParticipantsSelector extends Component {
             CONST.EXPENSIFY_EMAILS,
 
             // If we are using this component in the "Request money" flow then we pass the includeOwnedWorkspaceChats argument so that the current user
-            // sees the option to request money from their admin on their own Workspace Chat. These will always be shown in the "Recents" section of the selector
-            // along with any other recent chats.
+            // sees the option to request money from their admin on their own Workspace Chat.
             this.props.iouType === CONST.IOU.MONEY_REQUEST_TYPE.REQUEST,
         );
     }
@@ -144,7 +140,7 @@ class MoneyRequestParticipantsSelector extends Component {
      * @param {Object} option
      */
     addSingleParticipant(option) {
-        this.props.onAddParticipants([option]);
+        this.props.onAddParticipants([{accountID: option.accountID, login: option.login, isPolicyExpenseChat: option.isPolicyExpenseChat, reportID: option.reportID, selected: true}]);
         this.props.onStepComplete();
     }
 
@@ -154,7 +150,7 @@ class MoneyRequestParticipantsSelector extends Component {
             Boolean(this.state.userToInvite),
             this.state.searchTerm,
         );
-        const isOptionsDataReady = !this.props.isLoadingReportData && OptionsListUtils.isPersonalDetailsReady(this.props.personalDetails);
+        const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(this.props.personalDetails);
 
         return (
             <OptionsSelector
@@ -179,16 +175,13 @@ export default compose(
     withLocalize,
     withOnyx({
         personalDetails: {
-            key: ONYXKEYS.PERSONAL_DETAILS,
+            key: ONYXKEYS.PERSONAL_DETAILS_LIST,
         },
         reports: {
             key: ONYXKEYS.COLLECTION.REPORT,
         },
         betas: {
             key: ONYXKEYS.BETAS,
-        },
-        isLoadingReportData: {
-            key: ONYXKEYS.IS_LOADING_REPORT_DATA,
         },
     }),
 )(MoneyRequestParticipantsSelector);

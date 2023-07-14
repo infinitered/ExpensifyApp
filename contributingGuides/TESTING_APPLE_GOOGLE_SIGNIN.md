@@ -6,7 +6,7 @@ Due to some technical constraints, Apple and Google sign-in may require addition
 
 ### Web
 
-The Sign in with Apple process will break after the user signs in if the pop-up process is not started from a page at an HTTPS domain registered with Apple. We can make a new configuration with your custom HTTPS domain, but then the Apple configuration won't match that of Expensify's backend.
+The Sign in with Apple process will break after the user signs in if the pop-up process is not started from a page at an HTTPS domain registered with Apple. To fix this, you could make a new configuration with your own HTTPS domain, but then the Apple configuration won't match that of Expensify's backend.
 
 So to be able to test this, we have two parts:
 1. Create a valid Sign in with Apple token using valid configuration for the Expensify app, by creating and intercepting one on Android
@@ -86,8 +86,20 @@ Add `NEW_EXPENSIFY_URL` to .env, and set it to the HTTPS URL where the web app c
 NEW_EXPENSIFY_URL=https://subdomain.ngrok.io
 ```
 
-This is required becase the desktop app needs to know the address of the web app, and must open it at
+This is required because the desktop app needs to know the address of the web app, and must open it at
 the HTTPS domain configured to work with Sign in with Apple.
+
+#### Set Environment to something other than "Development"
+
+The DeepLinkWrapper component will not handle deep links in the development environment. To be able to test deep linking, you must set the environment to something other than "Development".
+
+Within the `.env` file, set `envName` to something other than "Development", for example:
+
+```
+envName=Staging
+```
+
+Alternatively, within the `DeepLinkWrapper/index.website.js` file you can set the `CONFIG.ENVIRONMENT` to something other than "Development".
 
 #### Handle deep links in dev on MacOS
 

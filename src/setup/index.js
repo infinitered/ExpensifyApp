@@ -36,12 +36,24 @@ export default function () {
             [ONYXKEYS.IOU]: {
                 loading: false,
                 error: false,
-                creatingIOUTransaction: false,
             },
             [ONYXKEYS.IS_SIDEBAR_LOADED]: false,
             [ONYXKEYS.SHOULD_SHOW_COMPOSE_INPUT]: true,
         },
     });
+
+    // When enabled we will skip persisting to disk any server-side downloaded objects (e.g. workspaces, chats, etc) that can hog up a user's resources.
+    window.enableMemoryOnlyKeys = () => {
+        // eslint-disable-next-line rulesdir/prefer-actions-set-data
+        Onyx.set(ONYXKEYS.IS_USING_MEMORY_ONLY_KEYS, true);
+        Onyx.setMemoryOnlyKeys([ONYXKEYS.COLLECTION.REPORT, ONYXKEYS.COLLECTION.POLICY, ONYXKEYS.PERSONAL_DETAILS_LIST]);
+    };
+
+    window.disableMemoryOnlyKeys = () => {
+        // eslint-disable-next-line rulesdir/prefer-actions-set-data
+        Onyx.set(ONYXKEYS.IS_USING_MEMORY_ONLY_KEYS, false);
+        Onyx.setMemoryOnlyKeys([]);
+    };
 
     Device.setDeviceID();
 
@@ -54,11 +66,4 @@ export default function () {
 
     // Perform any other platform-specific setup
     platformSetup();
-
-    // Workaround to a reanimated issue -> https://github.com/software-mansion/react-native-reanimated/issues/3355
-    // We can remove it as soon as we are on > reanimated 3.0.0+
-    if (process.browser) {
-        // eslint-disable-next-line no-underscore-dangle
-        window._frameTimestamp = null;
-    }
 }

@@ -1,9 +1,10 @@
 import lodashGet from 'lodash/get';
 import React from 'react';
-import {View, ScrollView, Pressable} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 import {withOnyx} from 'react-native-onyx';
+import CurrentUserPersonalDetailsSkeletonView from '../../components/CurrentUserPersonalDetailsSkeletonView';
 import {withNetwork} from '../../components/OnyxProvider';
 import styles from '../../styles/styles';
 import Text from '../../components/Text';
@@ -11,7 +12,7 @@ import * as Session from '../../libs/actions/Session';
 import ONYXKEYS from '../../ONYXKEYS';
 import Tooltip from '../../components/Tooltip';
 import Avatar from '../../components/Avatar';
-import HeaderWithCloseButton from '../../components/HeaderWithCloseButton';
+import HeaderWithBackButton from '../../components/HeaderWithBackButton';
 import Navigation from '../../libs/Navigation/Navigation';
 import * as Expensicons from '../../components/Icon/Expensicons';
 import ScreenWrapper from '../../components/ScreenWrapper';
@@ -21,8 +22,7 @@ import withLocalize, {withLocalizePropTypes} from '../../components/withLocalize
 import compose from '../../libs/compose';
 import CONST from '../../CONST';
 import Permissions from '../../libs/Permissions';
-import * as App from '../../libs/actions/App';
-import withCurrentUserPersonalDetails, {withCurrentUserPersonalDetailsPropTypes, withCurrentUserPersonalDetailsDefaultProps} from '../../components/withCurrentUserPersonalDetails';
+import withCurrentUserPersonalDetails, {withCurrentUserPersonalDetailsDefaultProps, withCurrentUserPersonalDetailsPropTypes} from '../../components/withCurrentUserPersonalDetails';
 import * as PaymentMethods from '../../libs/actions/PaymentMethods';
 import bankAccountPropTypes from '../../components/bankAccountPropTypes';
 import cardPropTypes from '../../components/cardPropTypes';
@@ -39,6 +39,7 @@ import policyMemberPropType from '../policyMemberPropType';
 import * as ReportActionContextMenu from '../home/report/ContextMenu/ReportActionContextMenu';
 import {CONTEXT_MENU_TYPES} from '../home/report/ContextMenu/ContextMenuActions';
 import * as CurrencyUtils from '../../libs/CurrencyUtils';
+import PressableWithoutFeedback from '../../components/Pressable/PressableWithoutFeedback';
 
 const propTypes = {
     /* Onyx Props */
@@ -99,8 +100,8 @@ const propTypes = {
         errorFields: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     }),
 
-    /** List of policy members */
-    policyMembers: PropTypes.objectOf(policyMemberPropType),
+    /** Members keyed by accountID for all policies */
+    allPolicyMembers: PropTypes.objectOf(PropTypes.objectOf(policyMemberPropType)),
 
     ...withLocalizePropTypes,
     ...withCurrentUserPersonalDetailsPropTypes,
@@ -118,7 +119,7 @@ const defaultProps = {
     bankAccountList: {},
     cardList: {},
     loginList: {},
-    policyMembers: {},
+    allPolicyMembers: {},
     ...withCurrentUserPersonalDetailsDefaultProps,
 };
 
@@ -170,13 +171,20 @@ class InitialSettingsPage extends React.Component {
             !_.isEmpty(this.props.reimbursementAccount.errors) ||
             _.chain(this.props.policies)
                 .filter((policy) => policy && policy.type === CONST.POLICY.TYPE.FREE && policy.role === CONST.POLICY.ROLE.ADMIN)
-                .some((policy) => PolicyUtils.hasPolicyError(policy) || PolicyUtils.getPolicyBrickRoadIndicatorStatus(policy, this.props.policyMembers))
+                .some((policy) => PolicyUtils.hasPolicyError(policy) || PolicyUtils.getPolicyBrickRoadIndicatorStatus(policy, this.props.allPolicyMembers))
                 .value()
                 ? CONST.BRICK_ROAD_INDICATOR_STATUS.ERROR
                 : null;
         const profileBrickRoadIndicator = UserUtils.getLoginListBrickRoadIndicator(this.props.loginList);
 
         return [
+            {
+                translationKey: 'common.shareCode',
+                icon: Expensicons.QrCode,
+                action: () => {
+                    Navigation.navigate(ROUTES.SETTINGS_SHARE_CODE);
+                },
+            },
             {
                 translationKey: 'common.workspaces',
                 icon: Expensicons.Building,
@@ -192,7 +200,7 @@ class InitialSettingsPage extends React.Component {
                 translationKey: 'common.profile',
                 icon: Expensicons.Profile,
                 action: () => {
-                    App.openProfile();
+                    Navigation.navigate(ROUTES.SETTINGS_PROFILE);
                 },
                 brickRoadIndicator: profileBrickRoadIndicator,
             },
@@ -269,7 +277,7 @@ class InitialSettingsPage extends React.Component {
                 brickRoadIndicator={item.brickRoadIndicator}
                 floatRightAvatars={item.floatRightAvatars}
                 shouldStackHorizontally={item.shouldStackHorizontally}
-                avatarSize={item.avatarSize}
+                floatRightAvatarSize={item.avatarSize}
                 ref={this.popoverAnchor}
                 shouldBlockSelection={Boolean(item.link)}
                 onSecondaryInteraction={!_.isEmpty(item.link) ? (e) => ReportActionContextMenu.showContextMenu(CONTEXT_MENU_TYPES.LINK, e, item.link, this.popoverAnchor.current) : undefined}
@@ -296,66 +304,63 @@ class InitialSettingsPage extends React.Component {
     }
 
     render() {
-        // On the very first sign in or after clearing storage these
-        // details will not be present on the first render so we'll just
-        // return nothing for now.
-        if (_.isEmpty(this.props.currentUserPersonalDetails)) {
-            return null;
-        }
-
         return (
             <ScreenWrapper includeSafeAreaPaddingBottom={false}>
                 {({safeAreaPaddingBottomStyle}) => (
                     <>
-                        <HeaderWithCloseButton
-                            title={this.props.translate('common.settings')}
-                            onCloseButtonPress={() => Navigation.dismissModal(true)}
-                        />
+                        <HeaderWithBackButton title={this.props.translate('common.settings')} />
                         <ScrollView
                             contentContainerStyle={safeAreaPaddingBottomStyle}
                             style={[styles.settingsPageBackground]}
                         >
                             <View style={styles.w100}>
-                                <View style={styles.avatarSectionWrapper}>
-                                    <Pressable
-                                        style={[styles.mb3]}
-                                        onPress={this.openProfileSettings}
-                                    >
+                                {_.isEmpty(this.props.currentUserPersonalDetails) || _.isUndefined(this.props.currentUserPersonalDetails.displayName) ? (
+                                    <CurrentUserPersonalDetailsSkeletonView />
+                                ) : (
+                                    <View style={styles.avatarSectionWrapper}>
                                         <Tooltip text={this.props.translate('common.profile')}>
-                                            <OfflineWithFeedback pendingAction={lodashGet(this.props.currentUserPersonalDetails, 'pendingFields.avatar', null)}>
-                                                <Avatar
-                                                    imageStyles={[styles.avatarLarge]}
-                                                    source={ReportUtils.getAvatar(this.props.currentUserPersonalDetails.avatar, this.props.session.email)}
-                                                    size={CONST.AVATAR_SIZE.LARGE}
-                                                />
-                                            </OfflineWithFeedback>
+                                            <PressableWithoutFeedback
+                                                style={[styles.mb3]}
+                                                onPress={this.openProfileSettings}
+                                                accessibilityLabel={this.props.translate('common.profile')}
+                                                accessibilityRole={CONST.ACCESSIBILITY_ROLE.BUTTON}
+                                            >
+                                                <OfflineWithFeedback pendingAction={lodashGet(this.props.currentUserPersonalDetails, 'pendingFields.avatar', null)}>
+                                                    <Avatar
+                                                        imageStyles={[styles.avatarLarge]}
+                                                        source={UserUtils.getAvatar(this.props.currentUserPersonalDetails.avatar, this.props.session.accountID)}
+                                                        size={CONST.AVATAR_SIZE.LARGE}
+                                                    />
+                                                </OfflineWithFeedback>
+                                            </PressableWithoutFeedback>
                                         </Tooltip>
-                                    </Pressable>
-
-                                    <Pressable
-                                        style={[styles.mt1, styles.mw100]}
-                                        onPress={this.openProfileSettings}
-                                    >
-                                        <Tooltip text={this.props.translate('common.profile')}>
+                                        <PressableWithoutFeedback
+                                            style={[styles.mt1, styles.mw100]}
+                                            onPress={this.openProfileSettings}
+                                            accessibilityLabel={this.props.translate('common.profile')}
+                                            accessibilityRole={CONST.ACCESSIBILITY_ROLE.LINK}
+                                        >
+                                            <Tooltip text={this.props.translate('common.profile')}>
+                                                <Text
+                                                    style={[styles.textHeadline, styles.pre]}
+                                                    numberOfLines={1}
+                                                >
+                                                    {this.props.currentUserPersonalDetails.displayName
+                                                        ? this.props.currentUserPersonalDetails.displayName
+                                                        : this.props.formatPhoneNumber(this.props.session.email)}
+                                                </Text>
+                                            </Tooltip>
+                                        </PressableWithoutFeedback>
+                                        {Boolean(this.props.currentUserPersonalDetails.displayName) && (
                                             <Text
-                                                style={[styles.textHeadline, styles.pre]}
+                                                style={[styles.textLabelSupporting, styles.mt1]}
                                                 numberOfLines={1}
                                             >
-                                                {this.props.currentUserPersonalDetails.displayName
-                                                    ? this.props.currentUserPersonalDetails.displayName
-                                                    : this.props.formatPhoneNumber(this.props.session.email)}
+                                                {this.props.formatPhoneNumber(this.props.session.email)}
                                             </Text>
-                                        </Tooltip>
-                                    </Pressable>
-                                    {Boolean(this.props.currentUserPersonalDetails.displayName) && (
-                                        <Text
-                                            style={[styles.textLabelSupporting, styles.mt1]}
-                                            numberOfLines={1}
-                                        >
-                                            {this.props.formatPhoneNumber(this.props.session.email)}
-                                        </Text>
-                                    )}
-                                </View>
+                                        )}
+                                    </View>
+                                )}
                                 {_.map(this.getDefaultMenuItems(), (item, index) => this.getMenuItem(item, index))}
 
                                 <ConfirmModal
@@ -390,8 +395,8 @@ export default compose(
         policies: {
             key: ONYXKEYS.COLLECTION.POLICY,
         },
-        policyMembers: {
-            key: ONYXKEYS.COLLECTION.POLICY_MEMBER_LIST,
+        allPolicyMembers: {
+            key: ONYXKEYS.COLLECTION.POLICY_MEMBERS,
         },
         userWallet: {
             key: ONYXKEYS.USER_WALLET,

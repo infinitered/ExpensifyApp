@@ -9,12 +9,12 @@
                        "comment": "Reports"
                     },
                     {
-                        "/": "/settings/*",
-                        "comment": "Profile and app settings"
+                        "/": "/a/*",
+                        "comment": "Profile Page"
                     },
                     {
-                        "/": "/setpassword/*",
-                        "comment": "Passoword setup"
+                        "/": "/settings/*",
+                        "comment": "Profile and app settings"
                     },
                     {
                         "/": "/details/*",

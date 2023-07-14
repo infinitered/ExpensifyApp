@@ -1,3 +1,4 @@
+import 'setimmediate';
 import 'react-native-gesture-handler/jestSetup';
 import * as reanimatedJestUtils from 'react-native-reanimated/src/reanimated2/jestUtils';
 import setupMockImages from './setupMockImages';
@@ -24,3 +25,9 @@ jest.spyOn(console, 'debug').mockImplementation((...params) => {
     // eslint-disable-next-line no-console
     console.log('DEBUG', ...params);
 });
+
+// This mock is required for mocking file systems when running tests
+jest.mock('react-native-fs', () => ({
+    unlink: jest.fn(() => new Promise((res) => res())),
+    CachesDirectoryPath: jest.fn(),
+}));

@@ -11,7 +11,7 @@ import * as Expensicons from './Icon/Expensicons';
 import Image from './Image';
 import styles from '../styles/styles';
 import * as ReportUtils from '../libs/ReportUtils';
-import useOnNetworkReconnect from './hooks/useOnNetworkReconnect';
+import useOnNetworkReconnect from '../hooks/useOnNetworkReconnect';
 
 const propTypes = {
     /** Source for the avatar. Can be a URL or an icon. */
@@ -20,6 +20,10 @@ const propTypes = {
     /** Extra styles to pass to Image */
     // eslint-disable-next-line react/forbid-prop-types
     imageStyles: PropTypes.arrayOf(PropTypes.object),
+
+    /** Additional styles to pass to Icon */
+    // eslint-disable-next-line react/forbid-prop-types
+    iconAdditionalStyles: PropTypes.arrayOf(PropTypes.object),
 
     /** Extra styles to pass to View wrapper */
     containerStyles: stylePropTypes,
@@ -41,13 +45,14 @@ const propTypes = {
     /** Denotes whether it is an avatar or a workspace avatar */
     type: PropTypes.oneOf([CONST.ICON_TYPE_AVATAR, CONST.ICON_TYPE_WORKSPACE]),
 
-    /** Owner of the avatar, typically a login email or workspace name */
+    /** Owner of the avatar. If user, displayName. If workspace, policy name */
     name: PropTypes.string,
 };
 
 const defaultProps = {
     source: null,
     imageStyles: [],
+    iconAdditionalStyles: [],
     containerStyles: [],
     size: CONST.AVATAR_SIZE.DEFAULT,
     fill: themeColors.icon,
@@ -68,9 +73,12 @@ function Avatar(props) {
     const isWorkspace = props.type === CONST.ICON_TYPE_WORKSPACE;
     const iconSize = StyleUtils.getAvatarSize(props.size);
 
-    const imageStyle = [StyleUtils.getAvatarStyle(props.size), ...props.imageStyles, StyleUtils.getAvatarBorderRadius(props.size, props.type)];
+    const imageStyle =
+        props.imageStyles && props.imageStyles.length
+            ? [StyleUtils.getAvatarStyle(props.size), ...props.imageStyles, StyleUtils.getAvatarBorderRadius(props.size, props.type)]
+            : [StyleUtils.getAvatarStyle(props.size), StyleUtils.getAvatarBorderStyle(props.size, props.type)];
 
-    const iconStyle = [StyleUtils.getAvatarStyle(props.size), styles.bgTransparent, ...props.imageStyles];
+    const iconStyle = props.imageStyles && props.imageStyles.length ? [StyleUtils.getAvatarStyle(props.size), styles.bgTransparent, ...props.imageStyles] : undefined;
 
     const iconFillColor = isWorkspace ? StyleUtils.getDefaultWorkspaceAvatarColor(props.name).fill : props.fill;
     const fallbackAvatar = isWorkspace ? ReportUtils.getDefaultWorkspaceAvatar(props.name) : props.fallbackIcon;
@@ -91,15 +99,18 @@ function Avatar(props) {
                             StyleUtils.getAvatarBorderStyle(props.size, props.type),
                             isWorkspace ? StyleUtils.getDefaultWorkspaceAvatarColor(props.name) : {},
                             imageError ? StyleUtils.getBackgroundColorStyle(themeColors.fallbackIconColor) : {},
+                            ...props.iconAdditionalStyles,
                         ]}
                     />
                 </View>
             ) : (
-                <Image
-                    source={{uri: props.source}}
-                    style={imageStyle}
-                    onError={() => setImageError(true)}
-                />
+                <View style={[iconStyle, StyleUtils.getAvatarBorderStyle(props.size, props.type), ...props.iconAdditionalStyles]}>
+                    <Image
+                        source={{uri: props.source}}
+                        style={imageStyle}
+                        onError={() => setImageError(true)}
+                    />
+                </View>
             )}
         </View>
     );

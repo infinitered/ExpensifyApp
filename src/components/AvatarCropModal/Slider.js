@@ -25,13 +25,14 @@ const defaultProps = {
 };
 
 // This component can't be written using class since reanimated API uses hooks.
-const Slider = (props) => {
+function Slider(props) {
+    const sliderValue = props.sliderValue;
     const [tooltipIsVisible, setTooltipIsVisible] = useState(true);
 
     // A reanimated memoized style, which tracks
     // a translateX shared value and updates the slider position.
     const rSliderStyle = useAnimatedStyle(() => ({
-        transform: [{translateX: props.sliderValue.value}],
+        transform: [{translateX: sliderValue.value}],
     }));
 
     // We're preventing text selection with ControlSelection.blockElement to prevent safari
@@ -59,7 +60,7 @@ const Slider = (props) => {
             </PanGestureHandler>
         </View>
     );
-};
+}
 
 Slider.displayName = 'Slider';
 Slider.propTypes = propTypes;

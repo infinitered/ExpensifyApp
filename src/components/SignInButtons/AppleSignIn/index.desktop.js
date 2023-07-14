@@ -1,38 +1,31 @@
 import React from 'react';
 import {View} from 'react-native';
-import withLocalize, {withLocalizePropTypes} from '../../withLocalize';
-import ButtonBase from '../ButtonBase';
-import AppleLogoIcon from '../../../../assets/images/signIn/apple-logo.svg';
+import IconButton from '../IconButton';
 import CONFIG from '../../../CONFIG';
 import ROUTES from '../../../ROUTES';
+import styles from '../../../styles/styles';
+import CONST from '../../../CONST';
 
-const propTypes = {...withLocalizePropTypes};
-
-const $appleButtonContainerStyle = {
-    width: 40,
-    height: 40,
-    marginRight: 20,
-};
-
-//
 const appleSignInWebRouteForDesktopFlow = `${CONFIG.EXPENSIFY.NEW_EXPENSIFY_URL}${ROUTES.APPLE_SIGN_IN}`;
 
-const AppleSignIn = (props) => (
-    <View
-        style={$appleButtonContainerStyle}
-        accessibilityRole="button"
-        accessibilityLabel={props.translate('common.signInWithApple')}
-    >
-        <ButtonBase
-            onPress={() => {
-                window.open(appleSignInWebRouteForDesktopFlow);
-            }}
-            icon={<AppleLogoIcon />}
-        />
-    </View>
-);
+/**
+ * Apple Sign In button for desktop flow
+ * @returns {React.Component}
+ */
+
+function AppleSignIn() {
+    return (
+        <View style={styles.appleButtonContainer}>
+            <IconButton
+                onPress={() => {
+                    window.open(appleSignInWebRouteForDesktopFlow);
+                }}
+                provider={CONST.SIGN_IN_METHOD.APPLE}
+            />
+        </View>
+    );
+}
 
 AppleSignIn.displayName = 'AppleSignIn';
-AppleSignIn.propTypes = propTypes;
 
-export default withLocalize(AppleSignIn);
+export default AppleSignIn;

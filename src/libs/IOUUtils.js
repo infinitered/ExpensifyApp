@@ -1,16 +1,17 @@
 import _ from 'underscore';
 import CONST from '../CONST';
+import * as ReportActionsUtils from './ReportActionsUtils';
 
 /**
  * Calculates the amount per user given a list of participants
  *
- * @param {Array} participants - List of logins for the participants in the chat. It should not include the current user's login.
+ * @param {Number} numberOfParticipants - Number of participants in the chat. It should not include the current user.
  * @param {Number} total - IOU total amount in the smallest units of the currency
  * @param {Boolean} isDefaultUser - Whether we are calculating the amount for the current user
  * @returns {Number}
  */
-function calculateAmount(participants, total, isDefaultUser = false) {
-    const totalParticipants = participants.length + 1;
+function calculateAmount(numberOfParticipants, total, isDefaultUser = false) {
+    const totalParticipants = numberOfParticipants + 1;
     const amountPerPerson = Math.round(total / totalParticipants);
     let finalAmount = amountPerPerson;
     if (isDefaultUser) {
@@ -24,17 +25,17 @@ function calculateAmount(participants, total, isDefaultUser = false) {
 /**
  * The owner of the IOU report is the account who is owed money and the manager is the one who owes money!
  * In case the owner/manager swap, we need to update the owner of the IOU report and the report total, since it is always positive.
- * For example: if user1 owes user2 $10, then we have: {ownerEmail: user2, managerEmail: user1, total: $10 (a positive amount, owed to user2)}
- * If user1 requests $17 from user2, then we have: {ownerEmail: user1, managerEmail: user2, total: $7 (still a positive amount, but now owed to user1)}
+ * For example: if user1 owes user2 $10, then we have: {ownerAccountID: user2, managerID: user1, total: $10 (a positive amount, owed to user2)}
+ * If user1 requests $17 from user2, then we have: {ownerAccountID: user1, managerID: user2, total: $7 (still a positive amount, but now owed to user1)}
  *
  * @param {Object} iouReport
- * @param {String} actorEmail
+ * @param {Number} actorAccountID
  * @param {Number} amount
  * @param {String} currency
  * @param {String} type
  * @returns {Object}
  */
-function updateIOUOwnerAndTotal(iouReport, actorEmail, amount, currency, type = CONST.IOU.REPORT_ACTION_TYPE.CREATE) {
+function updateIOUOwnerAndTotal(iouReport, actorAccountID, amount, currency, type = CONST.IOU.REPORT_ACTION_TYPE.CREATE) {
     if (currency !== iouReport.currency) {
         return iouReport;
     }
@@ -42,7 +43,7 @@ function updateIOUOwnerAndTotal(iouReport, actorEmail, amount, currency, type = 
     // Make a copy so we don't mutate the original object
     const iouReportUpdate = {...iouReport};
 
-    if (actorEmail === iouReport.ownerEmail) {
+    if (actorAccountID === iouReport.ownerAccountID) {
         iouReportUpdate.total += type === CONST.IOU.REPORT_ACTION_TYPE.DELETE ? -amount : amount;
     } else {
         iouReportUpdate.total += type === CONST.IOU.REPORT_ACTION_TYPE.DELETE ? amount : -amount;
@@ -50,8 +51,8 @@ function updateIOUOwnerAndTotal(iouReport, actorEmail, amount, currency, type = 
 
     if (iouReportUpdate.total < 0) {
         // The total sign has changed and hence we need to flip the manager and owner of the report.
-        iouReportUpdate.ownerEmail = iouReport.managerEmail;
-        iouReportUpdate.managerEmail = iouReport.ownerEmail;
+        iouReportUpdate.ownerAccountID = iouReport.managerID;
+        iouReportUpdate.managerID = iouReport.ownerAccountID;
         iouReportUpdate.total = -iouReportUpdate.total;
     }
 
@@ -74,7 +75,7 @@ function updateIOUOwnerAndTotal(iouReport, actorEmail, amount, currency, type = 
  */
 function getIOUReportActions(reportActions, iouReport, type = '', pendingAction = '', filterRequestsInDifferentCurrency = false) {
     return _.chain(reportActions)
-        .filter((action) => action.originalMessage && action.actionName === CONST.REPORT.ACTIONS.TYPE.IOU && (!_.isEmpty(type) ? action.originalMessage.type === type : true))
+        .filter((action) => action.originalMessage && ReportActionsUtils.isMoneyRequestAction(action) && (!_.isEmpty(type) ? action.originalMessage.type === type : true))
         .filter((action) => action.originalMessage.IOUReportID.toString() === iouReport.reportID.toString())
         .filter((action) => (!_.isEmpty(pendingAction) ? action.pendingAction === pendingAction : true))
         .filter((action) => (filterRequestsInDifferentCurrency ? action.originalMessage.currency !== iouReport.currency : true))
@@ -118,4 +119,13 @@ function isIOUReportPendingCurrencyConversion(reportActions, iouReport) {
     return hasPendingRequests;
 }
 
-export {calculateAmount, updateIOUOwnerAndTotal, getIOUReportActions, isIOUReportPendingCurrencyConversion};
+/**
+ * Checks if the iou type is one of request, send, or split.
+ * @param {String} iouType
+ * @returns {Boolean}
+ */
+function isValidMoneyRequestType(iouType) {
+    return [CONST.IOU.MONEY_REQUEST_TYPE.REQUEST, CONST.IOU.MONEY_REQUEST_TYPE.SPLIT].includes(iouType);
+}
+
+export {calculateAmount, updateIOUOwnerAndTotal, getIOUReportActions, isIOUReportPendingCurrencyConversion, isValidMoneyRequestType};

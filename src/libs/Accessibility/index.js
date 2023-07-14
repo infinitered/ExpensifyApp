@@ -8,7 +8,7 @@ const useScreenReaderStatus = () => {
     useEffect(() => {
         const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', setIsScreenReaderEnabled);
 
-        return subscription.remove;
+        return subscription && subscription.remove;
     }, []);
 
     return isScreenReaderEnabled;
@@ -18,8 +18,8 @@ const getHitSlopForSize = ({x, y}) => {
     /* according to https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
     the minimum tappable area is 44x44 points */
     const minimumSize = 44;
-    const hitSlopVertical = _.max([minimumSize - x, 0]);
-    const hitSlopHorizontal = _.max([minimumSize - y, 0]);
+    const hitSlopVertical = _.max([minimumSize - x, 0]) / 2;
+    const hitSlopHorizontal = _.max([minimumSize - y, 0]) / 2;
     return {
         top: hitSlopVertical,
         bottom: hitSlopVertical,
