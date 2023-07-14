@@ -38,10 +38,12 @@ Onyx.connect({
     callback: (val) => (credentials = val || {}),
 });
 
-let loginPlatform = '';
+let loginPlatform = {};
 Onyx.connect({
     key: ONYXKEYS.LOGIN_PLATFORM,
-    callback: (val) => (loginPlatform = val || ''),
+    callback: (val) => {
+        loginPlatform = val || '';
+    },
 });
 
 /**
@@ -209,7 +211,8 @@ function resendValidateCode(login = credentials.login) {
  */
 
 function setSignInAttemptPlatform(platform = loginPlatform) {
-    Onyx.merge(ONYXKEYS.LOGIN_PLATFORM, platform);
+    console.log('setSignInAttemptPlatform', platform);
+    Onyx.set(ONYXKEYS.LOGIN_PLATFORM, {platform});
 }
 
 function clearSignInAttemptPlatform() {
