@@ -89,6 +89,11 @@ const propTypes = {
         email: PropTypes.string.isRequired,
     }),
 
+    /** The platform the user is signing in from */
+    loginPlatform: PropTypes.shape({
+        platform: PropTypes.string,
+    }),
+
     /** The report ID of the last opened public room as anonymous user */
     lastOpenedPublicRoomID: PropTypes.string,
 
@@ -102,6 +107,9 @@ const defaultProps = {
     isUsingMemoryOnlyKeys: false,
     session: {
         email: null,
+    },
+    loginPlatform: {
+        platform: null,
     },
     lastOpenedPublicRoomID: null,
 };
@@ -136,6 +144,8 @@ class AuthScreens extends React.Component {
             App.reconnectApp();
         }
 
+        console.log(this.props);
+        App.redirectThirdPartyDesktopSignIn(this.props.loginPlatform.platform);
         App.setUpPoliciesAndNavigate(this.props.session);
 
         if (this.props.lastOpenedPublicRoomID) {
@@ -323,6 +333,9 @@ export default compose(
         },
         isUsingMemoryOnlyKeys: {
             key: ONYXKEYS.IS_USING_MEMORY_ONLY_KEYS,
+        },
+        loginPlatform: {
+            key: ONYXKEYS.LOGIN_PLATFORM,
         },
     }),
 )(AuthScreens);
