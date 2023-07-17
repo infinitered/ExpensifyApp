@@ -36,8 +36,6 @@ class DeeplinkWrapper extends PureComponent {
     constructor(props) {
         super(props);
 
-        CONFIG.ENVIRONMENT = CONST.ENVIRONMENT.STAGING;
-
         this.state = {
             appInstallationCheckStatus:
                 this.isMacOSWeb() && CONFIG.ENVIRONMENT !== CONST.ENVIRONMENT.DEV ? CONST.DESKTOP_DEEPLINK_APP_STATE.CHECKING : CONST.DESKTOP_DEEPLINK_APP_STATE.NOT_INSTALLED,
