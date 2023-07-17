@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {Platform, Text, View} from 'react-native';
 import {ShareMenuReactView} from 'react-native-share-menu';
 
-import AttachmentView from '../components/AttachmentView';
+import AttachmentView from '../components/Attachments/AttachmentView';
 import Button from '../components/Button';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import ScreenWrapper from '../components/ScreenWrapper';
@@ -44,6 +44,7 @@ function ShareMessagePage(props) {
             />
             <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
             <OptionRowLHN
+                isFocused
                 onSelectRow={goBack}
                 reportID={reportID}
             />

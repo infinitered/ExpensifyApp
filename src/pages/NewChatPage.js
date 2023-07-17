@@ -1,25 +1,25 @@
-import _ from 'underscore';
-import React, {useState, useEffect, useMemo} from 'react';
-import {View} from 'react-native';
 import PropTypes from 'prop-types';
+import React, {useEffect, useMemo, useState} from 'react';
+import {View} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
+import _ from 'underscore';
+import CONST from '../CONST';
+import ONYXKEYS from '../ONYXKEYS';
+import KeyboardAvoidingView from '../components/KeyboardAvoidingView';
 import OptionsSelector from '../components/OptionsSelector';
+import ScreenWrapper from '../components/ScreenWrapper';
+import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
+import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
+import * as Browser from '../libs/Browser';
 import * as OptionsListUtils from '../libs/OptionsListUtils';
 import Permissions from '../libs/Permissions';
 import * as ReportUtils from '../libs/ReportUtils';
-import ONYXKEYS from '../ONYXKEYS';
-import styles from '../styles/styles';
 import * as Report from '../libs/actions/Report';
-import CONST from '../CONST';
-import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
-import ScreenWrapper from '../components/ScreenWrapper';
-import KeyboardAvoidingView from '../components/KeyboardAvoidingView';
-import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
-import * as Browser from '../libs/Browser';
 import compose from '../libs/compose';
+import styles from '../styles/styles';
+import variables from '../styles/variables';
 import personalDetailsPropType from './personalDetailsPropType';
 import reportPropTypes from './reportPropTypes';
-import variables from '../styles/variables';
 
 const propTypes = {
     /** Beta features list */

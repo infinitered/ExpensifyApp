@@ -1,8 +1,8 @@
-import _ from 'underscore';
+import {CardStyleInterpolators, createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
-import styles from '../../../styles/styles';
+import _ from 'underscore';
 import SCREENS from '../../../SCREENS';
+import styles from '../../../styles/styles';
 
 const defaultSubRouteOptions = {
     cardStyle: styles.navigationScreenCardStyle,
@@ -270,6 +270,23 @@ const SearchModalStackNavigator = createModalStackNavigator([
             return SearchPage;
         },
         name: 'Search_Root',
+    },
+]);
+
+const NewGroupModalStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const NewGroupPage = require('../../../pages/NewChatPage').default;
+            return NewGroupPage;
+        },
+        name: 'NewGroup_Root',
+    },
+    {
+        getComponent: () => {
+            const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
+            return ShareMessagePage;
+        },
+        name: 'NewGroup_Share',
     },
 ]);
 
@@ -795,26 +812,27 @@ const SignInModalStackNavigator = createModalStackNavigator([
 ]);
 
 export {
-    MoneyRequestModalStackNavigator,
-    SplitDetailsModalStackNavigator,
+    AddPersonalBankAccountModalStackNavigator,
     DetailsModalStackNavigator,
+    EditRequestStackNavigator,
+    EnablePaymentsStackNavigator,
+    FlagCommentStackNavigator,
+    MoneyRequestModalStackNavigator,
+    NewChatModalStackNavigator,
+    NewGroupModalStackNavigator,
+    NewTaskModalStackNavigator,
+    NewTeachersUniteNavigator,
+    PrivateNotesModalStackNavigator,
     ProfileModalStackNavigator,
+    ReimbursementAccountModalStackNavigator,
     ReportDetailsModalStackNavigator,
-    TaskModalStackNavigator,
+    ReportParticipantsModalStackNavigator,
     ReportSettingsModalStackNavigator,
     ReportWelcomeMessageModalStackNavigator,
-    ReportParticipantsModalStackNavigator,
     SearchModalStackNavigator,
-    NewChatModalStackNavigator,
-    NewTaskModalStackNavigator,
     SettingsModalStackNavigator,
-    EnablePaymentsStackNavigator,
-    AddPersonalBankAccountModalStackNavigator,
-    ReimbursementAccountModalStackNavigator,
-    WalletStatementStackNavigator,
-    FlagCommentStackNavigator,
-    EditRequestStackNavigator,
-    PrivateNotesModalStackNavigator,
-    NewTeachersUniteNavigator,
     SignInModalStackNavigator,
+    SplitDetailsModalStackNavigator,
+    TaskModalStackNavigator,
+    WalletStatementStackNavigator,
 };
