@@ -1,4 +1,4 @@
-import {InteractionManager} from 'react-native';
+import {InteractionManager, Platform} from 'react-native';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
 import ExpensiMark from 'expensify-common/lib/ExpensiMark';
@@ -8,7 +8,7 @@ import moment from 'moment';
 import ONYXKEYS from '../../ONYXKEYS';
 import * as Pusher from '../Pusher/pusher';
 import LocalNotification from '../Notification/LocalNotification';
-import Navigation from '../Navigation/Navigation';
+import Navigation, { navigationRef } from '../Navigation/Navigation';
 import * as ActiveClientManager from '../ActiveClientManager';
 import Visibility from '../Visibility';
 import ROUTES from '../../ROUTES';
@@ -573,6 +573,34 @@ function navigateToAndOpenReport(userLogins, shouldDismissModal = true) {
         Navigation.dismissModal(reportID);
     } else {
         Navigation.navigate(ROUTES.getReportRoute(reportID));
+    }
+}
+
+/**
+ * This will find an existing chat, or create a new one if none exists, for the given user or set of users. It will then navigate to the share dialog.
+ *
+ * @param {Array} userLogins list of user logins to start a chat report with.
+ * @param {Object} share the share object to be passed to the share modal
+ */
+function navigateToAndOpenShare(userLogins, share) {
+    let newChat = {};
+    const formattedUserLogins = _.map(userLogins, (login) => OptionsListUtils.addSMSDomainIfPhoneNumber(login).toLowerCase());
+    const chat = ReportUtils.getChatByParticipantsByLoginList(formattedUserLogins);
+    if (!chat) {
+        const participantAccountIDs = PersonalDetailsUtils.getAccountIDsByLogins(userLogins);
+        newChat = ReportUtils.buildOptimisticChatReport(participantAccountIDs);
+    }
+    const reportID = chat ? chat.reportID : newChat.reportID;
+
+    // We want to pass newChat here because if anything is passed in that param (even an existing chat), we will try to create a chat on the server
+    openReport(reportID, userLogins, newChat);
+    // Navigation.dismissModal(reportID);
+    // TODO: can we unify this?
+    if (Platform.OS === 'ios') {
+        navigationRef.current.navigate(ROUTES.SHARE_MESSAGE, {option: userLogins, reportID});
+    } else {
+        Navigation.navigate(ROUTES.SHARE_MESSAGE);
+        Navigation.setParams({option: userLogins, share, reportID});
     }
 }
 
@@ -2060,54 +2088,57 @@ function clearPrivateNotesError(reportID, accountID) {
 }
 
 export {
-    addComment,
     addAttachment,
-    reconnect,
-    updateWelcomeMessage,
-    updateWriteCapabilityAndNavigate,
-    updateNotificationPreferenceAndNavigate,
-    subscribeToReportTypingEvents,
-    unsubscribeFromReportChannel,
-    saveReportComment,
-    saveReportCommentNumberOfLines,
-    broadcastUserIsTyping,
-    togglePinnedState,
-    editReportComment,
-    handleUserDeletedLinksInHtml,
-    saveReportActionDraft,
-    saveReportActionDraftNumberOfLines,
-    deleteReportComment,
-    navigateToConciergeChat,
-    setReportWithDraft,
+    addComment,
+    addEmojiReaction,
     addPolicyReport,
+    broadcastUserIsTyping,
+    clearIOUError,
+    clearPolicyRoomNameErrors,
     deleteReport,
-    navigateToConciergeChatAndDeleteReport,
-    setIsComposerFullSize,
+    deleteReportComment,
+    editReportComment,
     expandURLPreview,
+    flagComment,
+    handleUserDeletedLinksInHtml,
+    leaveRoom,
     markCommentAsUnread,
-    readNewestAction,
-    readOldestAction,
-    openReport,
-    openReportFromDeepLink,
+    navigateToAndOpenChildReport,
     navigateToAndOpenReport,
     navigateToAndOpenReportWithAccountIDs,
-    navigateToAndOpenChildReport,
-    updatePolicyRoomNameAndNavigate,
-    clearPolicyRoomNameErrors,
-    clearIOUError,
-    subscribeToNewActionEvent,
+    navigateToAndOpenShare,
+    navigateToConciergeChat,
+    navigateToConciergeChatAndDeleteReport,
     notifyNewAction,
     showReportActionNotification,
     toggleEmojiReaction,
     hasAccountIDEmojiReacted,
     shouldShowReportActionNotification,
-    leaveRoom,
     getCurrentUserAccountID,
     setLastOpenedPublicRoom,
-    flagComment,
     openLastOpenedPublicRoom,
     updatePrivateNotes,
     getReportPrivateNote,
     clearPrivateNotesError,
     hasErrorInPrivateNotes,
+    openReport,
+    openReportFromDeepLink,
+    readNewestAction,
+    readOldestAction,
+    reconnect,
+    removeEmojiReaction,
+    saveReportActionDraft,
+    saveReportActionDraftNumberOfLines,
+    saveReportComment,
+    saveReportCommentNumberOfLines,
+    setIsComposerFullSize,
+    setReportWithDraft,
+    subscribeToNewActionEvent,
+    subscribeToReportTypingEvents,
+    togglePinnedState,
+    unsubscribeFromReportChannel,
+    updateNotificationPreferenceAndNavigate,
+    updatePolicyRoomNameAndNavigate,
+    updateWelcomeMessage,
+    updateWriteCapabilityAndNavigate,
 };
