@@ -138,12 +138,7 @@ class DeeplinkWrapper extends PureComponent {
         }
 
         if (this.state.appInstallationCheckStatus === CONST.DESKTOP_DEEPLINK_APP_STATE.INSTALLED && this.shouldShowDeeplinkLoadingIndicator() && !this.state.shouldOpenLinkInBrowser) {
-            return (
-                <DeeplinkRedirectLoadingIndicator
-                    linkText="deeplinkWrapper.openLinkInBrowser"
-                    openLinkInBrowser={this.openLinkInBrowser}
-                />
-            );
+            return <DeeplinkRedirectLoadingIndicator openLinkInBrowser={this.openLinkInBrowser} />;
         }
 
         return this.props.children;
