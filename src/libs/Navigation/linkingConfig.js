@@ -246,6 +246,7 @@ export default {
                     NewGroup: {
                         screens: {
                             NewGroup_Root: ROUTES.NEW_GROUP,
+                            NewGroup_Share: ROUTES.SHARE_MESSAGE,
                         },
                     },
                     NewChat: {
