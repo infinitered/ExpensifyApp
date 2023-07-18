@@ -37,6 +37,7 @@ import ExceededCommentLength from '../../../components/ExceededCommentLength';
 import withNavigationFocus from '../../../components/withNavigationFocus';
 import withNavigation from '../../../components/withNavigation';
 import * as EmojiUtils from '../../../libs/EmojiUtils';
+import * as UserUtils from '../../../libs/UserUtils';
 import ReportDropUI from './ReportDropUI';
 import DragAndDrop from '../../../components/DragAndDrop';
 import reportPropTypes from '../../reportPropTypes';
@@ -385,7 +386,7 @@ class ReportActionCompose extends React.Component {
     /**
      * Returns the list of IOU Options
      *
-     * @param {Array} reportParticipants
+     * @param {Array<Number>} reportParticipants
      * @returns {Array<object>}
      */
     getMoneyRequestOptions(reportParticipants) {
@@ -493,7 +494,7 @@ class ReportActionCompose extends React.Component {
                 icons: [
                     {
                         name: detail.login,
-                        source: detail.avatar,
+                        source: UserUtils.getAvatar(detail.avatar, detail.accountID),
                         type: 'avatar',
                     },
                 ],
@@ -797,13 +798,13 @@ class ReportActionCompose extends React.Component {
             this.debouncedUpdateFrequentlyUsedEmojis();
         }
 
-        this.setState((prevState) => {
+        this.setState(() => {
             const newState = {
                 isCommentEmpty: !!newComment.match(/^(\s)*$/),
                 value: newComment,
             };
             if (comment !== newComment) {
-                const remainder = prevState.value.slice(prevState.selection.end).length;
+                const remainder = ComposerUtils.getCommonSuffixLength(comment, newComment);
                 newState.selection = {
                     start: newComment.length - remainder,
                     end: newComment.length - remainder,
