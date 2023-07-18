@@ -5,6 +5,7 @@ import PressableWithoutFeedback from '../Pressable/PressableWithoutFeedback';
 import withLocalize, {withLocalizePropTypes} from '../withLocalize';
 import CONST from '../../CONST';
 import * as Expensicons from '../Icon/Expensicons';
+import Icon from '../Icon';
 
 const propTypes = {
     /** The on press method */
@@ -24,6 +25,10 @@ const providerData = {
         icon: Expensicons.AppleLogo,
         accessibilityLabel: 'common.signInWithApple',
     },
+    [CONST.SIGN_IN_METHOD.GOOGLE]: {
+        icon: Expensicons.GoogleLogo,
+        accessibilityLabel: 'common.signInWithGoogle',
+    },
 };
 
 function IconButton({onPress, translate, provider}) {
@@ -34,7 +39,11 @@ function IconButton({onPress, translate, provider}) {
             accessibilityRole="button"
             accessibilityLabel={translate(providerData[provider].accessibilityLabel)}
         >
-            {providerData[provider].icon}
+            <Icon
+                src={providerData[provider].icon}
+                height={40}
+                width={40}
+            />
         </PressableWithoutFeedback>
     );
 }
