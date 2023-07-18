@@ -236,18 +236,18 @@ function setUpPoliciesAndNavigate(session) {
 
 function redirectThirdPartyDesktopSignIn() {
     const currentUrl = getCurrentUrl();
-    const url = new URL(currentUrl);
-
     if (!currentUrl) {
         return;
     }
-
-    if (url.pathname === `/${ROUTES.GOOGLE_SIGN_IN}` || url.pathname === `/${ROUTES.APPLE_SIGN_IN}`) {
-        Navigation.isNavigationReady().then(() => {
-            Navigation.goBack();
-            Navigation.navigate(ROUTES.DESKTOP_SIGN_IN_REDIRECT);
-        });
+    const url = new URL(currentUrl);
+    if (url.pathname !== `/${ROUTES.GOOGLE_SIGN_IN}` && url.pathname !== `/${ROUTES.APPLE_SIGN_IN}`) {
+        return;
     }
+
+    Navigation.isNavigationReady().then(() => {
+        Navigation.goBack();
+        Navigation.navigate(ROUTES.DESKTOP_SIGN_IN_REDIRECT);
+    });
 }
 
 function openProfile(personalDetails) {

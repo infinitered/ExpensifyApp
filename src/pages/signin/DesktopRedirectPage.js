@@ -17,6 +17,7 @@ import CONST from '../../CONST';
 import CONFIG from '../../CONFIG';
 import Navigation from '../../libs/Navigation/Navigation';
 import ROUTES from '../../ROUTES';
+import * as Authentication from '../../libs/Authentication';
 
 const propTypes = {
     session: PropTypes.shape({
@@ -63,6 +64,20 @@ function openRouteInDesktopApp(expensifyDeeplinkUrl) {
     }
 }
 
+function setParamsAndOpenDesktop(email, params, expensifyUrl) {
+    Authentication.getShortLivedAuthToken()
+        .then((shortLivedAuthToken) => {
+            params.set('exitTo', `${window.location.pathname}${window.location.search}${window.location.hash}`);
+            params.set('email', email);
+            params.set('shortLivedAuthToken', `${shortLivedAuthToken}`);
+            const expensifyDeeplinkUrl = `${CONST.DEEPLINK_BASE_URL}${expensifyUrl.host}/transition?${params.toString()}`;
+            openRouteInDesktopApp(expensifyDeeplinkUrl);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+}
+
 /**
  * Landing page for when a user enters third party login flow on desktop.
  * Allows user to open the link in browser if they accidentally canceled the auto-prompt.
@@ -72,7 +87,7 @@ function openRouteInDesktopApp(expensifyDeeplinkUrl) {
  */
 function DesktopRedirectPage(props) {
     const expensifyUrl = new URL(CONFIG.EXPENSIFY.NEW_EXPENSIFY_URL);
-    const expensifyDeeplinkUrl = `${CONST.DEEPLINK_BASE_URL}${expensifyUrl.host}}`;
+    const params = new URLSearchParams();
     return (
         <View style={styles.deeplinkWrapperContainer}>
             <View style={styles.deeplinkWrapperMessage}>
@@ -88,7 +103,7 @@ function DesktopRedirectPage(props) {
                     <Text>{props.translate('thirdPartySignIn.loggedInAs', {email: props.session.email})}</Text>
                     <Text style={[styles.textAlignCenter]}>
                         {props.translate('thirdPartySignIn.doNotSeePrompt')}{' '}
-                        <TextLink onPress={() => openRouteInDesktopApp(expensifyDeeplinkUrl)}>{props.translate('thirdPartySignIn.tryAgain')}</TextLink>
+                        <TextLink onPress={() => setParamsAndOpenDesktop(props.session.email, params, expensifyUrl)}>{props.translate('thirdPartySignIn.tryAgain')}</TextLink>
                         {props.translate('thirdPartySignIn.or')} <TextLink onPress={() => Navigation.navigate(ROUTES.HOME)}>{props.translate('thirdPartySignIn.continueInWeb')}</TextLink>.
                     </Text>
                 </View>
