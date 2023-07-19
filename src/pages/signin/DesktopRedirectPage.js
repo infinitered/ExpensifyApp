@@ -37,6 +37,7 @@ const defaultProps = {
 function openRouteInDesktopApp(expensifyDeeplinkUrl) {
     const browser = Browser.getBrowser();
 
+    // This imitates behavior from DeepLinkWrapper
     // This check is necessary for Safari, otherwise, if the user
     // does NOT have the Expensify desktop app installed, it's gonna
     // show an error in the page saying that the address is invalid
@@ -65,17 +66,13 @@ function openRouteInDesktopApp(expensifyDeeplinkUrl) {
 }
 
 function setParamsAndOpenDesktop(email, params, expensifyUrl) {
-    Authentication.getShortLivedAuthToken()
-        .then((shortLivedAuthToken) => {
-            params.set('exitTo', `${window.location.pathname}${window.location.search}${window.location.hash}`);
-            params.set('email', email);
-            params.set('shortLivedAuthToken', `${shortLivedAuthToken}`);
-            const expensifyDeeplinkUrl = `${CONST.DEEPLINK_BASE_URL}${expensifyUrl.host}/transition?${params.toString()}`;
-            openRouteInDesktopApp(expensifyDeeplinkUrl);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
+    Authentication.getShortLivedAuthToken().then((shortLivedAuthToken) => {
+        params.set('exitTo', `${window.location.pathname}${window.location.search}${window.location.hash}`);
+        params.set('email', email);
+        params.set('shortLivedAuthToken', `${shortLivedAuthToken}`);
+        const expensifyDeeplinkUrl = `${CONST.DEEPLINK_BASE_URL}${expensifyUrl.host}/transition?${params.toString()}`;
+        openRouteInDesktopApp(expensifyDeeplinkUrl);
+    });
 }
 
 /**
