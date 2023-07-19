@@ -1,3 +1,4 @@
+#import <Firebase.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTBridgeDelegate.h>

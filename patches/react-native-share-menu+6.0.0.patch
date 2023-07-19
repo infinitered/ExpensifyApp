@@ -7,7 +7,7 @@ index f42bce6..ee36062 100644
  #if DEBUG
      return RCTBundleURLProvider.sharedSettings()?
 -      .jsBundleURL(forBundleRoot: "index.share", fallbackResource: nil)
-+      .jsBundleURL(forBundleRoot: "index.share")
++      .jsBundleURL(forBundleRoot: "index")
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
