@@ -3564,6 +3564,27 @@ const styles = {
         marginTop: 0,
         padding: 2,
     },
+
+    thirdPartyLoadingContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 450,
+    },
+
+    /**
+     * @param {String} backgroundColor
+     * @param {Number} height
+     * @returns {Object}
+     */
+    overscrollSpacer: (backgroundColor, height) => ({
+        backgroundColor,
+        height,
+        width: '100%',
+        position: 'absolute',
+        top: -height,
+        left: 0,
+        right: 0,
+    }),
 };
 
 export default styles;
