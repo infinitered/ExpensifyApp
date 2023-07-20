@@ -3549,6 +3549,18 @@ const styles = {
         padding: 2,
     },
 
+    googleButtonContainer: {
+        width: 40,
+        height: 40,
+        marginLeft: 12,
+        alignItems: 'center',
+    },
+
+    googlePillButtonContainer: {
+        height: 40,
+        width: 219,
+    },
+
     /**
      * @param {String} backgroundColor
      * @param {Number} height
