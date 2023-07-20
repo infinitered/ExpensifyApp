@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-index f42bce6..ee36062 100644
+index f42bce6..919ec73 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 @@ -13,7 +13,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
@@ -11,3 +11,48 @@ index f42bce6..ee36062 100644
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
+@@ -29,20 +29,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+       initialProperties: nil
+     )
+     
+-    rootView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+-    backgroundColorSetup: if let backgroundColorConfig = Bundle.main.infoDictionary?[REACT_SHARE_VIEW_BACKGROUND_COLOR_KEY] as? [String:Any] {
+-      if let transparent = backgroundColorConfig[COLOR_TRANSPARENT_KEY] as? Bool, transparent {
+-        rootView.backgroundColor = nil
+-        break backgroundColorSetup
+-      }
+-
+-      let red = backgroundColorConfig[COLOR_RED_KEY] as? Float ?? 1
+-      let green = backgroundColorConfig[COLOR_GREEN_KEY] as? Float ?? 1
+-      let blue = backgroundColorConfig[COLOR_BLUE_KEY] as? Float ?? 1
+-      let alpha = backgroundColorConfig[COLOR_ALPHA_KEY] as? Float ?? 1
+-
+-      rootView.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: CGFloat(alpha))
+-    }
++    RCTBootSplash.initWithStoryboard("MainInterface", rootView: rootView)
+ 
+     self.view = rootView
+ 
+diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+index 12d8c92..6c9f144 100644
+--- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+@@ -13,6 +13,7 @@ import MobileCoreServices
+ import UIKit
+ import Social
+ import RNShareMenu
++import Firebase
+ 
+ class ShareViewController: SLComposeServiceViewController {
+   var hostAppId: String?
+@@ -22,6 +23,10 @@ class ShareViewController: SLComposeServiceViewController {
+   override func viewDidLoad() {
+     super.viewDidLoad()
+     
++    if FirebaseApp.app() == nil {
++      FirebaseApp.configure()
++    }
++    
+     if let hostAppId = Bundle.main.object(forInfoDictionaryKey: HOST_APP_IDENTIFIER_INFO_PLIST_KEY) as? String {
+       self.hostAppId = hostAppId
+     } else {

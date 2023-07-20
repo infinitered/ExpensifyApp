@@ -1,4 +1,4 @@
-import {InteractionManager, Platform} from 'react-native';
+import {InteractionManager} from 'react-native';
 import _ from 'underscore';
 import lodashGet from 'lodash/get';
 import ExpensiMark from 'expensify-common/lib/ExpensiMark';
@@ -8,7 +8,7 @@ import moment from 'moment';
 import ONYXKEYS from '../../ONYXKEYS';
 import * as Pusher from '../Pusher/pusher';
 import LocalNotification from '../Notification/LocalNotification';
-import Navigation, { navigationRef } from '../Navigation/Navigation';
+import Navigation from '../Navigation/Navigation';
 import * as ActiveClientManager from '../ActiveClientManager';
 import Visibility from '../Visibility';
 import ROUTES from '../../ROUTES';
@@ -594,14 +594,8 @@ function navigateToAndOpenShare(userLogins, share) {
 
     // We want to pass newChat here because if anything is passed in that param (even an existing chat), we will try to create a chat on the server
     openReport(reportID, userLogins, newChat);
-    // Navigation.dismissModal(reportID);
-    // TODO: can we unify this?
-    if (Platform.OS === 'ios') {
-        navigationRef.current.navigate(ROUTES.SHARE_MESSAGE, {option: userLogins, reportID});
-    } else {
-        Navigation.navigate(ROUTES.SHARE_MESSAGE);
-        Navigation.setParams({option: userLogins, share, reportID});
-    }
+    Navigation.navigate(ROUTES.SHARE_MESSAGE);
+    Navigation.setParams({option: userLogins, share, reportID});
 }
 
 /**
@@ -2100,7 +2094,9 @@ export {
     editReportComment,
     expandURLPreview,
     flagComment,
+    getCurrentUserAccountID,
     handleUserDeletedLinksInHtml,
+    hasAccountIDEmojiReacted,
     leaveRoom,
     markCommentAsUnread,
     navigateToAndOpenChildReport,
@@ -2112,9 +2108,7 @@ export {
     notifyNewAction,
     showReportActionNotification,
     toggleEmojiReaction,
-    hasAccountIDEmojiReacted,
     shouldShowReportActionNotification,
-    getCurrentUserAccountID,
     setLastOpenedPublicRoom,
     openLastOpenedPublicRoom,
     updatePrivateNotes,
