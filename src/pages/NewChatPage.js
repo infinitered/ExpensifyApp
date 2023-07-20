@@ -195,11 +195,9 @@ function NewChatPage(props) {
             {({didScreenTransitionEnd, safeAreaPaddingBottomStyle}) => (
                 <>
                     <HeaderWithBackButton
-                        title={
-                            share ? props.translate('newChatPage.shareToExpensify') : props.isGroupChat ? props.translate('sidebarScreen.newGroup') : props.translate('sidebarScreen.newChat')
-                        }
+                        title={share ? props.translate('newChatPage.shareToExpensify') : props.translate(props.isGroupChat ? 'sidebarScreen.newGroup' : 'sidebarScreen.newChat')}
                         shouldShowBackButton={!share}
-                        shouldShowCloseButton={share}
+                        shouldShowCloseButton={!!share}
                         onCloseButtonPress={Platform.select({ios: () => ShareMenuReactView.dismissExtension(), default: undefined})}
                     />
                     <View style={[styles.flex1, styles.w100, styles.pRelative, selectedOptions.length > 0 ? safeAreaPaddingBottomStyle : {}]}>
