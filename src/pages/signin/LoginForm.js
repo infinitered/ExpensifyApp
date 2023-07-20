@@ -27,6 +27,9 @@ import CONST from '../../CONST';
 import GoogleSignIn from '../../components/SignInButtons/GoogleSignIn';
 import AppleSignIn from '../../components/SignInButtons/AppleSignIn';
 import isInputAutoFilled from '../../libs/isInputAutoFilled';
+import * as PolicyUtils from '../../libs/PolicyUtils';
+import Log from '../../libs/Log';
+import withNavigationFocus, {withNavigationFocusPropTypes} from '../../components/withNavigationFocus';
 
 const propTypes = {
     /** Should we dismiss the keyboard when transitioning away from the page? */
@@ -59,12 +62,21 @@ const propTypes = {
     ...withLocalizePropTypes,
 
     ...toggleVisibilityViewPropTypes,
+
+    ...withNavigationFocusPropTypes,
 };
 
 const defaultProps = {
     account: {},
     closeAccount: {},
     blurOnSubmit: false,
+};
+
+/**
+ * Enables experimental "memory only keys" mode in Onyx
+ */
+const setEnableMemoryOnlyKeys = () => {
+    window.enableMemoryOnlyKeys();
 };
 
 function LoginForm(props) {
@@ -131,6 +143,12 @@ function LoginForm(props) {
             return;
         }
 
+        // If the user has entered a guide email, then we are going to enable an experimental Onyx mode to help with performance
+        if (PolicyUtils.isExpensifyGuideTeam(loginTrim)) {
+            Log.info('Detected guide email in login field, setting memory only keys.');
+            setEnableMemoryOnlyKeys();
+        }
+
         setFormError(null);
 
         // Check if this login has an account associated with it or not
@@ -138,7 +156,11 @@ function LoginForm(props) {
     }, [login, props.closeAccount, props.network, setFormError]);
 
     useEffect(() => {
-        Session.clearAccountMessages();
+        // Just call clearAccountMessages on the login page (home route), because when the user is in the transition route and not yet authenticated,
+        // this component will also be mounted, resetting account.isLoading will cause the app to briefly display the session expiration page.
+        if (props.isFocused) {
+            Session.clearAccountMessages();
+        }
         if (!canFocusInputOnScreenFocus() || !input.current || !props.isVisible) {
             return;
         }
@@ -183,6 +205,7 @@ function LoginForm(props) {
                     keyboardType={CONST.KEYBOARD_TYPE.EMAIL_ADDRESS}
                     errorText={formErrorText}
                     hasError={hasError}
+                    maxLength={CONST.LOGIN_CHARACTER_LIMIT}
                 />
             </View>
             {!_.isEmpty(props.account.success) && <Text style={[styles.formSuccess]}>{props.account.success}</Text>}
@@ -226,6 +249,7 @@ LoginForm.defaultProps = defaultProps;
 LoginForm.displayName = 'LoginForm';
 
 export default compose(
+    withNavigationFocus,
     withOnyx({
         account: {key: ONYXKEYS.ACCOUNT},
         closeAccount: {key: ONYXKEYS.FORMS.CLOSE_ACCOUNT_FORM},
