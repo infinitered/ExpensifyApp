@@ -900,7 +900,7 @@ function deleteReportComment(reportID, reportAction) {
             html: '',
             text: '',
             isEdited: true,
-            isDeletedParentAction: true,
+            isDeletedParentAction: ReportActionsUtils.hasCommentThread(reportAction),
         },
     ];
     const optimisticReportActions = {
@@ -909,6 +909,7 @@ function deleteReportComment(reportID, reportAction) {
             previousMessage: reportAction.message,
             message: deletedMessage,
             errors: null,
+            linkMetadata: [],
         },
     };
 
@@ -928,11 +929,14 @@ function deleteReportComment(reportID, reportAction) {
     } else {
         const {lastMessageText = '', lastMessageTranslationKey = ''} = ReportActionsUtils.getLastVisibleMessage(originalReportID, optimisticReportActions);
         if (lastMessageText || lastMessageTranslationKey) {
-            const lastVisibleActionCreated = ReportActionsUtils.getLastVisibleAction(originalReportID, optimisticReportActions).created;
+            const lastVisibleAction = ReportActionsUtils.getLastVisibleAction(originalReportID, optimisticReportActions);
+            const lastVisibleActionCreated = lastVisibleAction.created;
+            const lastActorAccountID = lastVisibleAction.actorAccountID;
             optimisticReport = {
                 lastMessageTranslationKey,
                 lastMessageText,
                 lastVisibleActionCreated,
+                lastActorAccountID,
             };
         }
     }
@@ -1286,8 +1290,9 @@ function navigateToConciergeChat() {
  * @param {String} reportName
  * @param {String} visibility
  * @param {Array<Number>} policyMembersAccountIDs
+ * @param {String} writeCapability
  */
-function addPolicyReport(policyID, reportName, visibility, policyMembersAccountIDs) {
+function addPolicyReport(policyID, reportName, visibility, policyMembersAccountIDs, writeCapability) {
     // The participants include the current user (admin), and for restricted rooms, the policy members. Participants must not be empty.
     const members = visibility === CONST.REPORT.VISIBILITY.RESTRICTED ? policyMembersAccountIDs : [];
     const participants = _.unique([currentUserAccountID, ...members]);
@@ -1300,6 +1305,7 @@ function addPolicyReport(policyID, reportName, visibility, policyMembersAccountI
         false,
         '',
         visibility,
+        writeCapability,
 
         // The room might contain all policy members so notifying always should be opt-in only.
         CONST.REPORT.NOTIFICATION_PREFERENCE.DAILY,
@@ -1366,6 +1372,7 @@ function addPolicyReport(policyID, reportName, visibility, policyMembersAccountI
             visibility,
             reportID: policyReport.reportID,
             createdReportActionID: createdReportAction.reportActionID,
+            writeCapability,
         },
         {optimisticData, successData, failureData},
     );
