@@ -180,8 +180,7 @@ function Expensify(props) {
     }, []);
 
     useEffect(() => {
-        if (Platform.OS !== 'android' || Platform.OS !== 'ios') return;
-
+        if (!['android', 'ios'].includes(Platform.OS)) return;
         const navigateToShare = (share) => {
             if (!share || !share.data) return;
             if (isArray(share.data) && share.data.length === 0) return;
