@@ -9,9 +9,10 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TextInput from '../components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 // import additionalAppSetup from './src/setup';
+import CONST from '../CONST';
 import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
-import * as Report from '../libs/actions/Report';
 import Navigation from '../libs/Navigation/Navigation';
+import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
 
 function ShareMessagePage(props) {
@@ -48,9 +49,9 @@ function ShareMessagePage(props) {
             />
             <View style={{padding: 24}}>
                 <TextInput
-                    inputID="addAMessage"
+                    accessibilityLabel={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
+                    accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
                     label={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
-                    name="addAMessage"
                     onChangeText={setMessage}
                     value={message}
                 />
