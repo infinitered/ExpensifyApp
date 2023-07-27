@@ -9,7 +9,7 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TextInput from '../components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 // import additionalAppSetup from './src/setup';
-import OptionRowLHN from '../components/LHNOptionsList/OptionRowLHN';
+import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
 import * as Report from '../libs/actions/Report';
 import Navigation from '../libs/Navigation/Navigation';
 import styles from '../styles/styles';
@@ -42,8 +42,7 @@ function ShareMessagePage(props) {
                 onCloseButtonPress={dismiss}
             />
             <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
-            <OptionRowLHN
-                isFocused
+            <OptionRowLHNData
                 onSelectRow={Navigation.goBack}
                 reportID={reportID}
             />
