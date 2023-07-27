@@ -1,5 +1,5 @@
 import {getActionFromState} from '@react-navigation/core';
-import {CommonActions, StackActions, createNavigationContainerRef, getPathFromState} from '@react-navigation/native';
+import {CommonActions, StackActions, getPathFromState} from '@react-navigation/native';
 import _ from 'lodash';
 import lodashGet from 'lodash/get';
 import NAVIGATORS from '../../NAVIGATORS';
@@ -12,9 +12,6 @@ import originalGetTopmostReportId from './getTopmostReportId';
 import linkTo from './linkTo';
 import linkingConfig from './linkingConfig';
 import navigationRef from './navigationRef';
-
-// eslint-disable-next-line
-export const shareNavigationRef = createNavigationContainerRef();
 
 let resolveNavigationIsReadyPromise;
 const navigationIsReadyPromise = new Promise((resolve) => {
