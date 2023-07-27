@@ -1,15 +1,13 @@
 import lodashGet from 'lodash/get';
-import isArray from 'lodash/isArray';
 import PropTypes from 'prop-types';
 import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
-import {AppState, Linking, Platform} from 'react-native';
+import {AppState, Linking} from 'react-native';
 import Onyx, {withOnyx} from 'react-native-onyx';
 import ShareMenu, {ShareMenuReactView} from 'react-native-share-menu';
 import * as Report from './libs/actions/Report';
 import BootSplash from './libs/BootSplash';
 import * as ActiveClientManager from './libs/ActiveClientManager';
 import ONYXKEYS from './ONYXKEYS';
-import ROUTES from './ROUTES';
 import ConfirmModal from './components/ConfirmModal';
 import compose from './libs/compose';
 import withLocalize, {withLocalizePropTypes} from './components/withLocalize';
@@ -171,34 +169,17 @@ function Expensify(props) {
             Report.openReportFromDeepLink(state.url, isAuthenticated);
         });
 
+        const shareListener = Share.registerListener();
+
         return () => {
             if (!appStateChangeListener.current) {
                 return;
             }
             appStateChangeListener.current.remove();
+            shareListener.remove();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps -- we don't want this effect to run again
     }, []);
-
-    useEffect(() => {
-        if (!['android', 'ios'].includes(Platform.OS)) return;
-        const navigateToShare = (share) => {
-            if (!share || !share.data) return;
-            if (isArray(share.data) && share.data.length === 0) return;
-            Navigation.isNavigationReady().then(() => {
-                Navigation.navigate(ROUTES.NEW_GROUP);
-                Navigation.setParams({share: isArray(share.data) ? share.data[0] : share});
-            });
-        };
-        ShareMenu.getInitialShare(navigateToShare);
-        const shareListener = ShareMenu.addNewShareListener(navigateToShare);
-        if (Platform.OS === 'ios' && ShareMenuReactView && isNavigationReady) {
-            ShareMenuReactView.data().then(navigateToShare);
-        }
-        return () => {
-            shareListener.remove();
-        };
-    }, [isNavigationReady]);
 
     // Display a blank page until the onyx migration completes
     if (!isOnyxMigrated) {
