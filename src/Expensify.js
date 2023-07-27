@@ -1,14 +1,11 @@
 import lodashGet from 'lodash/get';
-import isArray from 'lodash/isArray';
 import PropTypes from 'prop-types';
 import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
-import {AppState, Linking, Platform} from 'react-native';
+import {AppState, Linking} from 'react-native';
 import Onyx, {withOnyx} from 'react-native-onyx';
-import ShareMenu, {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 
 import ONYXKEYS from './ONYXKEYS';
-import ROUTES from './ROUTES';
 import ConfirmModal from './components/ConfirmModal';
 import DeeplinkWrapper from './components/DeeplinkWrapper';
 import EmojiPicker from './components/EmojiPicker/EmojiPicker';
@@ -25,6 +22,7 @@ import Navigation from './libs/Navigation/Navigation';
 import NavigationRoot from './libs/Navigation/NavigationRoot';
 import NetworkConnection from './libs/NetworkConnection';
 import PushNotification from './libs/Notification/PushNotification';
+import Share from './libs/Share';
 import StartupTimer from './libs/StartupTimer';
 import Visibility from './libs/Visibility';
 import * as EmojiPickerAction from './libs/actions/EmojiPickerAction';
@@ -170,34 +168,17 @@ function Expensify(props) {
         // Open chat report from a deep link (only mobile native)
         Linking.addEventListener('url', (state) => Report.openReportFromDeepLink(state.url, isAuthenticated));
 
+        const shareListener = Share.registerListener();
+
         return () => {
             if (!appStateChangeListener.current) {
                 return;
             }
             appStateChangeListener.current.remove();
+            shareListener.remove();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps -- we don't want this effect to run again
     }, []);
-
-    useEffect(() => {
-        if (!['android', 'ios'].includes(Platform.OS)) return;
-        const navigateToShare = (share) => {
-            if (!share || !share.data) return;
-            if (isArray(share.data) && share.data.length === 0) return;
-            Navigation.isNavigationReady().then(() => {
-                Navigation.navigate(ROUTES.NEW_GROUP);
-                Navigation.setParams({share: isArray(share.data) ? share.data[0] : share});
-            });
-        };
-        ShareMenu.getInitialShare(navigateToShare);
-        const shareListener = ShareMenu.addNewShareListener(navigateToShare);
-        if (Platform.OS === 'ios' && ShareMenuReactView && isNavigationReady) {
-            ShareMenuReactView.data().then(navigateToShare);
-        }
-        return () => {
-            shareListener.remove();
-        };
-    }, [isNavigationReady]);
 
     // Display a blank page until the onyx migration completes
     if (!isOnyxMigrated) {
