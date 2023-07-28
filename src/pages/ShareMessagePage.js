@@ -1,6 +1,5 @@
 import {useState} from 'react';
-import {Platform, Text, View} from 'react-native';
-import {ShareMenuReactView} from 'react-native-share-menu';
+import {Text, View} from 'react-native';
 
 import AttachmentView from '../components/AttachmentView';
 import Button from '../components/Button';
@@ -12,6 +11,7 @@ import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import CONST from '../CONST';
 import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
 import Navigation from '../libs/Navigation/Navigation';
+import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
 
@@ -26,11 +26,6 @@ function ShareMessagePage(props) {
 
     const [message, setMessage] = useState(isTextShare ? source : '');
 
-    const dismiss = Platform.select({
-        ios: () => ShareMenuReactView.dismissExtension(),
-        default: () => Navigation.dismissModal(),
-    });
-
     return (
         <ScreenWrapper
             includeSafeAreaPaddingBottom
@@ -40,7 +35,7 @@ function ShareMessagePage(props) {
                 shouldShowBackButton={false}
                 shouldShowCloseButton
                 title={props.translate('newChatPage.shareToExpensify')}
-                onCloseButtonPress={dismiss}
+                onCloseButtonPress={Share.dismiss}
             />
             <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
             <OptionRowLHNData
@@ -77,7 +72,7 @@ function ShareMessagePage(props) {
                         } else {
                             Report.addAttachment(reportID, {name, source, type, uri}, message);
                         }
-                        dismiss();
+                        Share.dismiss();
                     }}
                 />
             </View>
