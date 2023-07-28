@@ -1,15 +1,14 @@
 import {useState} from 'react';
 import {Text, View} from 'react-native';
 
+import CONST from '../CONST';
 import AttachmentView from '../components/AttachmentView';
 import Button from '../components/Button';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
+import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
 import ScreenWrapper from '../components/ScreenWrapper';
 import TextInput from '../components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
-// import additionalAppSetup from './src/setup';
-import CONST from '../CONST';
-import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
 import Navigation from '../libs/Navigation/Navigation';
 import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
@@ -17,14 +16,8 @@ import styles from '../styles/styles';
 
 function ShareMessagePage(props) {
     const reportID = props.route.params.reportID;
-    const attachment = props.route.params.share;
-    const source = attachment.data;
-    const uri = attachment.data;
-    const name = source.split('/').pop();
-    const type = attachment.mimeType;
-    const isTextShare = type === 'text/plain';
-
-    const [message, setMessage] = useState(isTextShare ? source : '');
+    const {isTextShare, ...share} = props.route.params.share;
+    const [message, setMessage] = useState(isTextShare ? share.source : '');
 
     return (
         <ScreenWrapper
@@ -54,9 +47,9 @@ function ShareMessagePage(props) {
             {!isTextShare && (
                 <View style={{padding: 24}}>
                     <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
-                    {!!source && (
+                    {!!share.source && (
                         <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
-                            <AttachmentView source={source} />
+                            <AttachmentView source={share.source} />
                         </View>
                     )}
                 </View>
@@ -70,7 +63,7 @@ function ShareMessagePage(props) {
                         if (isTextShare) {
                             Report.addComment(reportID, message);
                         } else {
-                            Report.addAttachment(reportID, {name, source, type, uri}, message);
+                            Report.addAttachment(reportID, share, message);
                         }
                         Share.dismiss();
                     }}
