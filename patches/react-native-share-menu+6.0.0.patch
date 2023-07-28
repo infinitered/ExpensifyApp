@@ -21,6 +21,19 @@ index 09abd7b..5121398 100644
    private void dispatchEvent(ReadableMap shared) {
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
+diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+index e290cce..44e5dfe 100644
+--- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
++++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+@@ -34,6 +34,8 @@ public class ShareMenuReactView: NSObject {
+             return
+         }
+ 
++        ShareMenuReactView.detachViewDelegate()
++
+         if error != nil {
+             let exception = NSError(
+                 domain: Bundle.main.bundleIdentifier!,
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 index f42bce6..ab00813 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
