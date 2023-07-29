@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {PureComponent, useState, useEffect, useLayoutEffect} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import Str from 'expensify-common/lib/str';
 import * as Browser from '../../libs/Browser';
 import ROUTES from '../../ROUTES';
@@ -13,6 +13,7 @@ import Navigation from '../../libs/Navigation/Navigation';
 const propTypes = {
     /** Children to render. */
     children: PropTypes.node.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
 };
 
 function isMacOSWeb() {
@@ -23,38 +24,56 @@ function isMacOSWeb() {
     !/Electron/i.test(navigator.userAgent);
 }
 
-console.log("HI")
-function DeeplinkWrapper({children}) {
+function DeeplinkWrapper({children, isAuthenticated}) {
     const [currentScreen, setCurrentScreen] = useState();
-    const [currentPath, setCurrentPath] = useState();
+    const [hasShownPrompt, setHasShownPrompt] = useState(false);
+    const removeListener = useRef();
     useEffect(() => {
-        Navigation.isNavigationReady().then(() => {
-          console.log("TRYING TO ADD");
+        // If we've shown the prompt and still have a listener registered,
+        // remove the listener and reset its ref to undefined
+        if (hasShownPrompt && removeListener.current !== undefined) {
+          console.log("Removing listener")
+          removeListener.current()
+          removeListener.current = undefined;
+        }
 
-          console.log("REF? ", navigationRef, navigationRef.current)
-          // get initial route
-          if (currentScreen === undefined) {
+        console.log("Authenticated and going to re-add listener?", isAuthenticated)
+        if (isAuthenticated === false) {
+          setHasShownPrompt(false);
+          Navigation.isNavigationReady().then(() => {
+            // get initial route
             const initialRoute = navigationRef.current.getCurrentRoute()
             console.log("INIT", initialRoute)
             setCurrentScreen(initialRoute.name)
-            setCurrentPath(initialRoute.path)
-          }
-          
-          navigationRef.current.addListener('state', (event) => {
-              console.log("EVENT: ", JSON.stringify(event, null, 2))
-              // accessing routes here should be in a navigation lib fn in case the state shape changes in the future
-              // can't remember if I want first or last item in list
-              setCurrentScreen(event.data.state.routes[0].name)
-              setCurrentPath(event.data.state.routes[0].path)
-          })
-        });
-    }, []);
+            
+            removeListener.current = navigationRef.current.addListener('state', (event) => {
+                // accessing routes here should be in a navigation lib fn in case the state shape changes in the future
+                console.log("ROUTE: ", event.data.state.routes.slice(-1))
+                setCurrentScreen(event.data.state.routes.slice(-1).name)
+            })
+          });
+        }
+    }, [hasShownPrompt, isAuthenticated]);
     useEffect(() => {
         CONFIG.ENVIRONMENT = CONST.ENVIRONMENT.STAGING;
-        console.log("Current route", currentScreen, currentPath);
-        const onDenyListRoute = !shouldShowDeeplink();
+        console.log("PATH: ", currentScreen)
 
-        if (onDenyListRoute) {
+        // Navigation state is not set up yet, don't know if we should show the deep link prompt or not
+        if (currentScreen === undefined) {
+          console.info("No current screen, not showing prompt")
+          return;
+        }
+
+        // Extra guard, but removing the listener should prevent this from firing
+        if (hasShownPrompt) {
+          console.info("Have shown prompt, won't do again")
+            return;
+        }
+
+        const shouldPrompt = shouldShowDeeplink(currentScreen, isAuthenticated);
+        console.info("Should prompt?", shouldPrompt)
+
+        if (shouldPrompt === false) {
             return;
         }
 
@@ -63,11 +82,13 @@ function DeeplinkWrapper({children}) {
         // 2. There may be non-idempotent operations (e.g. create a new workspace), which obviously should not be executed again in the desktop app.
         // So we need to wait until after sign-in and navigation are complete before starting the deeplink redirect.
         if (Str.startsWith(window.location.pathname, Str.normalizeUrl(ROUTES.TRANSITION_BETWEEN_APPS))) {
-            App.beginDeepLinkRedirectAfterTransition();
-            return;
+          App.beginDeepLinkRedirectAfterTransition();
+        } else {
+          App.beginDeepLinkRedirect();
         }
-        App.beginDeepLinkRedirect();
-    }, [currentScreen]);
+        setHasShownPrompt(true);
+    }, [currentScreen, hasShownPrompt, isAuthenticated]);
+
     return children;
 }
 
