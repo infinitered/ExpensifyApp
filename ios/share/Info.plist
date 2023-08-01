@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ExpensifyNewKansas-Medium.otf</string>
+		<string>ExpensifyNewKansas-MediumItalic.otf</string>
+		<string>ExpensifyMono-Bold.otf</string>
+		<string>ExpensifyMono-Regular.otf</string>
+		<string>ExpensifyNeue-Bold.otf</string>
+		<string>ExpensifyNeue-BoldItalic.otf</string>
+		<string>ExpensifyNeue-Italic.otf</string>
+		<string>ExpensifyNeue-Regular.otf</string>
+	</array>
 	<key>ReactNativeQuickSQLite_AppGroup</key>
 	<string>group.com.chat.expensify.chat</string>
 	<key>HostAppBundleIdentifier</key>

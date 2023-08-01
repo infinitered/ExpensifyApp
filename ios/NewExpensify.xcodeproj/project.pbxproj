@@ -29,12 +29,24 @@
 		7041848526A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		7041848626A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		70CF6E82262E297300711ADC /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70CF6E81262E297300711ADC /* BootSplash.storyboard */; };
+		948B16572A74A39D00ADDCD9 /* ExpensifyNeue-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */; };
+		948B16582A74A39D00ADDCD9 /* ExpensifyNewKansas-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44BF435285B94E5B95F90994 /* ExpensifyNewKansas-Medium.otf */; };
+		948B16592A74A39D00ADDCD9 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
+		948B165A2A74A39D00ADDCD9 /* ExpensifyNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 52796131E6554494B2DDB056 /* ExpensifyNeue-Bold.otf */; };
+		948B165B2A74A39D00ADDCD9 /* ExpensifyNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */; };
+		948B165C2A74A39D00ADDCD9 /* ExpensifyMono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E704648954784DDFBAADF568 /* ExpensifyMono-Regular.otf */; };
+		948B165D2A74A39D00ADDCD9 /* ExpensifyMono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DCF33E34FFEC48128CDD41D4 /* ExpensifyMono-Bold.otf */; };
+		948B165E2A74A39D00ADDCD9 /* ExpensifyNeue-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F4F8A052A22040339996324B /* ExpensifyNeue-Regular.otf */; };
+		94AB2F372A688DC300330276 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F5BE0CD252686320097D869 /* GoogleService-Info.plist */; };
+		94AB2F392A68C35900330276 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
+		94AB2F3B2A68C66700330276 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
+		94AB2F3D2A68C73700330276 /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AB2F3C2A68C73700330276 /* RCTStartupTimer.m */; };
 		9A65F0F374EC04ABB5FF40AF /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD35F00FB84D9FCF60D56A7 /* libPods-NewExpensify.a */; };
 		B54A7C3AA98189A600323C02 /* libPods-NewExpensify-NewExpensifyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F679A86058F8C4B331D239C3 /* libPods-NewExpensify-NewExpensifyTests.a */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
 		C5288D8521EC45B7AE5D7D1B /* libPods-NewExpensify-share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9903BDDB74AF1D4C4694443E /* libPods-NewExpensify-share.a */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
-		E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		E9DF872D2525201700607FDC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
 		ED222ED90E074A5481A854FA /* ExpensifyNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */; };
 		F0C450EA2705020500FD2970 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F0C450E92705020500FD2970 /* colors.json */; };
@@ -105,6 +117,7 @@
 		70CF6E81262E297300711ADC /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = NewExpensify/BootSplash.storyboard; sourceTree = "<group>"; };
 		86554A494222784CDE8731D6 /* Pods-NewExpensify-share.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.debug.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.debug.xcconfig"; sourceTree = "<group>"; };
 		8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-BoldItalic.otf"; path = "../assets/fonts/native/ExpensifyNeue-BoldItalic.otf"; sourceTree = "<group>"; };
+		94AB2F3C2A68C73700330276 /* RCTStartupTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTStartupTimer.m; sourceTree = "<group>"; };
 		9903BDDB74AF1D4C4694443E /* libPods-NewExpensify-share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify-share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B37C757CE02B734BFED38097 /* Pods-NewExpensify-NewExpensifyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.debug.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-Italic.otf"; path = "../assets/fonts/native/ExpensifyNeue-Italic.otf"; sourceTree = "<group>"; };
@@ -136,7 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */,
+				E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */,
 				9A65F0F374EC04ABB5FF40AF /* libPods-NewExpensify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +220,7 @@
 				627DD54F2A31008800D0544E /* MainInterface.storyboard */,
 				627DD5522A31008800D0544E /* Info.plist */,
 				627DD55A2A31012D00D0544E /* share-Bridging-Header.h */,
+				94AB2F3C2A68C73700330276 /* RCTStartupTimer.m */,
 			);
 			path = share;
 			sourceTree = "<group>";
@@ -431,7 +445,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94AB2F3B2A68C66700330276 /* AirshipConfig.plist in Resources */,
+				948B165A2A74A39D00ADDCD9 /* ExpensifyNeue-Bold.otf in Resources */,
 				627DD5512A31008800D0544E /* MainInterface.storyboard in Resources */,
+				948B16582A74A39D00ADDCD9 /* ExpensifyNewKansas-Medium.otf in Resources */,
+				948B16572A74A39D00ADDCD9 /* ExpensifyNeue-Italic.otf in Resources */,
+				948B165D2A74A39D00ADDCD9 /* ExpensifyMono-Bold.otf in Resources */,
+				948B165E2A74A39D00ADDCD9 /* ExpensifyNeue-Regular.otf in Resources */,
+				948B16592A74A39D00ADDCD9 /* ExpensifyNewKansas-MediumItalic.otf in Resources */,
+				94AB2F372A688DC300330276 /* GoogleService-Info.plist in Resources */,
+				948B165B2A74A39D00ADDCD9 /* ExpensifyNeue-BoldItalic.otf in Resources */,
+				948B165C2A74A39D00ADDCD9 /* ExpensifyMono-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +570,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\nexport ENTRY_FILE=index.share.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\nexport ENTRY_FILE=index.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		7026C9E151743F743B66758C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -754,6 +778,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				62486DB62A324E9000B5DD7E /* ReactShareViewController.swift in Sources */,
+				94AB2F3D2A68C73700330276 /* RCTStartupTimer.m in Sources */,
+				94AB2F392A68C35900330276 /* RCTBootSplash.m in Sources */,
 				627DD55C2A31012D00D0544E /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

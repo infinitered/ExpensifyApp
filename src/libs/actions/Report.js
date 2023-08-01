@@ -2,7 +2,7 @@ import ExpensiMark from 'expensify-common/lib/ExpensiMark';
 import Str from 'expensify-common/lib/str';
 import lodashGet from 'lodash/get';
 import moment from 'moment';
-import {InteractionManager, Platform} from 'react-native';
+import {InteractionManager} from 'react-native';
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import CONFIG from '../../CONFIG';
@@ -18,7 +18,7 @@ import * as Environment from '../Environment/Environment';
 import * as ErrorUtils from '../ErrorUtils';
 import * as Localize from '../Localize';
 import Log from '../Log';
-import Navigation, {shareNavigationRef} from '../Navigation/Navigation';
+import Navigation from '../Navigation/Navigation';
 import LocalNotification from '../Notification/LocalNotification';
 import * as OptionsListUtils from '../OptionsListUtils';
 import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
@@ -563,14 +563,8 @@ function navigateToAndOpenShare(userLogins, share) {
 
     // We want to pass newChat here because if anything is passed in that param (even an existing chat), we will try to create a chat on the server
     openReport(reportID, userLogins, newChat);
-    // Navigation.dismissModal(reportID);
-    // TODO: can we unify this?
-    if (Platform.OS === 'ios') {
-        shareNavigationRef.current.navigate(ROUTES.SHARE_MESSAGE, {option: userLogins, reportID});
-    } else {
-        Navigation.navigate(ROUTES.SHARE_MESSAGE);
-        Navigation.setParams({option: userLogins, share, reportID});
-    }
+    Navigation.navigate(ROUTES.SHARE_MESSAGE);
+    Navigation.setParams({option: userLogins, share, reportID});
 }
 
 /**

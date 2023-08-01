@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useEffect, useMemo, useState} from 'react';
-import {Platform, View} from 'react-native';
+import {View} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
-import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 
 import CONST from '../CONST';
@@ -15,6 +14,7 @@ import withWindowDimensions, {windowDimensionsPropTypes} from '../components/wit
 import * as Browser from '../libs/Browser';
 import * as OptionsListUtils from '../libs/OptionsListUtils';
 import * as ReportUtils from '../libs/ReportUtils';
+import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import compose from '../libs/compose';
 import styles from '../styles/styles';
@@ -194,12 +194,10 @@ function NewChatPage(props) {
             {({didScreenTransitionEnd, safeAreaPaddingBottomStyle}) => (
                 <>
                     <HeaderWithBackButton
-                        title={
-                            share ? props.translate('newChatPage.shareToExpensify') : props.isGroupChat ? props.translate('sidebarScreen.newGroup') : props.translate('sidebarScreen.newChat')
-                        }
+                        title={share ? props.translate('newChatPage.shareToExpensify') : props.translate(props.isGroupChat ? 'sidebarScreen.newGroup' : 'sidebarScreen.newChat')}
                         shouldShowBackButton={!share}
-                        shouldShowCloseButton={share}
-                        onCloseButtonPress={Platform.select({ios: () => ShareMenuReactView.dismissExtension(), default: undefined})}
+                        shouldShowCloseButton={!!share}
+                        onCloseButtonPress={Share.dismiss}
                     />
                     <View style={[styles.flex1, styles.w100, styles.pRelative, selectedOptions.length > 0 ? safeAreaPaddingBottomStyle : {}]}>
                         <OptionsSelector
