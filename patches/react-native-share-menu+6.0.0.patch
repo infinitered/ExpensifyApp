@@ -1,9 +1,8 @@
 diff --git a/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class
 new file mode 100644
-index 0000000..38173b7
-Binary files /dev/null and b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java b/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
-index 09abd7b..5121398 100644
+index 09abd7b..ee33f46 100644
 --- a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
 +++ b/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
 @@ -112,6 +112,14 @@ public class ShareMenuModule extends ReactContextBaseJavaModule implements Activ
@@ -22,7 +21,7 @@ index 09abd7b..5121398 100644
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..44e5dfe 100644
+index e290cce..4cd7940 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 @@ -34,6 +34,8 @@ public class ShareMenuReactView: NSObject {
@@ -34,6 +33,72 @@ index e290cce..44e5dfe 100644
          if error != nil {
              let exception = NSError(
                  domain: Bundle.main.bundleIdentifier!,
+@@ -130,7 +132,7 @@ public class ShareMenuReactView: NSObject {
+ 
+                             if (imageUrl != nil) {
+                                 if let imageData = try? Data(contentsOf: imageUrl) {
+-                                    results.append([DATA_KEY: imageUrl.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: imageUrl)])
++                                    results.append([DATA_KEY: self.attemptCopyToAppGroupContainerCache(from: imageUrl), MIME_TYPE_KEY: self.extractMimeType(from: imageUrl)])
+                                 }
+                             } else {
+                                 let image: UIImage! = item as? UIImage
+@@ -147,7 +149,7 @@ public class ShareMenuReactView: NSObject {
+                                         // Writing the image to the URL
+                                         try imageData.write(to: imageURL)
+ 
+-                                        results.append([DATA_KEY: imageUrl.absoluteString, MIME_TYPE_KEY: imageURL.extractMimeType()])
++                                        results.append([DATA_KEY: self.attemptCopyToAppGroupContainerCache(from: imageUrl), MIME_TYPE_KEY: imageURL.extractMimeType()])
+                                     } catch {
+                                         callback(nil, NSException(name: NSExceptionName(rawValue: "Error"), reason:"Can't load image", userInfo:nil))
+                                     }
+@@ -161,7 +163,7 @@ public class ShareMenuReactView: NSObject {
+                         provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
+                             let url: URL! = item as? URL
+ 
+-                            results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
++                            results.append([DATA_KEY: self.attemptCopyToAppGroupContainerCache(from: url), MIME_TYPE_KEY: self.extractMimeType(from: url)])
+ 
+                             semaphore.signal()
+                         }
+@@ -189,4 +191,38 @@ public class ShareMenuReactView: NSObject {
+ 
+       return mimeUTI.takeUnretainedValue() as String
+     }
++
++    func attemptCopyToAppGroupContainerCache(from srcURL: URL) -> String {
++      guard let hostAppId = Bundle.main.object(forInfoDictionaryKey: HOST_APP_IDENTIFIER_INFO_PLIST_KEY) else {
++        return srcURL.absoluteString
++      }
++      guard let groupFileManagerContainer = FileManager.default
++              .containerURL(forSecurityApplicationGroupIdentifier: "group.\(hostAppId)")
++      else {
++        return srcURL.absoluteString
++      }
++      
++      let destDir = groupFileManagerContainer.appendingPathComponent("ShareMenu", isDirectory: true)
++      if !FileManager.default.fileExists(atPath: destDir.path) {
++        do {
++            try FileManager.default.createDirectory(atPath: destDir.path, withIntermediateDirectories: true, attributes: nil)
++        } catch {
++            print(error.localizedDescription)
++        }
++      }
++      let destURL = destDir.appendingPathComponent(srcURL.lastPathComponent)
++
++      do {
++        if FileManager.default.fileExists(atPath: destURL.path) {
++          try FileManager.default.removeItem(at: destURL)
++        }
++        try FileManager.default.copyItem(at: srcURL, to: destURL)
++      } catch (let error) {
++        print("Could not save file from \(srcURL) to \(destURL): \(error)")
++        return srcURL.absoluteString
++      }
++
++      return destURL.absoluteString
++    }
++
+ }
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 index f42bce6..ab00813 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
