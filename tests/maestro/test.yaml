@@ -1,0 +1,10 @@
+# flow.yaml
+
+appId: com.chat.expensify.chat
+---
+- launchApp
+- waitForAnimationToEnd:
+    timeout: 5000
+- hideKeyboard
+- tapOn:
+    text: "Continue"
