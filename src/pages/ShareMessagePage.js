@@ -37,9 +37,13 @@ function ShareMessagePage(props) {
             />
             <View style={{padding: 24}}>
                 <TextInput
-                    accessibilityLabel={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
+                    accessibilityLabel={props.translate('common.message')}
+                    label={props.translate('common.message')}
                     accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
-                    label={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
+                    autoGrowHeight
+                    textAlignVertical="top"
+                    containerStyles={[styles.autoGrowHeightMultilineInput]}
+                    submitOnEnter={false}
                     onChangeText={setMessage}
                     value={message}
                 />
