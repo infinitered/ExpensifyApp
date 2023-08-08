@@ -53,7 +53,7 @@ function ShareMessagePage(props) {
                     </View>
                     {!isTextShare && (
                         <View style={{padding: 24}}>
-                            <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
+                            <Text style={styles.textLabelSupporting}>{props.translate('common.attachment')}</Text>
                             {!!share.source && (
                                 <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
                                     <AttachmentView source={share.source} />
