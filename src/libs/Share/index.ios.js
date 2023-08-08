@@ -14,5 +14,6 @@ const registerListener = () => {
 export default {
     dismiss,
     isShareExtension: ShareMenuReactView.isExtension,
+    openApp: ShareMenuReactView.openApp,
     registerListener,
 };

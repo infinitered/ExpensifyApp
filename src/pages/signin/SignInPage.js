@@ -1,23 +1,15 @@
-import React, {useEffect, useRef} from 'react';
-import PropTypes from 'prop-types';
-import _ from 'underscore';
-import {withOnyx} from 'react-native-onyx';
-import {View} from 'react-native';
 import Str from 'expensify-common/lib/str';
+import PropTypes from 'prop-types';
+import React, {useEffect, useRef} from 'react';
+import {View} from 'react-native';
+import {withOnyx} from 'react-native-onyx';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import _ from 'underscore';
 import ONYXKEYS from '../../ONYXKEYS';
-import styles from '../../styles/styles';
-import SignInPageLayout from './SignInPageLayout';
-import LoginForm from './LoginForm';
-import ValidateCodeForm from './ValidateCodeForm';
-import Performance from '../../libs/Performance';
-import * as App from '../../libs/actions/App';
-import UnlinkLoginForm from './UnlinkLoginForm';
-import EmailDeliveryFailurePage from './EmailDeliveryFailurePage';
-import * as Localize from '../../libs/Localize';
-import * as StyleUtils from '../../styles/StyleUtils';
+import Button from '../../components/Button';
 import useLocalize from '../../hooks/useLocalize';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
+import * as Localize from '../../libs/Localize';
 import Log from '../../libs/Log';
 import * as DemoActions from '../../libs/actions/DemoActions';
 
@@ -80,6 +72,7 @@ function getRenderOptions({hasLogin, hasValidateCode, hasAccount, isPrimaryLogin
     const shouldShowValidateCodeForm = hasAccount && (hasLogin || hasValidateCode) && !isUnvalidatedSecondaryLogin && !hasEmailDeliveryFailure;
     const shouldShowWelcomeHeader = shouldShowLoginForm || shouldShowValidateCodeForm || isUnvalidatedSecondaryLogin;
     const shouldShowWelcomeText = shouldShowLoginForm || shouldShowValidateCodeForm;
+    const shouldShowSignInToShare = !hasLogin && Share.isShareExtension;
     return {
         shouldShowLoginForm,
         shouldShowEmailDeliveryFailurePage,
@@ -87,6 +80,7 @@ function getRenderOptions({hasLogin, hasValidateCode, hasAccount, isPrimaryLogin
         shouldShowValidateCodeForm,
         shouldShowWelcomeHeader,
         shouldShowWelcomeText,
+        shouldShowSignInToShare,
     };
 }
 
@@ -102,22 +96,31 @@ function SignInPage({credentials, account, isInModal, demoInfo}) {
         App.setLocale(Localize.getDevicePreferredLocale());
     }, []);
 
-    const {shouldShowLoginForm, shouldShowEmailDeliveryFailurePage, shouldShowUnlinkLoginForm, shouldShowValidateCodeForm, shouldShowWelcomeHeader, shouldShowWelcomeText} = getRenderOptions(
-        {
-            hasLogin: Boolean(credentials.login),
-            hasValidateCode: Boolean(credentials.validateCode),
-            hasAccount: !_.isEmpty(account),
-            isPrimaryLogin: !account.primaryLogin || account.primaryLogin === credentials.login,
-            isAccountValidated: Boolean(account.validated),
-            hasEmailDeliveryFailure: Boolean(account.hasEmailDeliveryFailure),
-        },
-    );
+    const {
+        shouldShowEmailDeliveryFailurePage,
+        shouldShowLoginForm,
+        shouldShowSignInToShare,
+        shouldShowUnlinkLoginForm,
+        shouldShowValidateCodeForm,
+        shouldShowWelcomeHeader,
+        shouldShowWelcomeText,
+    } = getRenderOptions({
+        hasLogin: Boolean(credentials.login),
+        hasValidateCode: Boolean(credentials.validateCode),
+        hasAccount: !_.isEmpty(account),
+        isPrimaryLogin: !account.primaryLogin || account.primaryLogin === credentials.login,
+        isAccountValidated: Boolean(account.validated),
+        hasEmailDeliveryFailure: Boolean(account.hasEmailDeliveryFailure),
+    });
 
     let welcomeHeader = '';
     let welcomeText = '';
     const customHeadline = DemoActions.getHeadlineKeyByDemoInfo(demoInfo);
     const headerText = customHeadline || translate('login.hero.header');
-    if (shouldShowLoginForm) {
+    if (shouldShowSignInToShare) {
+        welcomeHeader = translate('welcomeText.signInToShare');
+        welcomeText = translate('welcomeText.getStarted');
+    } else if (shouldShowLoginForm) {
         welcomeHeader = isSmallScreenWidth ? headerText : translate('welcomeText.getStarted');
         welcomeText = isSmallScreenWidth ? translate('welcomeText.getStarted') : '';
     } else if (shouldShowValidateCodeForm) {
@@ -169,10 +172,17 @@ function SignInPage({credentials, account, isInModal, demoInfo}) {
                 {/* LoginForm must use the isVisible prop. This keeps it mounted, but visually hidden
                     so that password managers can access the values. Conditionally rendering this component will break this feature. */}
                 <LoginForm
-                    isVisible={shouldShowLoginForm}
+                    isVisible={shouldShowLoginForm && !shouldShowSignInToShare}
                     blurOnSubmit={account.validated === false}
                     scrollPageToTop={signInPageLayoutRef.current && signInPageLayoutRef.current.scrollPageToTop}
                 />
+                {shouldShowSignInToShare && (
+                    <Button
+                        onPress={Share.openApp}
+                        success
+                        text={translate('common.continue')}
+                    />
+                )}
                 {shouldShowValidateCodeForm && <ValidateCodeForm />}
                 {shouldShowUnlinkLoginForm && <UnlinkLoginForm />}
                 {shouldShowEmailDeliveryFailurePage && <EmailDeliveryFailurePage />}
