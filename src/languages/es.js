@@ -348,6 +348,7 @@ export default {
     tabSelector: {
         manual: 'Manual',
         scan: 'Escanear',
+        distance: 'Distancia',
     },
     receipt: {
         upload: 'Subir recibo',
@@ -401,6 +402,7 @@ export default {
         pendingConversionMessage: 'El total se actualizará cuando estés online',
         threadRequestReportName: ({formattedAmount, comment}) => `Solicitud de ${formattedAmount}${comment ? ` para ${comment}` : ''}`,
         threadSentMoneyReportName: ({formattedAmount, comment}) => `${formattedAmount} enviado${comment ? ` para ${comment}` : ''}`,
+        requestCount: ({count}) => `${count} solicitudes`,
         error: {
             invalidSplit: 'La suma de las partes no equivale al monto total',
             other: 'Error inesperado, por favor inténtalo más tarde',
