@@ -2,9 +2,25 @@
 
 appId: com.chat.expensify.chat
 ---
-- launchApp
-- waitForAnimationToEnd:
-    timeout: 5000
+- openLink: "https://www.apple.com"
+- longPressOn:
+    text: "Apple"
+    index: 0
+- "scroll"
+- tapOn:
+    point: "38%,94%"
+- tapOn:
+    point: "58%,66%"
+- assertVisible:
+    text: "Share to Expensify"
+- inputText: "dan@infinite.red"
 - hideKeyboard
 - tapOn:
-    text: "Continue"
+    point: "20%,35%"
+- tapOn:
+    point: "89%,96%"
+- tapOn:
+    point: "50%,93%"
+- tapOn:
+    point: "50%,50%"
+- launchApp
