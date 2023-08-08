@@ -19,6 +19,14 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.SYNC_UPSTREAM }}
 
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v4
+      with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        git_user_signingkey: true    # sets GPG key
+        git_commit_gpgsign: true   
+
     - name: Sync upstream changes
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
