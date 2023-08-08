@@ -13,6 +13,7 @@ import Navigation from '../libs/Navigation/Navigation';
 import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
+import FixedFooter from '../components/FixedFooter';
 
 function ShareMessagePage(props) {
     const reportID = props.route.params.reportID;
@@ -30,44 +31,52 @@ function ShareMessagePage(props) {
                 title={props.translate('newChatPage.shareToExpensify')}
                 onCloseButtonPress={Share.dismiss}
             />
-            <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
-            <OptionRowLHNData
-                onSelectRow={Navigation.goBack}
-                reportID={reportID}
-            />
-            <View style={{padding: 24}}>
-                <TextInput
-                    accessibilityLabel={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
-                    accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
-                    label={props.translate(isTextShare ? 'common.share' : 'moneyRequestConfirmationList.whatsItFor')}
-                    onChangeText={setMessage}
-                    value={message}
-                />
-            </View>
-            {!isTextShare && (
-                <View style={{padding: 24}}>
-                    <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
-                    {!!share.source && (
-                        <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
-                            <AttachmentView source={share.source} />
+            <View style={[styles.justifyContentBetween, styles.flexGrow1]}>
+                <View>
+                    <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
+                    <OptionRowLHNData
+                        onSelectRow={Navigation.goBack}
+                        reportID={reportID}
+                    />
+                    <View style={{padding: 24}}>
+                        <TextInput
+                            accessibilityLabel={props.translate('common.message')}
+                            label={props.translate('common.message')}
+                            accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
+                            autoGrowHeight
+                            textAlignVertical="top"
+                            containerStyles={[styles.autoGrowHeightMultilineInput]}
+                            submitOnEnter={false}
+                            onChangeText={setMessage}
+                            value={message}
+                        />
+                    </View>
+                    {!isTextShare && (
+                        <View style={{padding: 24}}>
+                            <Text style={styles.textLabelSupporting}>{props.translate('common.share')}</Text>
+                            {!!share.source && (
+                                <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
+                                    <AttachmentView source={share.source} />
+                                </View>
+                            )}
                         </View>
                     )}
                 </View>
-            )}
-            <View style={{padding: 24}}>
-                <Button
-                    success
-                    pressOnEnter
-                    text={props.translate('common.share')}
-                    onPress={() => {
-                        if (isTextShare) {
-                            Report.addComment(reportID, message);
-                        } else {
-                            Report.addAttachment(reportID, share, message);
-                        }
-                        Share.dismiss();
-                    }}
-                />
+                <FixedFooter>
+                    <Button
+                        success
+                        pressOnEnter
+                        text={props.translate('common.share')}
+                        onPress={() => {
+                            if (isTextShare) {
+                                Report.addComment(reportID, message);
+                            } else {
+                                Report.addAttachment(reportID, share, message);
+                            }
+                            Share.dismiss();
+                        }}
+                    />
+                </FixedFooter>
             </View>
         </ScreenWrapper>
     );
