@@ -88,7 +88,7 @@ index e8e1b73..bdd4d79 100644
  
  export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..1c114ff 100644
+index e290cce..3d1db46 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 @@ -27,6 +27,11 @@ public class ShareMenuReactView: NSObject {
@@ -112,7 +112,16 @@ index e290cce..1c114ff 100644
          if error != nil {
              let exception = NSError(
                  domain: Bundle.main.bundleIdentifier!,
-@@ -130,7 +137,7 @@ public class ShareMenuReactView: NSObject {
+@@ -55,6 +62,8 @@ public class ShareMenuReactView: NSObject {
+         }
+ 
+         viewDelegate.openApp()
++        
++        ShareMenuReactView.detachViewDelegate()
+     }
+ 
+     @objc(continueInApp:)
+@@ -130,7 +139,7 @@ public class ShareMenuReactView: NSObject {
  
                              if (imageUrl != nil) {
                                  if let imageData = try? Data(contentsOf: imageUrl) {
@@ -121,7 +130,7 @@ index e290cce..1c114ff 100644
                                  }
                              } else {
                                  let image: UIImage! = item as? UIImage
-@@ -147,7 +154,7 @@ public class ShareMenuReactView: NSObject {
+@@ -147,7 +156,7 @@ public class ShareMenuReactView: NSObject {
                                          // Writing the image to the URL
                                          try imageData.write(to: imageURL)
  
@@ -130,7 +139,7 @@ index e290cce..1c114ff 100644
                                      } catch {
                                          callback(nil, NSException(name: NSExceptionName(rawValue: "Error"), reason:"Can't load image", userInfo:nil))
                                      }
-@@ -161,7 +168,7 @@ public class ShareMenuReactView: NSObject {
+@@ -161,7 +170,7 @@ public class ShareMenuReactView: NSObject {
                          provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
                              let url: URL! = item as? URL
  
@@ -139,7 +148,7 @@ index e290cce..1c114ff 100644
  
                              semaphore.signal()
                          }
-@@ -189,4 +196,38 @@ public class ShareMenuReactView: NSObject {
+@@ -189,4 +198,38 @@ public class ShareMenuReactView: NSObject {
  
        return mimeUTI.takeUnretainedValue() as String
      }

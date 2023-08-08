@@ -336,6 +336,7 @@ export default {
         newFaceEnterMagicCode: ({login}: NewFaceEnterMagicCodeParams) =>
             `¡Siempre es genial ver una cara nueva por aquí! Por favor ingresa el código mágico enviado a ${login}. Debería llegar en un par de minutos.`,
         welcomeEnterMagicCode: ({login}: WelcomeEnterMagicCodeParams) => `Por favor, introduce el código mágico enviado a ${login}. Debería llegar en un par de minutos.`,
+        signInToShare: 'Debes iniciar sesión para compartir',
     },
     login: {
         hero: {

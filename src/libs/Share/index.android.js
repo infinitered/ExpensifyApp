@@ -12,5 +12,6 @@ const registerListener = () => {
 export default {
     dismiss,
     isShareExtension: false,
+    openApp: () => {},
     registerListener,
 };
