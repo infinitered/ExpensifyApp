@@ -51,11 +51,59 @@ index 09abd7b..ee33f46 100644
    private void dispatchEvent(ReadableMap shared) {
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
+diff --git a/node_modules/react-native-share-menu/index.js b/node_modules/react-native-share-menu/index.js
+index e8e1b73..bdd4d79 100644
+--- a/node_modules/react-native-share-menu/index.js
++++ b/node_modules/react-native-share-menu/index.js
+@@ -1,4 +1,4 @@
+-import { NativeModules, NativeEventEmitter } from "react-native";
++import { NativeEventEmitter, NativeModules } from "react-native";
+ 
+ const { ShareMenu } = NativeModules;
+ 
+@@ -7,18 +7,19 @@ const EventEmitter = new NativeEventEmitter(ShareMenu);
+ const NEW_SHARE_EVENT_NAME = "NewShareEvent";
+ 
+ export const ShareMenuReactView = {
+-  dismissExtension(error = null) {
+-    NativeModules.ShareMenuReactView.dismissExtension(error);
+-  },
+-  openApp() {
+-    NativeModules.ShareMenuReactView.openApp();
+-  },
+   continueInApp(extraData = null) {
+     NativeModules.ShareMenuReactView.continueInApp(extraData);
+   },
+   data() {
+     return NativeModules.ShareMenuReactView.data();
+   },
++  dismissExtension(error = null) {
++    NativeModules.ShareMenuReactView.dismissExtension(error);
++  },
++  isExtension: NativeModules.ShareMenuReactView.isExtension,
++  openApp() {
++    NativeModules.ShareMenuReactView.openApp();
++  },
+ };
+ 
+ export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..4cd7940 100644
+index e290cce..1c114ff 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-@@ -34,6 +34,8 @@ public class ShareMenuReactView: NSObject {
+@@ -27,6 +27,11 @@ public class ShareMenuReactView: NSObject {
+         ShareMenuReactView.viewDelegate = nil
+     }
+ 
++    @objc
++    func constantsToExport() -> [String: Any]! {
++        return ["isExtension": ShareMenuReactView.viewDelegate?.loadExtensionContext() != nil]
++    }
++
+     @objc(dismissExtension:)
+     func dismissExtension(_ error: String?) {
+         guard let extensionContext = ShareMenuReactView.viewDelegate?.loadExtensionContext() else {
+@@ -34,6 +39,8 @@ public class ShareMenuReactView: NSObject {
              return
          }
  
@@ -64,7 +112,7 @@ index e290cce..4cd7940 100644
          if error != nil {
              let exception = NSError(
                  domain: Bundle.main.bundleIdentifier!,
-@@ -130,7 +132,7 @@ public class ShareMenuReactView: NSObject {
+@@ -130,7 +137,7 @@ public class ShareMenuReactView: NSObject {
  
                              if (imageUrl != nil) {
                                  if let imageData = try? Data(contentsOf: imageUrl) {
@@ -73,7 +121,7 @@ index e290cce..4cd7940 100644
                                  }
                              } else {
                                  let image: UIImage! = item as? UIImage
-@@ -147,7 +149,7 @@ public class ShareMenuReactView: NSObject {
+@@ -147,7 +154,7 @@ public class ShareMenuReactView: NSObject {
                                          // Writing the image to the URL
                                          try imageData.write(to: imageURL)
  
@@ -82,7 +130,7 @@ index e290cce..4cd7940 100644
                                      } catch {
                                          callback(nil, NSException(name: NSExceptionName(rawValue: "Error"), reason:"Can't load image", userInfo:nil))
                                      }
-@@ -161,7 +163,7 @@ public class ShareMenuReactView: NSObject {
+@@ -161,7 +168,7 @@ public class ShareMenuReactView: NSObject {
                          provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
                              let url: URL! = item as? URL
  
@@ -91,7 +139,7 @@ index e290cce..4cd7940 100644
  
                              semaphore.signal()
                          }
-@@ -189,4 +191,38 @@ public class ShareMenuReactView: NSObject {
+@@ -189,4 +196,38 @@ public class ShareMenuReactView: NSObject {
  
        return mimeUTI.takeUnretainedValue() as String
      }

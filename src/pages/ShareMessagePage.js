@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Text, View} from 'react-native';
 
 import CONST from '../CONST';
-import AttachmentView from '../components/AttachmentView';
+import AttachmentView from '../components/Attachments/AttachmentView';
 import Button from '../components/Button';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
