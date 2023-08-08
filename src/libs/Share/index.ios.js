@@ -13,5 +13,6 @@ const registerListener = () => {
 
 export default {
     dismiss,
+    isShareExtension: ShareMenuReactView.isExtension,
     registerListener,
 };
