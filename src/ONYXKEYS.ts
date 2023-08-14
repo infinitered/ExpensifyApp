@@ -1,7 +1,7 @@
 import {ValueOf} from 'type-fest';
-import DeepValueOf from './types/utils/DeepValueOf';
-import * as OnyxTypes from './types/onyx';
 import CONST from './CONST';
+import * as OnyxTypes from './types/onyx';
+import DeepValueOf from './types/utils/DeepValueOf';
 
 /**
  * This is a file containing constants for all the top level keys in our store
@@ -28,6 +28,9 @@ const ONYXKEYS = {
 
     /** Note: These are Persisted Requests - not all requests in the main queue as the key name might lead one to believe */
     PERSISTED_REQUESTS: 'networkRequestQueue',
+
+    /** Requests persisted from the share extension. Kept separate since they are persisted from a different process. */
+    SHARE_PERSISTED_REQUESTS: 'shareExtensionNetworkRequestQueue',
 
     /** Onyx updates from a response, or success or failure data from a request. */
     QUEUED_ONYX_UPDATES: 'queuedOnyxUpdates',
@@ -421,4 +424,4 @@ type OnyxValues = {
 };
 
 export default ONYXKEYS;
-export type {OnyxKey, OnyxCollectionKey, OnyxValues};
+export type {OnyxCollectionKey, OnyxKey, OnyxValues};
