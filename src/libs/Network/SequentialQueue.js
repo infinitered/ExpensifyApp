@@ -1,13 +1,14 @@
-import _ from 'underscore';
+import {AppState} from 'react-native';
 import Onyx from 'react-native-onyx';
-import * as PersistedRequests from '../actions/PersistedRequests';
-import * as NetworkStore from './NetworkStore';
+import _ from 'underscore';
+import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
 import * as ActiveClientManager from '../ActiveClientManager';
 import * as Request from '../Request';
 import * as RequestThrottle from '../RequestThrottle';
-import CONST from '../../CONST';
+import * as PersistedRequests from '../actions/PersistedRequests';
 import * as QueuedOnyxUpdates from '../actions/QueuedOnyxUpdates';
+import * as NetworkStore from './NetworkStore';
 
 let resolveIsReadyPromise;
 let isReadyPromise = new Promise((resolve) => {
@@ -18,6 +19,7 @@ let isReadyPromise = new Promise((resolve) => {
 resolveIsReadyPromise();
 
 let isSequentialQueueRunning = false;
+let isExtensionQueueFlushed = false;
 let currentRequest = null;
 
 /**
@@ -57,6 +59,18 @@ function process() {
 }
 
 function flush() {
+    if (!isExtensionQueueFlushed) {
+        const connectionID = Onyx.connect({
+            key: ONYXKEYS.SHARE_PERSISTED_REQUESTS,
+            callback: (val) => {
+                Onyx.disconnect(connectionID);
+                PersistedRequests.save(val);
+                isExtensionQueueFlushed = true;
+            },
+        });
+        return;
+    }
+
     if (isSequentialQueueRunning || _.isEmpty(PersistedRequests.getAll())) {
         return;
     }
@@ -98,6 +112,10 @@ function isRunning() {
 
 // Flush the queue when the connection resumes
 NetworkStore.onReconnection(flush);
+
+AppState.addEventListener('change', () => {
+    isExtensionQueueFlushed = false;
+});
 
 /**
  * @param {Object} request
