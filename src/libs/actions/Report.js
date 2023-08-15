@@ -16,6 +16,25 @@ import LocalNotification from '../Notification/LocalNotification';
 import * as Pusher from '../Pusher/pusher';
 import Visibility from '../Visibility';
 
+let appGroupPath;
+pathForGroup('group.com.chat.expensify.chat').then((path) => (appGroupPath = path));
+
+let isCleaningUpTempFiles = false;
+AppState.addEventListener('change', () => {
+    const connectionID = Onyx.connect({
+        key: ONYXKEYS.TEMP_FILES_TO_DELETE,
+        callback: (val) => {
+            Onyx.disconnect(connectionID);
+            if (val && !isCleaningUpTempFiles) {
+                isCleaningUpTempFiles = true;
+                val.forEach((file) => unlink(file.source).catch());
+                Onyx.set(ONYXKEYS.TEMP_FILES_TO_DELETE, []);
+                isCleaningUpTempFiles = false;
+            }
+        },
+    });
+});
+
 let currentUserAccountID;
 Onyx.connect({
     key: ONYXKEYS.SESSION,
@@ -262,6 +281,17 @@ function addActions(reportID, text = '', file) {
         optimisticReportActions[attachmentAction.reportActionID] = attachmentAction;
     }
 
+    let cleanUpActions = [];
+    if (file && file.source.includes(appGroupPath)) {
+        cleanUpActions = [
+            {
+                onyxMethod: Onyx.METHOD.MERGE,
+                key: ONYXKEYS.TEMP_FILES_TO_DELETE,
+                value: [file],
+            },
+        ];
+    }
+
     const parameters = {
         reportID,
         reportActionID: file ? attachmentAction.reportActionID : reportCommentAction.reportActionID,
@@ -289,6 +319,7 @@ function addActions(reportID, text = '', file) {
             key: `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${reportID}`,
             value: _.mapObject(optimisticReportActions, () => ({pendingAction: null})),
         },
+        ...cleanUpActions,
     ];
 
     let failureReport = {
@@ -322,6 +353,7 @@ function addActions(reportID, text = '', file) {
                 errors: ErrorUtils.getMicroSecondOnyxError('report.genericAddCommentFailureMessage'),
             })),
         },
+        ...cleanUpActions,
     ];
 
     // Update optimistic data for parent report action if the report is a child report
