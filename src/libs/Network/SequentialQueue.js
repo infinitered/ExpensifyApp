@@ -64,8 +64,9 @@ function flush() {
             key: ONYXKEYS.SHARE_PERSISTED_REQUESTS,
             callback: (val) => {
                 Onyx.disconnect(connectionID);
-                PersistedRequests.save(val);
+                PersistedRequests.save(val || []);
                 isExtensionQueueFlushed = true;
+                flush();
             },
         });
         return;
