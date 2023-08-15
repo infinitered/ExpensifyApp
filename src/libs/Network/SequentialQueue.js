@@ -1,5 +1,6 @@
 import {AppState} from 'react-native';
 import Onyx from 'react-native-onyx';
+import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
@@ -114,7 +115,9 @@ function isRunning() {
 // Flush the queue when the connection resumes
 NetworkStore.onReconnection(flush);
 
-AppState.addEventListener('change', () => {
+AppState.addEventListener('change', (appState) => {
+    if (ShareMenuReactView.isExtension) return;
+    if (appState === CONST.APP_STATE.ACTIVE) return;
     isExtensionQueueFlushed = false;
 });
 

@@ -27,6 +27,8 @@ export default {
     // Requests persisted from the share extension. Kept separate since they are persisted from a different process.
     SHARE_PERSISTED_REQUESTS: 'shareExtensionNetworkRequestQueue',
 
+    TEMP_FILES_TO_DELETE: 'tempFilesToDelete',
+
     // Onyx updates from a response, or success or failure data from a request.
     QUEUED_ONYX_UPDATES: 'queuedOnyxUpdates',
 
