@@ -67,6 +67,9 @@ function flush() {
                 Onyx.disconnect(connectionID);
                 PersistedRequests.save(val || []);
                 isExtensionQueueFlushed = true;
+                // TODO: Move to actions
+                // eslint-disable-next-line rulesdir/prefer-actions-set-data
+                Onyx.set(ONYXKEYS.SHARE_PERSISTED_REQUESTS, []);
                 flush();
             },
         });

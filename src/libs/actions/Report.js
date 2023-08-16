@@ -2,8 +2,7 @@ import ExpensiMark from 'expensify-common/lib/ExpensiMark';
 import Str from 'expensify-common/lib/str';
 import lodashGet from 'lodash/get';
 import moment from 'moment';
-import {AppState, InteractionManager} from 'react-native';
-import {pathForGroup, unlink} from 'react-native-fs';
+import {InteractionManager} from 'react-native';
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import CONFIG from '../../CONFIG';
@@ -25,29 +24,11 @@ import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
 import * as Pusher from '../Pusher/pusher';
 import * as ReportActionsUtils from '../ReportActionsUtils';
 import * as ReportUtils from '../ReportUtils';
+import Share from '../Share';
 import SidebarUtils from '../SidebarUtils';
 import * as UserUtils from '../UserUtils';
 import Visibility from '../Visibility';
 import * as Welcome from './Welcome';
-
-let appGroupPath;
-pathForGroup('group.com.chat.expensify.chat').then((path) => (appGroupPath = path));
-
-let isCleaningUpTempFiles = false;
-AppState.addEventListener('change', () => {
-    const connectionID = Onyx.connect({
-        key: ONYXKEYS.TEMP_FILES_TO_DELETE,
-        callback: (val) => {
-            Onyx.disconnect(connectionID);
-            if (val && !isCleaningUpTempFiles) {
-                isCleaningUpTempFiles = true;
-                val.forEach((file) => unlink(file.source).catch());
-                Onyx.set(ONYXKEYS.TEMP_FILES_TO_DELETE, []);
-                isCleaningUpTempFiles = false;
-            }
-        },
-    });
-});
 
 let currentUserAccountID;
 Onyx.connect({
@@ -283,17 +264,6 @@ function addActions(reportID, text = '', file) {
         optimisticReportActions[attachmentAction.reportActionID] = attachmentAction;
     }
 
-    let cleanUpActions = [];
-    if (file && file.source.includes(appGroupPath)) {
-        cleanUpActions = [
-            {
-                onyxMethod: Onyx.METHOD.MERGE,
-                key: ONYXKEYS.TEMP_FILES_TO_DELETE,
-                value: [file],
-            },
-        ];
-    }
-
     const parameters = {
         reportID,
         reportActionID: file ? attachmentAction.reportActionID : reportCommentAction.reportActionID,
@@ -321,7 +291,7 @@ function addActions(reportID, text = '', file) {
             key: `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${reportID}`,
             value: _.mapObject(optimisticReportActions, () => ({pendingAction: null})),
         },
-        ...cleanUpActions,
+        ...Share.cleanUpActions(file),
     ];
 
     let failureReport = {
@@ -355,7 +325,7 @@ function addActions(reportID, text = '', file) {
                 errors: ErrorUtils.getMicroSecondOnyxError('report.genericAddCommentFailureMessage'),
             })),
         },
-        ...cleanUpActions,
+        ...Share.cleanUpActions(file),
     ];
 
     // Update optimistic data for parent report action if the report is a child report
