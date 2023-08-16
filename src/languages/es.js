@@ -233,6 +233,7 @@ export default {
         enterPassword: 'Por favor, introduce tu contraseña',
         newFaceEnterMagicCode: ({login}) => `¡Siempre es genial ver una cara nueva por aquí! Por favor ingresa el código mágico enviado a ${login}. Debería llegar en un par de minutos.`,
         welcomeEnterMagicCode: ({login}) => `Por favor, introduce el código mágico enviado a ${login}. Debería llegar en un par de minutos.`,
+        signInToShare: 'Debes iniciar sesión para compartir',
     },
     login: {
         hero: {
