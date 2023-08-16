@@ -179,7 +179,7 @@ index e290cce..1c114ff 100644
 +
  }
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-index f42bce6..ab00813 100644
+index f42bce6..d31fac9 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 @@ -13,7 +13,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
@@ -191,7 +191,7 @@ index f42bce6..ab00813 100644
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
-@@ -29,20 +29,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+@@ -29,21 +29,6 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
        initialProperties: nil
      )
  
@@ -209,10 +209,10 @@ index f42bce6..ab00813 100644
 -
 -      rootView.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: CGFloat(alpha))
 -    }
-+    RCTBootSplash.initWithStoryboard("MainInterface", rootView: rootView)
- 
+-
      self.view = rootView
  
+     ShareMenuReactView.attachViewDelegate(self)
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 index 12d8c92..0d84f19 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
