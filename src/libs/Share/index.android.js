@@ -10,6 +10,7 @@ const registerListener = () => {
 };
 
 export default {
+    cleanUpActions: () => [],
     dismiss,
     isShareExtension: false,
     openApp: () => {},
