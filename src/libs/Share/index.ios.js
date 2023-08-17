@@ -1,13 +1,15 @@
 import {AppState} from 'react-native';
-import {exists, pathForGroup, unlink} from 'react-native-fs';
+import {exists, moveFile, pathForGroup, unlink} from 'react-native-fs';
 import Onyx from 'react-native-onyx';
 import {ShareMenuReactView} from 'react-native-share-menu';
+import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
 import Navigation from '../Navigation/Navigation';
 import navigateToShare from './navigateToShare';
+import normalizeShareData from './normalizeShareData';
 
 let appGroupPath;
-pathForGroup('group.com.chat.expensify.chat').then((path) => (appGroupPath = path));
+pathForGroup(CONST.IOS_APP_GROUP).then((path) => (appGroupPath = path));
 
 const cleanUpActions = (file) => {
     if (!file || !file.source.includes(appGroupPath)) return [];
@@ -47,7 +49,21 @@ const dismiss = () => ShareMenuReactView.dismissExtension();
 
 const registerListener = () => {
     Navigation.isNavigationReady().then(() => {
-        ShareMenuReactView.data().then(navigateToShare);
+        ShareMenuReactView.data().then((shared) => {
+            const share = normalizeShareData(shared);
+            if (share.mimeType === 'text/plain') {
+                navigateToShare(share);
+            } else {
+                // move to app group shared directory for offline uploads
+                pathForGroup(CONST.IOS_APP_GROUP).then((sharedDir) => {
+                    const filename = share.data.split('/').pop();
+                    const destPath = `${sharedDir}/${filename}`;
+                    moveFile(share.data, destPath).then(() => {
+                        navigateToShare({...share, data: destPath});
+                    });
+                });
+            }
+        });
     });
     return {remove: () => {}};
 };
