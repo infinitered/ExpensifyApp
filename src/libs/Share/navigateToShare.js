@@ -1,11 +1,10 @@
-import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
-
 import ROUTES from '../../ROUTES';
 import Navigation from '../Navigation/Navigation';
+import normalizeShareData from './normalizeShareData';
 
 const formatShareData = (shared) => {
-    const share = isArray(shared.data) ? shared.data[0] : shared;
+    const share = normalizeShareData(shared);
     return {
         isTextShare: share.mimeType === 'text/plain',
         name: share.data.split('/').pop(),
