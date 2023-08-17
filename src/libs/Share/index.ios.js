@@ -56,5 +56,6 @@ export default {
     cleanUpActions,
     dismiss,
     isShareExtension: ShareMenuReactView.isExtension,
+    openApp: ShareMenuReactView.openApp,
     registerListener,
 };
