@@ -5,6 +5,7 @@ import {ShareMenuReactView} from 'react-native-share-menu';
 import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
 import Navigation from '../Navigation/Navigation';
+import hasNoShareData from './hasNoShareData';
 import navigateToShare from './navigateToShare';
 import normalizeShareData from './normalizeShareData';
 
@@ -50,6 +51,7 @@ const dismiss = () => ShareMenuReactView.dismissExtension();
 const registerListener = () => {
     Navigation.isNavigationReady().then(() => {
         ShareMenuReactView.data().then((shared) => {
+            if (hasNoShareData(shared)) return;
             const share = normalizeShareData(shared);
             if (share.mimeType === 'text/plain') {
                 navigateToShare(share);
