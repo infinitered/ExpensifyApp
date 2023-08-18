@@ -1,6 +1,6 @@
-import isEmpty from 'lodash/isEmpty';
 import ROUTES from '../../ROUTES';
 import Navigation from '../Navigation/Navigation';
+import hasNoShareData from './hasNoShareData';
 import normalizeShareData from './normalizeShareData';
 
 const formatShareData = (shared) => {
@@ -13,8 +13,6 @@ const formatShareData = (shared) => {
         uri: share.data,
     };
 };
-
-const hasNoShareData = (share) => !share || !share.data || isEmpty(share.data);
 
 const navigateToShare = (share) => {
     if (hasNoShareData(share)) return;
