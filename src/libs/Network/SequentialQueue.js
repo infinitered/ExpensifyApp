@@ -1,6 +1,4 @@
-import {AppState} from 'react-native';
 import Onyx from 'react-native-onyx';
-import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
@@ -9,6 +7,7 @@ import * as Request from '../Request';
 import * as RequestThrottle from '../RequestThrottle';
 import * as PersistedRequests from '../actions/PersistedRequests';
 import * as QueuedOnyxUpdates from '../actions/QueuedOnyxUpdates';
+import * as Share from '../actions/Share';
 import * as NetworkStore from './NetworkStore';
 
 let resolveIsReadyPromise;
@@ -20,7 +19,6 @@ let isReadyPromise = new Promise((resolve) => {
 resolveIsReadyPromise();
 
 let isSequentialQueueRunning = false;
-let isExtensionQueueFlushed = false;
 let currentRequest = null;
 
 /**
@@ -60,19 +58,7 @@ function process() {
 }
 
 function flush() {
-    if (!isExtensionQueueFlushed) {
-        const connectionID = Onyx.connect({
-            key: ONYXKEYS.SHARE_PERSISTED_REQUESTS,
-            callback: (val) => {
-                Onyx.disconnect(connectionID);
-                PersistedRequests.save(val || []);
-                isExtensionQueueFlushed = true;
-                // TODO: Move to actions
-                // eslint-disable-next-line rulesdir/prefer-actions-set-data
-                Onyx.set(ONYXKEYS.SHARE_PERSISTED_REQUESTS, []);
-                flush();
-            },
-        });
+    if (Share.flushAppExtensionQueue(flush)) {
         return;
     }
 
@@ -117,12 +103,6 @@ function isRunning() {
 
 // Flush the queue when the connection resumes
 NetworkStore.onReconnection(flush);
-
-AppState.addEventListener('change', (appState) => {
-    if (ShareMenuReactView.isExtension) return;
-    if (appState === CONST.APP_STATE.ACTIVE) return;
-    isExtensionQueueFlushed = false;
-});
 
 /**
  * @param {Object} request
