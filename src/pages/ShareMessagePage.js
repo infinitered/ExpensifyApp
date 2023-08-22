@@ -49,6 +49,7 @@ function ShareMessagePage(props) {
                             submitOnEnter={false}
                             onChangeText={setMessage}
                             value={message}
+                            returnKeyType="done"
                         />
                     </View>
                     {!isTextShare && (
