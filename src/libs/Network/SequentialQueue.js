@@ -1,13 +1,14 @@
-import _ from 'underscore';
 import Onyx from 'react-native-onyx';
-import * as PersistedRequests from '../actions/PersistedRequests';
-import * as NetworkStore from './NetworkStore';
+import _ from 'underscore';
+import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
 import * as ActiveClientManager from '../ActiveClientManager';
 import * as Request from '../Request';
 import * as RequestThrottle from '../RequestThrottle';
-import CONST from '../../CONST';
+import * as PersistedRequests from '../actions/PersistedRequests';
 import * as QueuedOnyxUpdates from '../actions/QueuedOnyxUpdates';
+import * as Share from '../actions/Share';
+import * as NetworkStore from './NetworkStore';
 
 let resolveIsReadyPromise;
 let isReadyPromise = new Promise((resolve) => {
@@ -57,6 +58,10 @@ function process() {
 }
 
 function flush() {
+    if (Share.flushAppExtensionQueue(flush)) {
+        return;
+    }
+
     if (isSequentialQueueRunning || _.isEmpty(PersistedRequests.getAll())) {
         return;
     }

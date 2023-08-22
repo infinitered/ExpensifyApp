@@ -24,6 +24,7 @@ import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
 import * as Pusher from '../Pusher/pusher';
 import * as ReportActionsUtils from '../ReportActionsUtils';
 import * as ReportUtils from '../ReportUtils';
+import Share from '../Share';
 import SidebarUtils from '../SidebarUtils';
 import * as UserUtils from '../UserUtils';
 import Visibility from '../Visibility';
@@ -290,6 +291,7 @@ function addActions(reportID, text = '', file) {
             key: `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${reportID}`,
             value: _.mapObject(optimisticReportActions, () => ({pendingAction: null})),
         },
+        ...Share.cleanUpActions(file),
     ];
 
     let failureReport = {
@@ -323,6 +325,7 @@ function addActions(reportID, text = '', file) {
                 errors: ErrorUtils.getMicroSecondOnyxError('report.genericAddCommentFailureMessage'),
             })),
         },
+        ...Share.cleanUpActions(file),
     ];
 
     // Update optimistic data for parent report action if the report is a child report
