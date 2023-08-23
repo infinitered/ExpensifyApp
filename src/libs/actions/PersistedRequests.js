@@ -1,16 +1,19 @@
 import Onyx from 'react-native-onyx';
+import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 import ONYXKEYS from '../../ONYXKEYS';
+
+const key = ShareMenuReactView.isExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
 
 let persistedRequests = [];
 
 Onyx.connect({
-    key: ONYXKEYS.PERSISTED_REQUESTS,
+    key,
     callback: (val) => (persistedRequests = val || []),
 });
 
 function clear() {
-    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, []);
+    Onyx.set(key, []);
 }
 
 /**
@@ -18,7 +21,7 @@ function clear() {
  */
 function save(requestsToPersist) {
     persistedRequests = persistedRequests.concat(requestsToPersist);
-    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, persistedRequests);
+    Onyx.set(key, persistedRequests);
 }
 
 /**
@@ -36,7 +39,7 @@ function remove(requestToRemove) {
     }
 
     persistedRequests = requests;
-    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, requests);
+    Onyx.set(key, requests);
 }
 
 /**
@@ -46,4 +49,4 @@ function getAll() {
     return persistedRequests;
 }
 
-export {clear, save, getAll, remove};
+export {clear, getAll, remove, save};
