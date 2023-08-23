@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Text, View} from 'react-native';
+import {Keyboard, Text, View} from 'react-native';
 
 import CONST from '../CONST';
 import AttachmentView from '../components/Attachments/AttachmentView';
@@ -38,6 +38,7 @@ function ShareMessagePage(props) {
                         onSelectRow={Navigation.goBack}
                         reportID={reportID}
                     />
+                    <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
                     <View style={{padding: 24}}>
                         <TextInput
                             accessibilityLabel={props.translate('common.message')}
@@ -50,6 +51,10 @@ function ShareMessagePage(props) {
                             onChangeText={setMessage}
                             value={message}
                             returnKeyType="done"
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
+                            blurOnSubmit
                         />
                     </View>
                     {!isTextShare && (
