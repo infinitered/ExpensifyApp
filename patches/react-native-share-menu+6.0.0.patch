@@ -88,7 +88,7 @@ index e8e1b73..bdd4d79 100644
  
  export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..84981f3 100644
+index e290cce..f232538 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 @@ -7,6 +7,7 @@
@@ -120,7 +120,7 @@ index e290cce..84981f3 100644
          if error != nil {
              let exception = NSError(
                  domain: Bundle.main.bundleIdentifier!,
-@@ -106,20 +114,26 @@ public class ShareMenuReactView: NSObject {
+@@ -106,20 +114,25 @@ public class ShareMenuReactView: NSObject {
                  }
  
                  for provider in attachments {
@@ -128,11 +128,10 @@ index e290cce..84981f3 100644
 -                        provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { (item, error) in
 -                            let url: URL! = item as? URL
 +                    var info = provider.registeredTypeIdentifiers
-+                    NSLog("TIs: %@", info)
-+                    NSLog("conforms to Image? %@", provider.hasItemConformingToTypeIdentifier("public.image"))
-+                    NSLog("conforms to File URL? %@", provider.hasItemConformingToTypeIdentifier("public.file-url"))
-+                    NSLog("conforms to URL? %@", provider.hasItemConformingToTypeIdentifier("public.url"))
-+                    NSLog("conforms to text? %@", provider.hasItemConformingToTypeIdentifier("public.text"))
++                    var isImage = provider.hasItemConformingToTypeIdentifier("public.image")
++                    var isFileUrl = provider.hasItemConformingToTypeIdentifier("public.file-url")
++                    var isUrl = provider.hasItemConformingToTypeIdentifier("public.url")
++                    var isText = provider.hasItemConformingToTypeIdentifier("public.text")
 +                    if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
 +                        provider.loadItem(forTypeIdentifier: kUTTypeText as String, options: nil) { (item, error) in
 +                            let text:String! = item as? String
@@ -155,7 +154,7 @@ index e290cce..84981f3 100644
  
                              semaphore.signal()
                          }
-@@ -130,7 +144,7 @@ public class ShareMenuReactView: NSObject {
+@@ -130,7 +143,7 @@ public class ShareMenuReactView: NSObject {
  
                              if (imageUrl != nil) {
                                  if let imageData = try? Data(contentsOf: imageUrl) {
@@ -164,7 +163,7 @@ index e290cce..84981f3 100644
                                  }
                              } else {
                                  let image: UIImage! = item as? UIImage
-@@ -147,7 +161,7 @@ public class ShareMenuReactView: NSObject {
+@@ -147,7 +160,7 @@ public class ShareMenuReactView: NSObject {
                                          // Writing the image to the URL
                                          try imageData.write(to: imageURL)
  
@@ -173,7 +172,7 @@ index e290cce..84981f3 100644
                                      } catch {
                                          callback(nil, NSException(name: NSExceptionName(rawValue: "Error"), reason:"Can't load image", userInfo:nil))
                                      }
-@@ -161,7 +175,7 @@ public class ShareMenuReactView: NSObject {
+@@ -161,7 +174,7 @@ public class ShareMenuReactView: NSObject {
                          provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
                              let url: URL! = item as? URL
  
@@ -182,7 +181,7 @@ index e290cce..84981f3 100644
  
                              semaphore.signal()
                          }
-@@ -189,4 +203,38 @@ public class ShareMenuReactView: NSObject {
+@@ -189,4 +202,38 @@ public class ShareMenuReactView: NSObject {
  
        return mimeUTI.takeUnretainedValue() as String
      }
