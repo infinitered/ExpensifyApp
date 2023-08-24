@@ -88,7 +88,7 @@ index e8e1b73..bdd4d79 100644
  
  export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..6fccce8 100644
+index e290cce..f32effc 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 @@ -27,6 +27,11 @@ public class ShareMenuReactView: NSObject {
@@ -103,26 +103,8 @@ index e290cce..6fccce8 100644
      @objc(dismissExtension:)
      func dismissExtension(_ error: String?) {
          guard let extensionContext = ShareMenuReactView.viewDelegate?.loadExtensionContext() else {
-@@ -34,6 +39,8 @@ public class ShareMenuReactView: NSObject {
-             return
-         }
- 
-+        ShareMenuReactView.detachViewDelegate()
-+
-         if error != nil {
-             let exception = NSError(
-                 domain: Bundle.main.bundleIdentifier!,
-@@ -55,6 +62,8 @@ public class ShareMenuReactView: NSObject {
-         }
- 
-         viewDelegate.openApp()
-+        
-+        ShareMenuReactView.detachViewDelegate()
-     }
- 
-     @objc(continueInApp:)
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-index f42bce6..d31fac9 100644
+index f42bce6..870a4ad 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 @@ -13,7 +13,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
@@ -134,7 +116,7 @@ index f42bce6..d31fac9 100644
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
-@@ -29,21 +29,6 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
+@@ -29,27 +29,12 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
        initialProperties: nil
      )
  
@@ -156,6 +138,13 @@ index f42bce6..d31fac9 100644
      self.view = rootView
  
      ShareMenuReactView.attachViewDelegate(self)
+   }
+ 
+-  override func viewDidDisappear(_ animated: Bool) {
++  override func viewWillDisappear(_ animated: Bool) {
+     cancel()
+     ShareMenuReactView.detachViewDelegate()
+   }
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 index 12d8c92..da029d3 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
