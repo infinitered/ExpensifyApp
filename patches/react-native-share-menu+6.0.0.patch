@@ -157,7 +157,7 @@ index f42bce6..d31fac9 100644
  
      ShareMenuReactView.attachViewDelegate(self)
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
-index 12d8c92..0d84f19 100644
+index 12d8c92..da029d3 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 @@ -13,6 +13,7 @@ import MobileCoreServices
@@ -179,3 +179,12 @@ index 12d8c92..0d84f19 100644
      if let hostAppId = Bundle.main.object(forInfoDictionaryKey: HOST_APP_IDENTIFIER_INFO_PLIST_KEY) as? String {
        self.hostAppId = hostAppId
      } else {
+@@ -222,7 +227,7 @@ class ShareViewController: SLComposeServiceViewController {
+       return
+     }
+     
+-    let url = URL(string: urlScheme)
++    let url = URL(string: urlScheme.contains("://") ? urlScheme : "\(urlScheme)://")
+     let selectorOpenURL = sel_registerName("openURL:")
+     var responder: UIResponder? = self
+     
