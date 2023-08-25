@@ -2,6 +2,7 @@ import {moveFile, pathForGroup} from 'react-native-fs';
 import {ShareMenuReactView} from 'react-native-share-menu';
 import CONST from '../../CONST';
 import Navigation from '../Navigation/Navigation';
+import * as NetworkStore from '../Network/NetworkStore';
 import * as ShareActions from '../actions/Share';
 import hasNoShareData from './hasNoShareData';
 import navigateToShare from './navigateToShare';
@@ -14,9 +15,7 @@ const registerListener = () => {
         ShareMenuReactView.data().then((shared) => {
             if (hasNoShareData(shared)) return;
             const share = normalizeShareData(shared);
-            if (share.mimeType === 'text/plain') {
-                navigateToShare(share);
-            } else {
+            if (NetworkStore.isOffline() && share.mimeType !== 'text/plain') {
                 // move to app group shared directory for offline uploads
                 pathForGroup(CONST.IOS_APP_GROUP).then((sharedDir) => {
                     const filename = share.data.split('/').pop();
@@ -25,6 +24,8 @@ const registerListener = () => {
                         navigateToShare({...share, data: destPath});
                     });
                 });
+            } else {
+                navigateToShare(share);
             }
         });
     });
