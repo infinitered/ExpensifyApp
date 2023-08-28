@@ -113,7 +113,7 @@ index e290cce..775957d 100644
      func dismissExtension(_ error: String?) {
          guard let extensionContext = ShareMenuReactView.viewDelegate?.loadExtensionContext() else {
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
-index f42bce6..d31fac9 100644
+index f42bce6..ad4bab9 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 @@ -13,7 +13,7 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
@@ -125,28 +125,6 @@ index f42bce6..d31fac9 100644
  #else
      return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
  #endif
-@@ -29,21 +29,6 @@ class ReactShareViewController: ShareViewController, RCTBridgeDelegate, ReactSha
-       initialProperties: nil
-     )
- 
--    rootView.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
--    backgroundColorSetup: if let backgroundColorConfig = Bundle.main.infoDictionary?[REACT_SHARE_VIEW_BACKGROUND_COLOR_KEY] as? [String:Any] {
--      if let transparent = backgroundColorConfig[COLOR_TRANSPARENT_KEY] as? Bool, transparent {
--        rootView.backgroundColor = nil
--        break backgroundColorSetup
--      }
--
--      let red = backgroundColorConfig[COLOR_RED_KEY] as? Float ?? 1
--      let green = backgroundColorConfig[COLOR_GREEN_KEY] as? Float ?? 1
--      let blue = backgroundColorConfig[COLOR_BLUE_KEY] as? Float ?? 1
--      let alpha = backgroundColorConfig[COLOR_ALPHA_KEY] as? Float ?? 1
--
--      rootView.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: CGFloat(alpha))
--    }
--
-     self.view = rootView
- 
-     ShareMenuReactView.attachViewDelegate(self)
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 index 12d8c92..da029d3 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
