@@ -88,10 +88,18 @@ index e8e1b73..bdd4d79 100644
  
  export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..e01453c 100644
+index e290cce..df9490b 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-@@ -18,8 +18,6 @@ public class ShareMenuReactView: NSObject {
+@@ -7,6 +7,7 @@
+ 
+ import Foundation
+ import MobileCoreServices
++import UniformTypeIdentifiers
+ 
+ @objc(ShareMenuReactView)
+ public class ShareMenuReactView: NSObject {
+@@ -18,8 +19,6 @@ public class ShareMenuReactView: NSObject {
      }
  
      public static func attachViewDelegate(_ delegate: ReactShareViewDelegate!) {
@@ -100,7 +108,7 @@ index e290cce..e01453c 100644
          ShareMenuReactView.viewDelegate = delegate
      }
  
-@@ -27,6 +25,11 @@ public class ShareMenuReactView: NSObject {
+@@ -27,6 +26,11 @@ public class ShareMenuReactView: NSObject {
          ShareMenuReactView.viewDelegate = nil
      }
  
@@ -112,15 +120,74 @@ index e290cce..e01453c 100644
      @objc(dismissExtension:)
      func dismissExtension(_ error: String?) {
          guard let extensionContext = ShareMenuReactView.viewDelegate?.loadExtensionContext() else {
-@@ -110,7 +113,7 @@ public class ShareMenuReactView: NSObject {
+@@ -106,7 +110,22 @@ public class ShareMenuReactView: NSObject {
+                 }
+ 
+                 for provider in attachments {
+-                    if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
++                    var info = provider.registeredTypeIdentifiers
++                    var isImage = provider.hasItemConformingToTypeIdentifier("public.image")
++                    var isFileUrl = provider.hasItemConformingToTypeIdentifier("public.file-url")
++                    var isUrl = provider.hasItemConformingToTypeIdentifier("public.url")
++                    var isText = provider.hasItemConformingToTypeIdentifier("public.text")
++                    
++                    if provider.hasItemConformingToTypeIdentifier(kUTTypeFileURL as String) {
++                        provider.loadItem(forTypeIdentifier: kUTTypeFileURL as String, options: nil) { (item, error) in
++                            let url: URL! = item as? URL
++                                
++                                results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
++                            
++                            semaphore.signal()
++                        }
++                        semaphore.wait()
++                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
                          provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { (item, error) in
                              let url: URL! = item as? URL
+                             
+@@ -115,16 +134,25 @@ public class ShareMenuReactView: NSObject {
+                             semaphore.signal()
+                         }
+                         semaphore.wait()
++                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeData as String) {
++                        provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
++                            let url: URL! = item as? URL
++                                
++                                results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
++                            
++                            semaphore.signal()
++                        }
++                        semaphore.wait()
+                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
+                         provider.loadItem(forTypeIdentifier: kUTTypeText as String, options: nil) { (item, error) in
+-                            let text:String! = item as? String
++                            let text: String! = item as? String
  
--                            results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: "text/plain"])
-+                            results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
+                             results.append([DATA_KEY: text, MIME_TYPE_KEY: "text/plain"])
  
                              semaphore.signal()
                          }
+                         semaphore.wait()
+-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
++                    }  else if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                         provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: nil) { (item, error) in
+                             let imageUrl: URL! = item as? URL
+ 
+@@ -157,15 +185,6 @@ public class ShareMenuReactView: NSObject {
+                             semaphore.signal()
+                         }
+                         semaphore.wait()
+-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeData as String) {
+-                        provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
+-                            let url: URL! = item as? URL
+-
+-                            results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
+-
+-                            semaphore.signal()
+-                        }
+-                        semaphore.wait()
+                     } else {
+                         callback(nil, NSException(name: NSExceptionName(rawValue: "Error"), reason:"couldn't find provider", userInfo:nil))
+                     }
 diff --git a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift b/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
 index f42bce6..d31fac9 100644
 --- a/node_modules/react-native-share-menu/ios/ReactShareViewController.swift
@@ -157,7 +224,7 @@ index f42bce6..d31fac9 100644
  
      ShareMenuReactView.attachViewDelegate(self)
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
-index 12d8c92..da029d3 100644
+index 12d8c92..b6015f1 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 @@ -13,6 +13,7 @@ import MobileCoreServices
@@ -179,7 +246,25 @@ index 12d8c92..da029d3 100644
      if let hostAppId = Bundle.main.object(forInfoDictionaryKey: HOST_APP_IDENTIFIER_INFO_PLIST_KEY) as? String {
        self.hostAppId = hostAppId
      } else {
-@@ -222,7 +227,7 @@ class ShareViewController: SLComposeServiceViewController {
+@@ -73,7 +78,6 @@ class ShareViewController: SLComposeServiceViewController {
+       }
+ 
+       let semaphore = DispatchSemaphore(value: 0)
+-      var results: [Any] = []
+ 
+       for item in items {
+         guard let attachments = item.attachments else {
+@@ -81,7 +85,9 @@ class ShareViewController: SLComposeServiceViewController {
+           return
+         }
+         
++
+         for provider in attachments {
++          
+           if provider.isText {
+             self.storeText(withProvider: provider, semaphore)
+           } else if provider.isURL {
+@@ -222,7 +228,7 @@ class ShareViewController: SLComposeServiceViewController {
        return
      }
      
