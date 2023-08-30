@@ -1,4 +1,4 @@
-import {moveFile, pathForGroup} from 'react-native-fs';
+import {exists, moveFile, pathForGroup, unlink} from 'react-native-fs';
 import {ShareMenuReactView} from 'react-native-share-menu';
 import CONST from '../../CONST';
 import Navigation from '../Navigation/Navigation';
@@ -21,8 +21,18 @@ const registerListener = () => {
                 pathForGroup(CONST.IOS_APP_GROUP).then((sharedDir) => {
                     const filename = share.data.split('/').pop();
                     const destPath = `${sharedDir}/${filename}`;
-                    moveFile(share.data, destPath).then(() => {
-                        navigateToShare({...share, data: destPath});
+                    exists(destPath).then((fileExists) => {
+                        if (fileExists) {
+                            unlink(destPath).then(() => {
+                                moveFile(share.data, destPath).then(() => {
+                                    navigateToShare({...share, data: destPath});
+                                });
+                            });
+                            return;
+                        }
+                        moveFile(share.data, destPath).then(() => {
+                            navigateToShare({...share, data: destPath});
+                        });
                     });
                 });
             }
