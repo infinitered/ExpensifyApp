@@ -38,7 +38,6 @@ function ShareMessagePage(props) {
                         onSelectRow={Navigation.goBack}
                         reportID={reportID}
                     />
-                    <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
                     <View style={{padding: 24}}>
                         <TextInput
                             accessibilityLabel={props.translate('common.message')}
