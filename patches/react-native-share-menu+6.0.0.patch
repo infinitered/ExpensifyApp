@@ -88,7 +88,7 @@ index e8e1b73..bdd4d79 100644
  
  export default {
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
-index e290cce..df9490b 100644
+index e290cce..f03b514 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 @@ -7,6 +7,7 @@
@@ -120,17 +120,11 @@ index e290cce..df9490b 100644
      @objc(dismissExtension:)
      func dismissExtension(_ error: String?) {
          guard let extensionContext = ShareMenuReactView.viewDelegate?.loadExtensionContext() else {
-@@ -106,7 +110,22 @@ public class ShareMenuReactView: NSObject {
+@@ -106,7 +110,16 @@ public class ShareMenuReactView: NSObject {
                  }
  
                  for provider in attachments {
 -                    if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-+                    var info = provider.registeredTypeIdentifiers
-+                    var isImage = provider.hasItemConformingToTypeIdentifier("public.image")
-+                    var isFileUrl = provider.hasItemConformingToTypeIdentifier("public.file-url")
-+                    var isUrl = provider.hasItemConformingToTypeIdentifier("public.url")
-+                    var isText = provider.hasItemConformingToTypeIdentifier("public.text")
-+                    
 +                    if provider.hasItemConformingToTypeIdentifier(kUTTypeFileURL as String) {
 +                        provider.loadItem(forTypeIdentifier: kUTTypeFileURL as String, options: nil) { (item, error) in
 +                            let url: URL! = item as? URL
@@ -143,20 +137,9 @@ index e290cce..df9490b 100644
 +                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
                          provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { (item, error) in
                              let url: URL! = item as? URL
-                             
-@@ -115,16 +134,25 @@ public class ShareMenuReactView: NSObject {
-                             semaphore.signal()
-                         }
+ 
+@@ -117,14 +130,23 @@ public class ShareMenuReactView: NSObject {
                          semaphore.wait()
-+                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeData as String) {
-+                        provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
-+                            let url: URL! = item as? URL
-+                                
-+                                results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
-+                            
-+                            semaphore.signal()
-+                        }
-+                        semaphore.wait()
                      } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
                          provider.loadItem(forTypeIdentifier: kUTTypeText as String, options: nil) { (item, error) in
 -                            let text:String! = item as? String
@@ -168,11 +151,20 @@ index e290cce..df9490b 100644
                          }
                          semaphore.wait()
 -                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
++                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeData as String) {
++                        provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (item, error) in
++                            let url: URL! = item as? URL
++                                
++                                results.append([DATA_KEY: url.absoluteString, MIME_TYPE_KEY: self.extractMimeType(from: url)])
++                            
++                            semaphore.signal()
++                        }
++                        semaphore.wait()
 +                    }  else if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
                          provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: nil) { (item, error) in
                              let imageUrl: URL! = item as? URL
  
-@@ -157,15 +185,6 @@ public class ShareMenuReactView: NSObject {
+@@ -157,15 +179,6 @@ public class ShareMenuReactView: NSObject {
                              semaphore.signal()
                          }
                          semaphore.wait()
@@ -224,7 +216,7 @@ index f42bce6..d31fac9 100644
  
      ShareMenuReactView.attachViewDelegate(self)
 diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
-index 12d8c92..b6015f1 100644
+index 12d8c92..91646f9 100644
 --- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
 +++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
 @@ -13,6 +13,7 @@ import MobileCoreServices
@@ -257,7 +249,7 @@ index 12d8c92..b6015f1 100644
 @@ -81,7 +85,9 @@ class ShareViewController: SLComposeServiceViewController {
            return
          }
-         
+ 
 +
          for provider in attachments {
 +          
