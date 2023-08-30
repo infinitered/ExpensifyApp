@@ -50,8 +50,7 @@ function ShareMessagePage(props) {
                             onChangeText={setMessage}
                             value={message}
                             returnKeyType="done"
-                            // onSubmitEditing={() => {}}
-                            // blurOnSubmit
+                            blurOnSubmit
                         />
                     </View>
                     {!isTextShare && (
