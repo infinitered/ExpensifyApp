@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Keyboard, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 import CONST from '../CONST';
 import AttachmentView from '../components/Attachments/AttachmentView';
@@ -51,9 +51,7 @@ function ShareMessagePage(props) {
                             onChangeText={setMessage}
                             value={message}
                             returnKeyType="done"
-                            onSubmitEditing={() => {
-                                Keyboard.dismiss();
-                            }}
+                            onSubmitEditing={() => {}}
                             blurOnSubmit
                         />
                     </View>
