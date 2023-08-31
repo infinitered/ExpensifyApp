@@ -1,33 +1,34 @@
-import {InteractionManager} from 'react-native';
-import _ from 'underscore';
-import lodashGet from 'lodash/get';
 import ExpensiMark from 'expensify-common/lib/ExpensiMark';
-import Onyx from 'react-native-onyx';
 import Str from 'expensify-common/lib/str';
+import lodashGet from 'lodash/get';
 import moment from 'moment';
-import ONYXKEYS from '../../ONYXKEYS';
-import * as Pusher from '../Pusher/pusher';
-import LocalNotification from '../Notification/LocalNotification';
-import Navigation from '../Navigation/Navigation';
-import * as ActiveClientManager from '../ActiveClientManager';
-import Visibility from '../Visibility';
-import ROUTES from '../../ROUTES';
-import * as API from '../API';
+import {InteractionManager} from 'react-native';
+import Onyx from 'react-native-onyx';
+import _ from 'underscore';
 import CONFIG from '../../CONFIG';
 import CONST from '../../CONST';
-import Log from '../Log';
-import * as ReportUtils from '../ReportUtils';
-import DateUtils from '../DateUtils';
-import * as ReportActionsUtils from '../ReportActionsUtils';
+import ONYXKEYS from '../../ONYXKEYS';
+import ROUTES from '../../ROUTES';
+import * as API from '../API';
+import * as ActiveClientManager from '../ActiveClientManager';
 import * as CollectionUtils from '../CollectionUtils';
+import DateUtils from '../DateUtils';
 import * as EmojiUtils from '../EmojiUtils';
-import * as ErrorUtils from '../ErrorUtils';
-import * as UserUtils from '../UserUtils';
-import * as Welcome from './Welcome';
-import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
-import * as OptionsListUtils from '../OptionsListUtils';
 import * as Environment from '../Environment/Environment';
+import * as ErrorUtils from '../ErrorUtils';
+import Log from '../Log';
+import Navigation from '../Navigation/Navigation';
+import LocalNotification from '../Notification/LocalNotification';
+import * as OptionsListUtils from '../OptionsListUtils';
+import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
+import * as Pusher from '../Pusher/pusher';
+import * as ReportActionsUtils from '../ReportActionsUtils';
+import * as ReportUtils from '../ReportUtils';
+import Share from '../Share';
+import * as UserUtils from '../UserUtils';
+import Visibility from '../Visibility';
 import * as Session from './Session';
+import * as Welcome from './Welcome';
 
 let currentUserAccountID;
 Onyx.connect({
@@ -2091,14 +2092,17 @@ export {
     broadcastUserIsTyping,
     clearIOUError,
     clearPolicyRoomNameErrors,
+    clearPrivateNotesError,
     deleteReport,
     deleteReportComment,
     editReportComment,
     expandURLPreview,
     flagComment,
     getCurrentUserAccountID,
+    getReportPrivateNote,
     handleUserDeletedLinksInHtml,
     hasAccountIDEmojiReacted,
+    hasErrorInPrivateNotes,
     leaveRoom,
     markCommentAsUnread,
     navigateToAndOpenChildReport,
@@ -2108,15 +2112,7 @@ export {
     navigateToConciergeChat,
     navigateToConciergeChatAndDeleteReport,
     notifyNewAction,
-    showReportActionNotification,
-    toggleEmojiReaction,
-    shouldShowReportActionNotification,
-    setLastOpenedPublicRoom,
     openLastOpenedPublicRoom,
-    updatePrivateNotes,
-    getReportPrivateNote,
-    clearPrivateNotesError,
-    hasErrorInPrivateNotes,
     openReport,
     openReportFromDeepLink,
     readNewestAction,
@@ -2128,13 +2124,18 @@ export {
     saveReportComment,
     saveReportCommentNumberOfLines,
     setIsComposerFullSize,
+    setLastOpenedPublicRoom,
     setReportWithDraft,
+    shouldShowReportActionNotification,
+    showReportActionNotification,
     subscribeToNewActionEvent,
     subscribeToReportTypingEvents,
+    toggleEmojiReaction,
     togglePinnedState,
     unsubscribeFromReportChannel,
     updateNotificationPreferenceAndNavigate,
     updatePolicyRoomNameAndNavigate,
+    updatePrivateNotes,
     updateWelcomeMessage,
     updateWriteCapabilityAndNavigate,
 };
