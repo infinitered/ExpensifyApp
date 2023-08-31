@@ -1,16 +1,16 @@
-import React, {useRef, useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {NavigationContainer, DefaultTheme, getPathFromState} from '@react-navigation/native';
 import {useFlipper} from '@react-navigation/devtools';
-import {useSharedValue, useAnimatedReaction, interpolateColor, withTiming, withDelay, Easing, runOnJS} from 'react-native-reanimated';
-import Navigation, {navigationRef} from './Navigation';
-import linkingConfig from './linkingConfig';
-import AppNavigator from './AppNavigator';
+import {DefaultTheme, NavigationContainer, getPathFromState} from '@react-navigation/native';
+import PropTypes from 'prop-types';
+import React, {useEffect, useRef} from 'react';
+import {Easing, interpolateColor, runOnJS, useAnimatedReaction, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
+import useCurrentReportID from '../../hooks/useCurrentReportID';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import themeColors from '../../styles/themes/default';
 import Log from '../Log';
 import StatusBar from '../StatusBar';
-import useCurrentReportID from '../../hooks/useCurrentReportID';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+import AppNavigator from './AppNavigator';
+import Navigation, {navigationRef} from './Navigation';
+import linkingConfig from './linkingConfig';
 
 // https://reactnavigation.org/docs/themes
 const navigationTheme = {
