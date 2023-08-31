@@ -1,13 +1,23 @@
+import _ from 'underscore';
 import lodashGet from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useState, useEffect, useRef, useLayoutEffect, useMemo} from 'react';
 import {AppState, Linking} from 'react-native';
 import Onyx, {withOnyx} from 'react-native-onyx';
-import ShareMenu, {ShareMenuReactView} from 'react-native-share-menu';
 import * as Report from './libs/actions/Report';
 import BootSplash from './libs/BootSplash';
 import * as ActiveClientManager from './libs/ActiveClientManager';
 import ONYXKEYS from './ONYXKEYS';
+import NavigationRoot from './libs/Navigation/NavigationRoot';
+import migrateOnyx from './libs/migrateOnyx';
+import PushNotification from './libs/Notification/PushNotification';
+import UpdateAppModal from './components/UpdateAppModal';
+import Visibility from './libs/Visibility';
+import GrowlNotification from './components/GrowlNotification';
+import * as Growl from './libs/Growl';
+import Share from './libs/Share';
+import StartupTimer from './libs/StartupTimer';
+import Log from './libs/Log';
 import ConfirmModal from './components/ConfirmModal';
 import compose from './libs/compose';
 import withLocalize, {withLocalizePropTypes} from './components/withLocalize';
@@ -24,6 +34,7 @@ import * as EmojiPickerAction from './libs/actions/EmojiPickerAction';
 import * as DemoActions from './libs/actions/DemoActions';
 import DownloadAppModal from './components/DownloadAppModal';
 import DeeplinkWrapper from './components/DeeplinkWrapper';
+
 
 // This lib needs to be imported, but it has nothing to export since all it contains is an Onyx connection
 // eslint-disable-next-line no-unused-vars

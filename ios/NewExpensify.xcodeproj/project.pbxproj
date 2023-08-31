@@ -24,7 +24,6 @@
 		312B43E67D72C3987AE261A1 /* libPods-NewExpensify-NewExpensifyShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2A639CEB32BEF6E8DDE28E /* libPods-NewExpensify-NewExpensifyShare.a */; };
 		34FF0B164B1D8ED1054BFBB6 /* libPods-NewExpensify-NewExpensifyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB387B20AE4E6E98858B6AA /* libPods-NewExpensify-NewExpensifyTests.a */; };
 		374FB8D728A133FE000D84EF /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
-		5A464BC8112CDB1DE1E38F1C /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */; };
 		7041848526A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		7041848626A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		70CF6E82262E297300711ADC /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70CF6E81262E297300711ADC /* BootSplash.storyboard */; };
@@ -46,10 +45,11 @@
 		94D3D9102AA102E800FB1DCD /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
-		E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		E9DF872D2525201700607FDC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
 		ED222ED90E074A5481A854FA /* ExpensifyNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */; };
 		F0C450EA2705020500FD2970 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F0C450E92705020500FD2970 /* colors.json */; };
+		F980ABF02DC6C6FFE1A346D4 /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */; };
 		FF941A8D48F849269AB85C9A /* ExpensifyNewKansas-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44BF435285B94E5B95F90994 /* ExpensifyNewKansas-Medium.otf */; };
 /* End PBXBuildFile section */
 
@@ -165,8 +165,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */,
-				9A65F0F374EC04ABB5FF40AF /* libPods-NewExpensify.a in Frameworks */,
+				E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */,
+				F980ABF02DC6C6FFE1A346D4 /* libPods-NewExpensify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
