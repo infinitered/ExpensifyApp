@@ -84,6 +84,12 @@
                 <data android:scheme="https" android:host="staging.new.expensify.com" android:pathPrefix="/request"/>
                 <data android:scheme="https" android:host="staging.new.expensify.com" android:pathPrefix="/new"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
         </activity>
 
         <meta-data

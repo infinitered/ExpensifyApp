@@ -25,6 +25,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>new-expensify</string>
@@ -85,6 +87,8 @@
 	<string>Your camera roll is used to store chat attachments.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your photos are used to create chat attachments.</string>
+	<key>ReactNativeQuickSQLite_AppGroup</key>
+	<string>group.com.chat.expensify.chat</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ExpensifyNewKansas-Medium.otf</string>
