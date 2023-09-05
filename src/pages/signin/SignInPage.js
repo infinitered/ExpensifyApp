@@ -57,6 +57,9 @@ const propTypes = {
         saastr: PropTypes.shape({
             isBeginningDemo: PropTypes.bool,
         }),
+        sbe: PropTypes.shape({
+            isBeginningDemo: PropTypes.bool,
+        }),
     }),
 };
 

@@ -106,6 +106,9 @@ export default {
             characterLimit: ({limit}) => `Supera el límite de ${limit} caracteres`,
             dateInvalid: 'Por favor, selecciona una fecha válida',
             invalidCharacter: 'Carácter invalido',
+            enterMerchant: 'Introduce un comerciante',
+            enterAmount: 'Introduce un importe',
+            enterDate: 'Introduce una fecha',
         },
         comma: 'la coma',
         semicolon: 'el punto y coma',
@@ -160,15 +163,12 @@ export default {
         receipt: 'Recibo',
         replace: 'Sustituir',
         distance: 'Distancia',
+        mile: 'milla',
+        miles: 'millas',
+        kilometer: 'kilómetro',
+        kilometers: 'kilómetros',
         recent: 'Reciente',
         all: 'Todo',
-    },
-    location: {
-        useCurrent: 'Usar ubicación actual',
-        notFound: 'No pudimos encontrar su ubicación, inténtelo nuevamente o ingrese una dirección manualmente',
-        permissionDenied: 'Parece que has denegado el permiso a tu ubicación.',
-        allowPermission: 'permitir permiso de ubicación en la configuración',
-        tryAgain: 'y luego inténtalo de nuevo.',
     },
     anonymousReportFooter: {
         logoTagline: 'Únete a la discusión.',
@@ -457,6 +457,7 @@ export default {
             genericCreateFailureMessage: 'Error inesperado solicitando dinero, Por favor, inténtalo más tarde',
             genericDeleteFailureMessage: 'Error inesperado eliminando la solicitud de dinero. Por favor, inténtalo más tarde',
             genericEditFailureMessage: 'Error inesperado al guardar la solicitud de dinero. Por favor, inténtalo más tarde',
+            genericSmartscanFailureMessage: 'La transacción tiene campos vacíos',
         },
     },
     notificationPreferencesPage: {
@@ -1282,7 +1283,6 @@ export default {
             captureReceipts: 'Captura recibos',
             fastReimbursementsHappyMembers: '¡Reembolsos rápidos = miembros felices!',
             kilometers: 'Kilómetros',
-            miles: 'Millas',
             viewAllReceipts: 'Ver todos los recibos',
             reimburseReceipts: 'Reembolsar recibos',
             trackDistance: 'Medir distancia',
@@ -2154,14 +2154,8 @@ export default {
             onlineSubtitle: 'Un momento mientras configuramos el mapa',
         },
         errors: {
-            selectSuggestedAddress: 'Por favor, selecciona una dirección sugerida o usa la ubicación actual.',
+            selectSuggestedAddress: 'Por favor, selecciona una dirección sugerida',
         },
-    },
-    countrySelectorModal: {
-        placeholderText: 'Buscar para ver opciones',
-    },
-    stateSelectorModal: {
-        placeholderText: 'Buscar para ver opciones',
     },
     demos: {
         saastr: {
