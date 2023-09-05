@@ -1,9 +1,9 @@
 import Onyx from 'react-native-onyx';
-import {ShareMenuReactView} from 'react-native-share-menu';
 import _ from 'underscore';
 import ONYXKEYS from '../../ONYXKEYS';
+import * as ShareActions from './Share';
 
-const key = ShareMenuReactView.isExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
+const key = ShareActions.isShareExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
 
 let persistedRequests = [];
 
