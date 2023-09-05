@@ -44,7 +44,7 @@ const registerListener = () => {
 export default {
     cleanUpActions: ShareActions.cleanUpActions,
     dismiss,
-    isShareExtension: ShareMenuReactView.isExtension,
-    openApp: ShareMenuReactView.openApp,
+    isShareExtension: ShareActions.isShareExtension,
+    openApp: ShareActions.openApp,
     registerListener,
 };
