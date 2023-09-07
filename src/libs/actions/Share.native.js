@@ -54,13 +54,10 @@ const flushAppExtensionQueue = (callback = () => {}) => {
     return true;
 };
 
-const isShareExtension = ShareMenuReactView.isExtension;
-const openApp = ShareMenuReactView.openApp;
-
 AppState.addEventListener('change', (appState) => {
     if (ShareMenuReactView.isExtension) return;
     if (appState === CONST.APP_STATE.ACTIVE) return;
     isAppExtensionQueueFlushed = false;
 });
 
-export {cleanUpActions, flushAppExtensionQueue, isShareExtension, openApp};
+export {cleanUpActions, flushAppExtensionQueue};

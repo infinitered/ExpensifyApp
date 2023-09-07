@@ -1,9 +1,9 @@
 import Onyx from 'react-native-onyx';
 import _ from 'underscore';
 import ONYXKEYS from '../../ONYXKEYS';
-import * as ShareActions from './Share';
+import isShareExtension from '../Share/isShareExtension';
 
-const key = ShareActions.isShareExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
+const key = isShareExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
 
 let persistedRequests = [];
 
