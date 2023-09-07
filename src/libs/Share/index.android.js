@@ -1,5 +1,6 @@
 import ShareMenu from 'react-native-share-menu';
 import Navigation from '../Navigation/Navigation';
+import isShareExtension from './isShareExtension';
 import navigateToShare from './navigateToShare';
 
 const dismiss = () => Navigation.dismissModal();
@@ -12,7 +13,7 @@ const registerListener = () => {
 export default {
     cleanUpActions: () => [],
     dismiss,
-    isShareExtension: false,
+    isShareExtension,
     openApp: () => {},
     registerListener,
 };

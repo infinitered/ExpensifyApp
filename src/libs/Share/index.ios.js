@@ -5,10 +5,13 @@ import Navigation from '../Navigation/Navigation';
 import * as NetworkStore from '../Network/NetworkStore';
 import * as ShareActions from '../actions/Share';
 import hasNoShareData from './hasNoShareData';
+import isShareExtension from './isShareExtension';
 import navigateToShare from './navigateToShare';
 import normalizeShareData from './normalizeShareData';
 
 const dismiss = () => ShareMenuReactView.dismissExtension();
+
+const openApp = () => ShareMenuReactView.openApp();
 
 const registerListener = () => {
     Navigation.isNavigationReady().then(() => {
@@ -45,7 +48,7 @@ const registerListener = () => {
 export default {
     cleanUpActions: ShareActions.cleanUpActions,
     dismiss,
-    isShareExtension: ShareActions.isShareExtension,
-    openApp: ShareActions.openApp,
+    isShareExtension,
+    openApp,
     registerListener,
 };
