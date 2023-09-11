@@ -53,14 +53,14 @@ jobs:
       
     - name: Show value of 'has_new_commits'
       run: echo ${{ steps.sync.outputs.has_new_commits }}
-  sync_native_share_to_latest_from_upstream:
+  sync_share_to_latest_from_upstream:
     runs-on: ubuntu-latest
     name: Sync latest commits from upstream repo
     steps:
     - name: Checkout target repo
       uses: actions/checkout@v3
       with:
-        ref:  native-share
+        ref:  share
         fetch-depth: 0
         token: ${{ secrets.SYNC_UPSTREAM }}
 
@@ -79,7 +79,7 @@ jobs:
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
       with:
-        target_sync_branch: native-share
+        target_sync_branch: share
         target_repo_token: ${{ secrets.GITHUB_TOKEN }}
         upstream_sync_branch: main
         upstream_sync_repo: Expensify/App
