@@ -40,6 +40,7 @@ import type {
     PayerPaidAmountParams,
     PayerPaidParams,
     PayerSettledParams,
+    RemovedTheRequestParams,
     RenamedRoomActionParams,
     ReportArchiveReasonsClosedParams,
     ReportArchiveReasonsMergedParams,
@@ -50,6 +51,7 @@ import type {
     ResolutionConstraintsParams,
     RoomNameReservedErrorParams,
     RoomRenamedToParams,
+    SetTheRequestParams,
     SettleExpensifyCardParams,
     SettlePaypalMeParams,
     SettledAfterAddedBankAccountParams,
@@ -61,6 +63,7 @@ import type {
     ToValidateLoginParams,
     TransferParams,
     UntilTimeParams,
+    UpdatedTheRequestParams,
     UserIsAlreadyMemberOfWorkspaceParams,
     WaitingOnBankAccountParams,
     WeSentYouMagicSignInLinkParams,
@@ -525,6 +528,12 @@ export default {
         paidUsingExpensifyWithAmount: ({amount}: PaidUsingExpensifyWithAmountParams) => `pagó ${amount} con Expensify`,
         noReimbursableExpenses: 'El importe de este informe no es válido',
         pendingConversionMessage: 'El total se actualizará cuando estés online',
+        changedTheRequest: 'cambió la solicitud',
+        setTheRequest: ({valueName, newValueToDisplay}: SetTheRequestParams) => `estableció ${valueName === 'comerciante' ? 'el' : 'la'} ${valueName} a ${newValueToDisplay}`,
+        removedTheRequest: ({valueName, oldValueToDisplay}: RemovedTheRequestParams) =>
+            `eliminó ${valueName === 'comerciante' ? 'el' : 'la'} ${valueName} (previamente ${oldValueToDisplay})`,
+        updatedTheRequest: ({valueName, newValueToDisplay, oldValueToDisplay}: UpdatedTheRequestParams) =>
+            `cambío ${valueName === 'comerciante' ? 'el' : 'la'} ${valueName} a ${newValueToDisplay} (previamente ${oldValueToDisplay})`,
         threadRequestReportName: ({formattedAmount, comment}: ThreadRequestReportNameParams) => `Solicitud de ${formattedAmount}${comment ? ` para ${comment}` : ''}`,
         threadSentMoneyReportName: ({formattedAmount, comment}: ThreadSentMoneyReportNameParams) => `${formattedAmount} enviado${comment ? ` para ${comment}` : ''}`,
         error: {
@@ -1375,6 +1384,7 @@ export default {
             fastReimbursementsVBACopy: '¡Todo listo para reembolsar recibos desde tu cuenta bancaria!',
             updateCustomUnitError: 'Los cambios no han podido ser guardados. El espacio de trabajo ha sido modificado mientras estabas desconectado. Por favor, inténtalo de nuevo.',
             invalidRateError: 'Por favor, introduce una tarifa válida',
+            lowRateError: 'La tarifa debe ser mayor que 0',
         },
         bills: {
             manageYourBills: 'Gestiona tus facturas',
