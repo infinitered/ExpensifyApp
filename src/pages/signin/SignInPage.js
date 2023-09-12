@@ -14,7 +14,6 @@ import Log from '../../libs/Log';
 import Performance from '../../libs/Performance';
 import Share from '../../libs/Share';
 import * as App from '../../libs/actions/App';
-import * as DemoActions from '../../libs/actions/DemoActions';
 import * as StyleUtils from '../../styles/StyleUtils';
 import styles from '../../styles/styles';
 import EmailDeliveryFailurePage from './EmailDeliveryFailurePage';

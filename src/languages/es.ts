@@ -32,7 +32,6 @@ import type {
     OOOEventSummaryPartialDayParams,
     OurEmailProviderParams,
     PaidElsewhereWithAmountParams,
-    PaidUsingExpensifyWithAmountParams,
     PaidUsingPaypalWithAmountParams,
     ParentNavigationSummaryParams,
     PayerOwesAmountParams,
