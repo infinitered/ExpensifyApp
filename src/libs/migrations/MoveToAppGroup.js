@@ -4,7 +4,7 @@ import {DocumentDirectoryPath, exists, moveFile, pathForGroup} from 'react-nativ
 import CONST from '../../CONST';
 
 export default async function () {
-    if (!Platform.OS === 'ios') return;
+    if (Platform.OS !== 'ios') return;
     const appGroupPath = await pathForGroup(CONST.IOS_APP_GROUP);
     const hasAppGroupDB = await exists(`${appGroupPath}/OnyxDB`);
     const hasDocsDirDB = await exists(`${DocumentDirectoryPath}/OnyxDB`);
