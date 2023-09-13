@@ -5,8 +5,8 @@ import navigateToShare from './navigateToShare';
 import ROUTES from '../../ROUTES';
 
 const dismiss = (reportID) => {
-    Navigation.dismissModal()
-    Navigation.navigate(ROUTES.getReportRoute(reportID))
+    Navigation.dismissModal();
+    Navigation.navigate(ROUTES.getReportRoute(reportID));
 };
 
 const registerListener = () => {
