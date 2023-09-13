@@ -75,7 +75,7 @@ function ShareMessagePage(props) {
                             } else {
                                 Report.addAttachment(reportID, share, message);
                             }
-                            Share.dismiss();
+                            Share.dismiss(reportID);
                         }}
                     />
                 </FixedFooter>
