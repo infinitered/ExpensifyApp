@@ -6,7 +6,6 @@ import ROUTES from '../../ROUTES';
 
 const dismiss = (reportID) => {
     Navigation.dismissModal()
-    Navigation.goBack()
     Navigation.navigate(ROUTES.getReportRoute(reportID))
 };
 
