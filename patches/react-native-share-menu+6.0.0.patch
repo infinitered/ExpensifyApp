@@ -31,7 +31,8 @@ index 9557fdb..cc6d464 100644
          ndk {
 diff --git a/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class
 new file mode 100644
-index 0000000..e69de29
+index 0000000..6e77fcf
+Binary files /dev/null and b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class differ
 diff --git a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java b/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
 index 09abd7b..ee33f46 100644
 --- a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
@@ -52,7 +53,7 @@ index 09abd7b..ee33f46 100644
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
 diff --git a/node_modules/react-native-share-menu/index.js b/node_modules/react-native-share-menu/index.js
-index e8e1b73..bdd4d79 100644
+index e8e1b73..27f4691 100644
 --- a/node_modules/react-native-share-menu/index.js
 +++ b/node_modules/react-native-share-menu/index.js
 @@ -1,4 +1,4 @@
@@ -80,7 +81,7 @@ index e8e1b73..bdd4d79 100644
 +  dismissExtension(error = null) {
 +    NativeModules.ShareMenuReactView.dismissExtension(error);
 +  },
-+  isExtension: NativeModules.ShareMenuReactView.isExtension,
++  isExtension: !!(NativeModules.ShareMenuReactView && NativeModules.ShareMenuReactView.isExtension),
 +  openApp() {
 +    NativeModules.ShareMenuReactView.openApp();
 +  },
