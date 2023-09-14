@@ -246,12 +246,17 @@ export default {
                     NewGroup: {
                         screens: {
                             NewGroup_Root: ROUTES.NEW_GROUP,
-                            NewGroup_Share: ROUTES.SHARE_MESSAGE,
                         },
                     },
                     NewChat: {
                         screens: {
                             NewChat_Root: ROUTES.NEW_CHAT,
+                        },
+                    },
+                    NewShare: {
+                        screens: {
+                            NewShare_Root: ROUTES.NEW_SHARE,
+                            NewShare_Message: ROUTES.SHARE_MESSAGE,
                         },
                     },
                     NewTask: {

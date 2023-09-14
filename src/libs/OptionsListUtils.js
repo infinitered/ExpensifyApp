@@ -1129,6 +1129,7 @@ function getIOUConfirmationOptionsFromParticipants(participants, amountText) {
  * @param {Object} [categories]
  * @param {Array<Object>} [recentlyUsedCategories]
  * @param {boolean} [canInviteUser]
+ * @param {boolean} [allowRooms]
  * @returns {Object}
  */
 function getNewChatOptions(
@@ -1144,6 +1145,7 @@ function getNewChatOptions(
     categories = {},
     recentlyUsedCategories = [],
     canInviteUser = true,
+    allowRooms = false,
 ) {
     return getOptions(reports, personalDetails, {
         betas,
@@ -1151,6 +1153,7 @@ function getNewChatOptions(
         selectedOptions,
         includeRecentReports: true,
         includePersonalDetails: true,
+        includeMultipleParticipantReports: allowRooms,
         maxRecentReportsToShow: 5,
         excludeLogins,
         includeOwnedWorkspaceChats,

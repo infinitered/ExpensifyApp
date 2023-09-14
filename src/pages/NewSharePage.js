@@ -7,7 +7,7 @@ function NewSharePage(props) {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...props}
             isGroupChat
-            isShare
+            allowRooms
         />
     );
 }

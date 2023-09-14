@@ -267,13 +267,6 @@ const NewGroupModalStackNavigator = createModalStackNavigator([
         },
         name: 'NewGroup_Root',
     },
-    {
-        getComponent: () => {
-            const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
-            return ShareMessagePage;
-        },
-        name: 'NewGroup_Share',
-    },
 ]);
 
 const NewChatModalStackNavigator = createModalStackNavigator([
@@ -283,6 +276,23 @@ const NewChatModalStackNavigator = createModalStackNavigator([
             return NewChatPage;
         },
         name: 'NewChat_Root',
+    },
+]);
+
+const NewShareModalStackNavigator = createModalStackNavigator([
+    {
+        getComponent: () => {
+            const NewSharePage = require('../../../pages/NewSharePage').default;
+            return NewSharePage;
+        },
+        name: 'NewShare_Root',
+    },
+    {
+        getComponent: () => {
+            const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
+            return ShareMessagePage;
+        },
+        name: 'NewShare_Share',
     },
 ]);
 
@@ -789,6 +799,7 @@ export {
     MoneyRequestModalStackNavigator,
     NewChatModalStackNavigator,
     NewGroupModalStackNavigator,
+    NewShareModalStackNavigator,
     NewTaskModalStackNavigator,
     ProfileModalStackNavigator,
     ReimbursementAccountModalStackNavigator,

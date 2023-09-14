@@ -34,6 +34,9 @@ const propTypes = {
     /** All reports shared with the user */
     reports: PropTypes.objectOf(reportPropTypes),
 
+    /** Allows display of rooms as options */
+    allowRooms: PropTypes.bool,
+
     ...windowDimensionsPropTypes,
 
     ...withLocalizePropTypes,
@@ -44,6 +47,7 @@ const defaultProps = {
     betas: [],
     personalDetails: {},
     reports: {},
+    allowRooms: false,
 };
 
 const excludedGroupEmails = _.without(CONST.EXPENSIFY_EMAILS, CONST.EMAIL.CONCIERGE);
@@ -179,6 +183,13 @@ function NewChatPage(props) {
             searchTerm,
             selectedOptions,
             props.isGroupChat ? excludedGroupEmails : [],
+            false, 
+            true, 
+            false, 
+            {}, 
+            [], 
+            true, 
+            props.allowRooms,
         );
         setFilteredRecentReports(recentReports);
         setFilteredPersonalDetails(personalDetails);

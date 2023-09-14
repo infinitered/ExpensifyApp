@@ -17,7 +17,7 @@ const formatShareData = (shared) => {
 const navigateToShare = (share) => {
     if (hasNoShareData(share)) return;
     Navigation.isNavigationReady().then(() => {
-        Navigation.navigate(ROUTES.NEW_GROUP);
+        Navigation.navigate(ROUTES.NEW_SHARE);
         Navigation.setParams({share: formatShareData(share)});
     });
 };

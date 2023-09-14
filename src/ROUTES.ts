@@ -69,6 +69,7 @@ export default {
     SETTINGS_STATUS_SET,
     NEW_GROUP: 'new/group',
     NEW_CHAT: 'new/chat',
+    NEW_SHARE: 'new/share',
     NEW_TASK,
     REPORT,
     REPORT_WITH_ID: 'r/:reportID/:reportActionID?',
