@@ -183,12 +183,12 @@ function NewChatPage(props) {
             searchTerm,
             selectedOptions,
             props.isGroupChat ? excludedGroupEmails : [],
-            false, 
-            true, 
-            false, 
-            {}, 
-            [], 
-            true, 
+            false,
+            true,
+            false,
+            {},
+            [],
+            true,
             props.allowRooms,
         );
         setFilteredRecentReports(recentReports);
