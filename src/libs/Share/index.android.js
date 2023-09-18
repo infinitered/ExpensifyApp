@@ -3,7 +3,9 @@ import Navigation from '../Navigation/Navigation';
 import isShareExtension from './isShareExtension';
 import navigateToShare from './navigateToShare';
 
-const dismiss = () => Navigation.dismissModal();
+const dismiss = (reportID) => {
+    Navigation.dismissModal(reportID);
+};
 
 const registerListener = () => {
     ShareMenu.getInitialShare(navigateToShare);
