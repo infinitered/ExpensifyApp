@@ -58,6 +58,7 @@ function NewChatPage(props) {
     const [filteredPersonalDetails, setFilteredPersonalDetails] = useState([]);
     const [filteredUserToInvite, setFilteredUserToInvite] = useState();
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [allowRooms, setAllowRooms] = useState(props.allowRooms);
 
     const maxParticipantsReached = selectedOptions.length === CONST.REPORT.MAXIMUM_PARTICIPANTS;
     const headerMessage = OptionsListUtils.getHeaderMessage(
@@ -68,10 +69,28 @@ function NewChatPage(props) {
     );
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(props.personalDetails);
     const share = props.route.params && props.route.params.share;
+    const roomSelected = selectedOptions.length === 1 && selectedOptions[0].isRoomChat;
 
     const sections = useMemo(() => {
         const sectionsList = [];
         let indexOffset = 0;
+
+         if (selectedOptions.length === 1 && selectedOptions[0].isChatRoom) {  
+             if (props.isGroupChat) {
+                sectionsList.push({
+                    title: undefined,
+                    data: selectedOptions,
+                    shouldShow: !_.isEmpty(selectedOptions),
+                    indexOffset,
+                });
+                indexOffset += selectedOptions.length;
+
+                if (maxParticipantsReached) {
+                    return sectionsList;
+                }
+            }
+        return sectionsList;
+    }
 
         if (props.isGroupChat) {
             sectionsList.push({
@@ -144,6 +163,7 @@ function NewChatPage(props) {
         setFilteredRecentReports(recentReports);
         setFilteredPersonalDetails(personalDetails);
         setFilteredUserToInvite(userToInvite);
+        setAllowRooms(newSelectedOptions.length === 0);
     }
 
     /**
@@ -165,6 +185,7 @@ function NewChatPage(props) {
             return;
         }
         const logins = _.pluck(selectedOptions, 'login');
+        console.log("LOGINS", selectedOptions, logins)
         if (logins.length < 1) {
             return;
         }
@@ -189,14 +210,14 @@ function NewChatPage(props) {
             {},
             [],
             true,
-            props.allowRooms,
+            allowRooms,
         );
         setFilteredRecentReports(recentReports);
         setFilteredPersonalDetails(personalDetails);
         setFilteredUserToInvite(userToInvite);
         // props.betas and props.isGroupChat are not added as dependencies since they don't change during the component lifecycle
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.reports, props.personalDetails, searchTerm]);
+    }, [props.reports, props.personalDetails, searchTerm, allowRooms]);
 
     return (
         <ScreenWrapper
