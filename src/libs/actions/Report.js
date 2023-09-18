@@ -586,7 +586,6 @@ function navigateToAndOpenReport(userLogins, shouldDismissModal = true) {
  * @param {Object} share the share object to be passed to the share modal
  */
 function navigateToAndOpenContactShare(userLogins, share) {
-    console.log('NAVIGATE TO AND OPEN SHARE', userLogins, share);
     let newChat = {};
     const formattedUserLogins = _.map(userLogins, (login) => OptionsListUtils.addSMSDomainIfPhoneNumber(login).toLowerCase());
     const chat = ReportUtils.getChatByParticipantsByLoginList(formattedUserLogins);
