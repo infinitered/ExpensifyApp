@@ -74,8 +74,8 @@ function NewChatPage(props) {
         const sectionsList = [];
         let indexOffset = 0;
 
-         if (selectedOptions.length === 1 && selectedOptions[0].isChatRoom) {  
-             if (props.isGroupChat) {
+        if (selectedOptions.length === 1 && selectedOptions[0].isChatRoom) {
+            if (props.isGroupChat) {
                 sectionsList.push({
                     title: undefined,
                     data: selectedOptions,
@@ -88,8 +88,8 @@ function NewChatPage(props) {
                     return sectionsList;
                 }
             }
-        return sectionsList;
-    }
+            return sectionsList;
+        }
 
         if (props.isGroupChat) {
             sectionsList.push({
