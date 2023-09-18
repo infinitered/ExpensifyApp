@@ -585,7 +585,7 @@ function navigateToAndOpenReport(userLogins, shouldDismissModal = true) {
  * @param {Array} userLogins list of user logins to start a chat report with.
  * @param {Object} share the share object to be passed to the share modal
  */
-function navigateToAndOpenShare(userLogins, share) {
+function navigateToAndOpenContactShare(userLogins, share) {
     console.log("NAVIGATE TO AND OPEN SHARE", userLogins, share)
     let newChat = {};
     const formattedUserLogins = _.map(userLogins, (login) => OptionsListUtils.addSMSDomainIfPhoneNumber(login).toLowerCase());
@@ -600,6 +600,12 @@ function navigateToAndOpenShare(userLogins, share) {
     openReport(reportID, userLogins, newChat);
     Navigation.navigate(ROUTES.SHARE_MESSAGE);
     Navigation.setParams({option: userLogins, share, reportID});
+}
+
+function navigateToAndOpenRoomShare(reportID, share) {
+    Navigation.navigate(ROUTES.SHARE_MESSAGE);
+    Navigation.setParams({option: [], share, reportID});
+
 }
 
 /**
@@ -2003,5 +2009,7 @@ export {
     setLastOpenedPublicRoom,
     flagComment,
     openLastOpenedPublicRoom,
-    navigateToAndOpenShare,
+    navigateToAndOpenContactShare,
+    navigateToAndOpenRoomShare,
+
 };

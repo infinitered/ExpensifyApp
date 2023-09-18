@@ -69,7 +69,6 @@ function NewChatPage(props) {
     );
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(props.personalDetails);
     const share = props.route.params && props.route.params.share;
-    const roomSelected = selectedOptions.length === 1 && selectedOptions[0].isRoomChat;
 
     const sections = useMemo(() => {
         const sectionsList = [];
@@ -185,12 +184,16 @@ function NewChatPage(props) {
             return;
         }
         const logins = _.pluck(selectedOptions, 'login');
-        console.log("LOGINS", selectedOptions, logins)
-        if (logins.length < 1) {
+        const roomID = selectedOptions[0].reportID;
+        if (logins.length < 1 && !roomID) {
             return;
         }
         if (share) {
-            Report.navigateToAndOpenShare(logins, share);
+            if (roomID) {
+                Report.navigateToAndOpenRoomShare(roomID, share);
+                return;
+            }
+            Report.navigateToAndOpenContactShare(logins, share);
             return;
         }
         Report.navigateToAndOpenReport(logins);

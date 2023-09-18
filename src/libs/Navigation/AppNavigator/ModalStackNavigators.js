@@ -292,7 +292,7 @@ const NewShareModalStackNavigator = createModalStackNavigator([
             const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
             return ShareMessagePage;
         },
-        name: 'NewShare_Share',
+        name: 'NewShare_Message',
     },
 ]);
 
