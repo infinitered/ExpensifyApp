@@ -27,10 +27,21 @@
 		7041848526A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		7041848626A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		70CF6E82262E297300711ADC /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70CF6E81262E297300711ADC /* BootSplash.storyboard */; };
+		94C6BBB02AB939B2000D3D7D /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C6BBAF2AB939B2000D3D7D /* ShareViewController.swift */; };
+		94C6BBB32AB939B2000D3D7D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94C6BBB12AB939B2000D3D7D /* MainInterface.storyboard */; };
+		94C6BBB72AB939B2000D3D7D /* share.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 94C6BBAD2AB939B2000D3D7D /* share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		94C6BBC22AB93C54000D3D7D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C6BBC12AB93C54000D3D7D /* RCTStartupTimer.m */; };
+		94C6BBC52AB93FC3000D3D7D /* ReactShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C6BBC42AB93FC3000D3D7D /* ReactShareViewController.swift */; };
+		94C6BBC72AB94717000D3D7D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0F5BE0CD252686320097D869 /* GoogleService-Info.plist */; };
+		94C6BBC82AB9471A000D3D7D /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
+		94C6BBCA2AB94727000D3D7D /* EnvironmentChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5E534F263B73FD004CA14F /* EnvironmentChecker.m */; };
+		94C6BBCB2AB94738000D3D7D /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
+		94C6BBCC2AB94745000D3D7D /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
-		E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		E9DF872D2525201700607FDC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
+		EB901EB5FC069FBB99591726 /* libPods-NewExpensify-share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA67D229CA2EE1DC0B99162F /* libPods-NewExpensify-share.a */; };
 		ED222ED90E074A5481A854FA /* ExpensifyNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */; };
 		F0C450EA2705020500FD2970 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F0C450E92705020500FD2970 /* colors.json */; };
 		FF941A8D48F849269AB85C9A /* ExpensifyNewKansas-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44BF435285B94E5B95F90994 /* ExpensifyNewKansas-Medium.otf */; };
@@ -44,7 +55,28 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = NewExpensify;
 		};
+		94C6BBB52AB939B2000D3D7D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94C6BBAC2AB939B2000D3D7D;
+			remoteInfo = share;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		94C6BBB82AB939B3000D3D7D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				94C6BBB72AB939B2000D3D7D /* share.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -53,6 +85,7 @@
 		02BE6CF80ED1BD2445267F92 /* Pods-NewExpensify.release development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.release development.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.release development.xcconfig"; sourceTree = "<group>"; };
 		0B09CE5BDAF34DD3573AB4E2 /* Pods-NewExpensify.debug adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debug adhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debug adhoc.xcconfig"; sourceTree = "<group>"; };
 		0B627F2A465153FFA6E3A4E0 /* Pods-NewExpensify.debugdevelopment.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debugdevelopment.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debugdevelopment.xcconfig"; sourceTree = "<group>"; };
+		0BE5288E4A1425107469D4C0 /* Pods-NewExpensify-share.debugdevelopment.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.debugdevelopment.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.debugdevelopment.xcconfig"; sourceTree = "<group>"; };
 		0CDA8E33287DD650004ECBEC /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = NewExpensify/AppDelegate.mm; sourceTree = "<group>"; };
 		0CDA8E36287DD6A0004ECBEC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewExpensify/Images.xcassets; sourceTree = "<group>"; };
 		0E27AA27706D894246E7946D /* Pods-NewExpensify.debug production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debug production.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debug production.xcconfig"; sourceTree = "<group>"; };
@@ -77,22 +110,36 @@
 		4E8BF7B08BA3181991BFCF4B /* Pods-NewExpensify-NewExpensifyTests.releasedevelopment.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.releasedevelopment.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.releasedevelopment.xcconfig"; sourceTree = "<group>"; };
 		52796131E6554494B2DDB056 /* ExpensifyNeue-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-Bold.otf"; path = "../assets/fonts/native/ExpensifyNeue-Bold.otf"; sourceTree = "<group>"; };
 		57DBBEDB9692E096D4BA0141 /* Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig"; sourceTree = "<group>"; };
+		62697777D7DA0CCA269FE9C8 /* Pods-NewExpensify-share.releasedevelopment.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.releasedevelopment.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.releasedevelopment.xcconfig"; sourceTree = "<group>"; };
 		6B5211DB0EEB46E12DF4AD2D /* Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig"; sourceTree = "<group>"; };
+		6B828507A44B1CCF0AAA7614 /* Pods-NewExpensify-share.releaseadhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.releaseadhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.releaseadhoc.xcconfig"; sourceTree = "<group>"; };
 		6BE16DA6EFF88513DB1CD47B /* Pods-NewExpensify-NewExpensifyTests.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release staging.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release staging.xcconfig"; sourceTree = "<group>"; };
+		6EF360CB033F36AF8B93D0EF /* Pods-NewExpensify-share.releaseproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.releaseproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.releaseproduction.xcconfig"; sourceTree = "<group>"; };
 		6F6A514B4DF07A60EC8355BA /* Pods-NewExpensify.debugadhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debugadhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debugadhoc.xcconfig"; sourceTree = "<group>"; };
 		6FB387B20AE4E6E98858B6AA /* libPods-NewExpensify-NewExpensifyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify-NewExpensifyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7041848326A8E40900E09F4D /* RCTStartupTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTStartupTimer.h; path = NewExpensify/RCTStartupTimer.h; sourceTree = "<group>"; };
 		7041848426A8E47D00E09F4D /* RCTStartupTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTStartupTimer.m; path = NewExpensify/RCTStartupTimer.m; sourceTree = "<group>"; };
 		70CF6E81262E297300711ADC /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = NewExpensify/BootSplash.storyboard; sourceTree = "<group>"; };
 		75CABB0D0ABB0082FE0EB600 /* Pods-NewExpensify.release staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.release staging.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.release staging.xcconfig"; sourceTree = "<group>"; };
+		795EA53B185DB0A5E2B14E5E /* Pods-NewExpensify-share.debugproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.debugproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.debugproduction.xcconfig"; sourceTree = "<group>"; };
 		8709DF3C8D91F0FC1581CDD7 /* Pods-NewExpensify-NewExpensifyTests.debugdevelopment.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.debugdevelopment.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.debugdevelopment.xcconfig"; sourceTree = "<group>"; };
 		8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-BoldItalic.otf"; path = "../assets/fonts/native/ExpensifyNeue-BoldItalic.otf"; sourceTree = "<group>"; };
 		8D3B36BF88E773E3C1A383FA /* Pods-NewExpensify.debug staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debug staging.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debug staging.xcconfig"; sourceTree = "<group>"; };
+		94C6BBAD2AB939B2000D3D7D /* share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		94C6BBAF2AB939B2000D3D7D /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		94C6BBB22AB939B2000D3D7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		94C6BBB42AB939B2000D3D7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94C6BBC02AB93BDC000D3D7D /* NewExpensifyShare-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewExpensifyShare-Bridging-Header.h"; sourceTree = "<group>"; };
+		94C6BBC12AB93C54000D3D7D /* RCTStartupTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTStartupTimer.m; sourceTree = "<group>"; };
+		94C6BBC32AB93CC6000D3D7D /* share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = share.entitlements; sourceTree = "<group>"; };
+		94C6BBC42AB93FC3000D3D7D /* ReactShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactShareViewController.swift; sourceTree = "<group>"; };
 		96552D489D9F09B6A5ABD81B /* Pods-NewExpensify-NewExpensifyTests.release production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release production.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release production.xcconfig"; sourceTree = "<group>"; };
+		AA67D229CA2EE1DC0B99162F /* libPods-NewExpensify-share.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify-share.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewExpensify.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD6E1BA27D6ABE0AC9D70586 /* Pods-NewExpensify-NewExpensifyTests.release development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release development.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release development.xcconfig"; sourceTree = "<group>"; };
 		BD8828A882E2D6B51362AAC3 /* Pods-NewExpensify.releaseadhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.releaseadhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.releaseadhoc.xcconfig"; sourceTree = "<group>"; };
 		BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-Italic.otf"; path = "../assets/fonts/native/ExpensifyNeue-Italic.otf"; sourceTree = "<group>"; };
+		CDC142DD1806FFBF1871F468 /* Pods-NewExpensify-share.debugadhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-share.debugadhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share.debugadhoc.xcconfig"; sourceTree = "<group>"; };
 		CE2F84BEE9A6DCC228AF7E42 /* Pods-NewExpensify.debugproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debugproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debugproduction.xcconfig"; sourceTree = "<group>"; };
 		CECC4CBB97A55705A33BEA9E /* Pods-NewExpensify.debug development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify.debug development.xcconfig"; path = "Target Support Files/Pods-NewExpensify/Pods-NewExpensify.debug development.xcconfig"; sourceTree = "<group>"; };
 		D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNewKansas-MediumItalic.otf"; path = "../assets/fonts/native/ExpensifyNewKansas-MediumItalic.otf"; sourceTree = "<group>"; };
@@ -124,8 +171,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */,
+				E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */,
 				5A464BC8112CDB1DE1E38F1C /* libPods-NewExpensify.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C6BBAA2AB939B2000D3D7D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB901EB5FC069FBB99591726 /* libPods-NewExpensify-share.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +228,7 @@
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */,
 				6FB387B20AE4E6E98858B6AA /* libPods-NewExpensify-NewExpensifyTests.a */,
+				AA67D229CA2EE1DC0B99162F /* libPods-NewExpensify-share.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,6 +254,7 @@
 				13B07FAE1A68108700A75B9A /* NewExpensify */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* NewExpensifyTests */,
+				94C6BBAE2AB939B2000D3D7D /* share */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				EC29677F0A49C2946A495A33 /* Pods */,
@@ -213,8 +270,23 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* New Expensify Dev.app */,
 				00E356EE1AD99517003FC87E /* NewExpensifyTests.xctest */,
+				94C6BBAD2AB939B2000D3D7D /* share.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		94C6BBAE2AB939B2000D3D7D /* share */ = {
+			isa = PBXGroup;
+			children = (
+				94C6BBC42AB93FC3000D3D7D /* ReactShareViewController.swift */,
+				94C6BBC32AB93CC6000D3D7D /* share.entitlements */,
+				94C6BBAF2AB939B2000D3D7D /* ShareViewController.swift */,
+				94C6BBB12AB939B2000D3D7D /* MainInterface.storyboard */,
+				94C6BBB42AB939B2000D3D7D /* Info.plist */,
+				94C6BBC02AB93BDC000D3D7D /* NewExpensifyShare-Bridging-Header.h */,
+				94C6BBC12AB93C54000D3D7D /* RCTStartupTimer.m */,
+			);
+			path = share;
 			sourceTree = "<group>";
 		};
 		A9EA265D209D4558995C9BD4 /* Resources */ = {
@@ -263,6 +335,12 @@
 				4E8BF7B08BA3181991BFCF4B /* Pods-NewExpensify-NewExpensifyTests.releasedevelopment.xcconfig */,
 				E2C8555C607612465A7473F8 /* Pods-NewExpensify-NewExpensifyTests.releaseadhoc.xcconfig */,
 				57DBBEDB9692E096D4BA0141 /* Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig */,
+				0BE5288E4A1425107469D4C0 /* Pods-NewExpensify-share.debugdevelopment.xcconfig */,
+				CDC142DD1806FFBF1871F468 /* Pods-NewExpensify-share.debugadhoc.xcconfig */,
+				795EA53B185DB0A5E2B14E5E /* Pods-NewExpensify-share.debugproduction.xcconfig */,
+				62697777D7DA0CCA269FE9C8 /* Pods-NewExpensify-share.releasedevelopment.xcconfig */,
+				6B828507A44B1CCF0AAA7614 /* Pods-NewExpensify-share.releaseadhoc.xcconfig */,
+				6EF360CB033F36AF8B93D0EF /* Pods-NewExpensify-share.releaseproduction.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -305,15 +383,37 @@
 				5259EE1448507A682C02026F /* [CP] Copy Pods Resources */,
 				5E34288ECB69FCFA24851234 /* [CP-User] [RNFB] Core Configuration */,
 				E10553ABAB7762D41AC85C09 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				94C6BBB82AB939B3000D3D7D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				94C6BBB62AB939B2000D3D7D /* PBXTargetDependency */,
 			);
 			name = NewExpensify;
 			productName = NewExpensify;
 			productReference = 13B07F961A680F5B00A75B9A /* New Expensify Dev.app */;
 			productType = "com.apple.product-type.application";
+		};
+		94C6BBAC2AB939B2000D3D7D /* share */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94C6BBBF2AB939B3000D3D7D /* Build configuration list for PBXNativeTarget "share" */;
+			buildPhases = (
+				8B55B86007C2C31372B1407E /* [CP] Check Pods Manifest.lock */,
+				94C6BBA92AB939B2000D3D7D /* Sources */,
+				94C6BBAA2AB939B2000D3D7D /* Frameworks */,
+				94C6BBAB2AB939B2000D3D7D /* Resources */,
+				94C6BBC62AB93FF4000D3D7D /* Bundle React Native code and images */,
+				3AED23FF2BBACEC2B0B59E31 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = share;
+			productName = share;
+			productReference = 94C6BBAD2AB939B2000D3D7D /* share.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -321,6 +421,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -333,6 +434,11 @@
 						DevelopmentTeam = 368M544MTT;
 						LastSwiftMigration = 1230;
 						ProvisioningStyle = Manual;
+					};
+					94C6BBAC2AB939B2000D3D7D = {
+						CreatedOnToolsVersion = 14.3.1;
+						DevelopmentTeam = 368M544MTT;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -351,6 +457,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* NewExpensify */,
 				00E356ED1AD99517003FC87E /* NewExpensifyTests */,
+				94C6BBAC2AB939B2000D3D7D /* share */,
 			);
 		};
 /* End PBXProject section */
@@ -381,6 +488,16 @@
 				ED222ED90E074A5481A854FA /* ExpensifyNeue-BoldItalic.otf in Resources */,
 				30581EA8AAFD4FCE88C5D191 /* ExpensifyNeue-Italic.otf in Resources */,
 				1246A3EF20E54E7A9494C8B9 /* ExpensifyNeue-Regular.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94C6BBAB2AB939B2000D3D7D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94C6BBC82AB9471A000D3D7D /* AirshipConfig.plist in Resources */,
+				94C6BBB32AB939B2000D3D7D /* MainInterface.storyboard in Resources */,
+				94C6BBC72AB94717000D3D7D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +554,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewExpensify/Pods-NewExpensify-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3AED23FF2BBACEC2B0B59E31 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipAutomationResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipCoreResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipExtendedActionsResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipMessageCenterResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Airship/AirshipPreferenceCenterResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipAutomationResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipCoreResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipExtendedActionsResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipMessageCenterResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AirshipPreferenceCenterResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewExpensify-share/Pods-NewExpensify-share-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5259EE1448507A682C02026F /* [CP] Copy Pods Resources */ = {
@@ -541,6 +688,46 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8B55B86007C2C31372B1407E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NewExpensify-share-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94C6BBC62AB93FF4000D3D7D /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\nexport ENTRY_FILE=index.js\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		DCBD600FEEE485201447211A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -654,6 +841,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94C6BBA92AB939B2000D3D7D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94C6BBC52AB93FC3000D3D7D /* ReactShareViewController.swift in Sources */,
+				94C6BBCA2AB94727000D3D7D /* EnvironmentChecker.m in Sources */,
+				94C6BBCC2AB94745000D3D7D /* OriginImageRequestHandler.mm in Sources */,
+				94C6BBB02AB939B2000D3D7D /* ShareViewController.swift in Sources */,
+				94C6BBCB2AB94738000D3D7D /* RCTBootSplash.m in Sources */,
+				94C6BBC22AB93C54000D3D7D /* RCTStartupTimer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -662,7 +862,23 @@
 			target = 13B07F861A680F5B00A75B9A /* NewExpensify */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
+		94C6BBB62AB939B2000D3D7D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94C6BBAC2AB939B2000D3D7D /* share */;
+			targetProxy = 94C6BBB52AB939B2000D3D7D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		94C6BBB12AB939B2000D3D7D /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94C6BBB22AB939B2000D3D7D /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* DebugDevelopment */ = {
@@ -717,6 +933,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0B627F2A465153FFA6E3A4E0 /* Pods-NewExpensify.debugdevelopment.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -749,6 +966,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30FFBD291B71222A393D9CC9 /* Pods-NewExpensify.releasedevelopment.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -899,6 +1117,459 @@
 			};
 			name = ReleaseDevelopment;
 		};
+		94C6BBB92AB939B3000D3D7D /* DebugDevelopment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0BE5288E4A1425107469D4C0 /* Pods-NewExpensify-share.debugdevelopment.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = DebugDevelopment;
+		};
+		94C6BBBA2AB939B3000D3D7D /* DebugAdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDC142DD1806FFBF1871F468 /* Pods-NewExpensify-share.debugadhoc.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = DebugAdHoc;
+		};
+		94C6BBBB2AB939B3000D3D7D /* DebugProduction */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 795EA53B185DB0A5E2B14E5E /* Pods-NewExpensify-share.debugproduction.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = DebugProduction;
+		};
+		94C6BBBC2AB939B3000D3D7D /* ReleaseDevelopment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62697777D7DA0CCA269FE9C8 /* Pods-NewExpensify-share.releasedevelopment.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = ReleaseDevelopment;
+		};
+		94C6BBBD2AB939B3000D3D7D /* ReleaseAdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B828507A44B1CCF0AAA7614 /* Pods-NewExpensify-share.releaseadhoc.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = ReleaseAdHoc;
+		};
+		94C6BBBE2AB939B3000D3D7D /* ReleaseProduction */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EF360CB033F36AF8B93D0EF /* Pods-NewExpensify-share.releaseproduction.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = share/share.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 368M544MTT;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = share/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = share;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "share/NewExpensifyShare-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = ReleaseProduction;
+		};
 		CF9AF93E29EE9276001FA527 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -968,6 +1639,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2F84BEE9A6DCC228AF7E42 /* Pods-NewExpensify.debugproduction.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1090,6 +1762,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F6A514B4DF07A60EC8355BA /* Pods-NewExpensify.debugadhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconAdHoc;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1206,6 +1879,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47D5DF3C6779D41BE70CD031 /* Pods-NewExpensify.releaseproduction.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1318,6 +1992,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD8828A882E2D6B51362AAC3 /* Pods-NewExpensify.releaseadhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconAdHoc;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1405,6 +2080,19 @@
 				83CBBA211A601CBA00E9B192 /* ReleaseDevelopment */,
 				CF9AF94D29EE9293001FA527 /* ReleaseAdHoc */,
 				CF9AF94729EE928E001FA527 /* ReleaseProduction */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = DebugDevelopment;
+		};
+		94C6BBBF2AB939B3000D3D7D /* Build configuration list for PBXNativeTarget "share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94C6BBB92AB939B3000D3D7D /* DebugDevelopment */,
+				94C6BBBA2AB939B3000D3D7D /* DebugAdHoc */,
+				94C6BBBB2AB939B3000D3D7D /* DebugProduction */,
+				94C6BBBC2AB939B3000D3D7D /* ReleaseDevelopment */,
+				94C6BBBD2AB939B3000D3D7D /* ReleaseAdHoc */,
+				94C6BBBE2AB939B3000D3D7D /* ReleaseProduction */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = DebugDevelopment;
