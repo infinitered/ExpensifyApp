@@ -201,6 +201,7 @@ function MoneyRequestConfirmationList(props) {
     const tagList = lodashGet(props.policyTags, [tagListKey, 'tags'], []);
     const tagListName = lodashGet(props.policyTags, [tagListKey, 'name'], '');
     const canUseTags = Permissions.canUseTags(props.betas);
+    const shouldShowTags = canUseTags && _.any(tagList, (tag) => tag.enabled);
 
     const hasRoute = TransactionUtils.hasRoute(transaction);
     const isDistanceRequestWithoutRoute = props.isDistanceRequest && !hasRoute;
@@ -392,13 +393,11 @@ function MoneyRequestConfirmationList(props) {
 
         const shouldShowSettlementButton = props.iouType === CONST.IOU.MONEY_REQUEST_TYPE.SEND;
         const shouldDisableButton = selectedParticipants.length === 0;
-        const recipient = props.selectedParticipants[0] || {};
 
         return shouldShowSettlementButton ? (
             <SettlementButton
                 isDisabled={shouldDisableButton}
                 onPress={confirm}
-                shouldShowPaypal={Boolean(recipient && recipient.payPalMeAddress)}
                 enablePaymentsRoute={ROUTES.IOU_SEND_ENABLE_PAYMENTS}
                 addBankAccountRoute={props.bankAccountRoute}
                 addDebitCardRoute={ROUTES.IOU_SEND_ADD_DEBIT_CARD}
@@ -419,13 +418,14 @@ function MoneyRequestConfirmationList(props) {
                 buttonSize={CONST.DROPDOWN_BUTTON_SIZE.LARGE}
             />
         );
-    }, [confirm, props.selectedParticipants, props.bankAccountRoute, props.iouCurrencyCode, props.iouType, props.isReadOnly, props.policyID, selectedParticipants, splitOrRequestOptions]);
+    }, [confirm, props.bankAccountRoute, props.iouCurrencyCode, props.iouType, props.isReadOnly, props.policyID, selectedParticipants, splitOrRequestOptions]);
 
     return (
         <OptionsSelector
             sections={optionSelectorSections}
             value=""
             onSelectRow={canModifyParticipants ? selectParticipant : navigateToReportOrUserDetail}
+            onAddToSelection={selectParticipant}
             onConfirmSelection={confirm}
             selectedOptions={selectedOptions}
             canSelectMultipleOptions={canModifyParticipants}
@@ -528,7 +528,7 @@ function MoneyRequestConfirmationList(props) {
                             disabled={didConfirm || props.isReadOnly}
                         />
                     )}
-                    {canUseTags && !!tagList && (
+                    {shouldShowTags && (
                         <MenuItemWithTopDescription
                             shouldShowRightIcon={!props.isReadOnly}
                             title={props.iouTag}
