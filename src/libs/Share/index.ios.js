@@ -16,7 +16,9 @@ const openApp = () => ShareMenuReactView.openApp();
 const registerListener = () => {
     Navigation.isNavigationReady().then(() => {
         ShareMenuReactView.data().then((shared) => {
-            if (hasNoShareData(shared)) return;
+            if (hasNoShareData(shared)) {
+                return;
+            }
             const share = normalizeShareData(shared);
             if (NetworkStore.isOffline() && share.mimeType !== 'text/plain') {
                 // move to app group shared directory for offline uploads
