@@ -4,6 +4,7 @@ import {Text, View} from 'react-native';
 import CONST from '../CONST';
 import AttachmentView from '../components/Attachments/AttachmentView';
 import Button from '../components/Button';
+import FixedFooter from '../components/FixedFooter';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import OptionRowLHNData from '../components/LHNOptionsList/OptionRowLHNData';
 import ScreenWrapper from '../components/ScreenWrapper';
@@ -13,7 +14,6 @@ import Navigation from '../libs/Navigation/Navigation';
 import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
-import FixedFooter from '../components/FixedFooter';
 
 function ShareMessagePage(props) {
     const reportID = props.route.params.reportID;

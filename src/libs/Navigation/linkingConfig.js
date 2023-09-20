@@ -243,12 +243,6 @@ export default {
                             Report_WelcomeMessage_Root: ROUTES.REPORT_WELCOME_MESSAGE,
                         },
                     },
-                    NewGroup: {
-                        screens: {
-                            NewGroup_Root: ROUTES.NEW_GROUP,
-                            NewGroup_Share: ROUTES.SHARE_MESSAGE,
-                        },
-                    },
                     NewChat: {
                         screens: {
                             NewChat_Root: {
