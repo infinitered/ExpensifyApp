@@ -259,6 +259,10 @@ export default {
                                     },
                                 },
                             },
+                            NewChat_Share: {
+                                path: ROUTES.SHARE_MESSAGE,
+                                exact: true,
+                            },
                         },
                     },
                     NewTask: {

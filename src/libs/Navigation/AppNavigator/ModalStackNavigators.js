@@ -273,23 +273,6 @@ const SearchModalStackNavigator = createModalStackNavigator([
     },
 ]);
 
-const NewGroupModalStackNavigator = createModalStackNavigator([
-    {
-        getComponent: () => {
-            const NewGroupPage = require('../../../pages/NewChatPage').default;
-            return NewGroupPage;
-        },
-        name: 'NewGroup_Root',
-    },
-    {
-        getComponent: () => {
-            const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
-            return ShareMessagePage;
-        },
-        name: 'NewGroup_Share',
-    },
-]);
-
 const NewChatModalStackNavigator = createModalStackNavigator([
     {
         getComponent: () => {
@@ -297,6 +280,13 @@ const NewChatModalStackNavigator = createModalStackNavigator([
             return NewChatSelectorPage;
         },
         name: 'NewChat_Root',
+    },
+    {
+        getComponent: () => {
+            const ShareMessagePage = require('../../../pages/ShareMessagePage').default;
+            return ShareMessagePage;
+        },
+        name: 'NewChat_Share',
     },
 ]);
 
@@ -812,7 +802,6 @@ export {
     FlagCommentStackNavigator,
     MoneyRequestModalStackNavigator,
     NewChatModalStackNavigator,
-    NewGroupModalStackNavigator,
     NewTaskModalStackNavigator,
     NewTeachersUniteNavigator,
     PrivateNotesModalStackNavigator,

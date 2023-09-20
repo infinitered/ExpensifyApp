@@ -1,6 +1,6 @@
 import {ValueOf} from 'type-fest';
-import * as Url from './libs/Url';
 import CONST from './CONST';
+import * as Url from './libs/Url';
 
 /**
  * This is a file containing constants for all of the routes we want to be able to go to

@@ -19,7 +19,7 @@ const navigateToShare = (share) => {
         return;
     }
     Navigation.isNavigationReady().then(() => {
-        Navigation.navigate(ROUTES.NEW_GROUP);
+        Navigation.navigate(ROUTES.NEW_CHAT);
         Navigation.setParams({share: formatShareData(share)});
     });
 };

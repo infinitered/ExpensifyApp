@@ -1,3 +1,4 @@
+import {useRoute} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, {useEffect, useMemo, useState} from 'react';
 import {View} from 'react-native';
@@ -60,6 +61,9 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
         _.some(selectedOptions, (participant) => participant.searchText.toLowerCase().includes(searchTerm.trim().toLowerCase())),
     );
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(personalDetails);
+
+    const route = useRoute();
+    const share = route.params && route.params.share;
 
     const sections = useMemo(() => {
         const sectionsList = [];
@@ -139,6 +143,10 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
      * @param {Object} option
      */
     function createChat(option) {
+        if (share) {
+            Report.navigateToAndOpenShare([option.login], share);
+            return;
+        }
         Report.navigateToAndOpenReport([option.login]);
     }
 
@@ -149,6 +157,10 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
     const createGroup = () => {
         const logins = _.pluck(selectedOptions, 'login');
         if (logins.length < 1) {
+            return;
+        }
+        if (share) {
+            Report.navigateToAndOpenShare(logins, share);
             return;
         }
         Report.navigateToAndOpenReport(logins);
