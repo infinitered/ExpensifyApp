@@ -23,7 +23,6 @@
 		30581EA8AAFD4FCE88C5D191 /* ExpensifyNeue-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BF6A4C5167244B9FB8E4D4E3 /* ExpensifyNeue-Italic.otf */; };
 		34FF0B164B1D8ED1054BFBB6 /* libPods-NewExpensify-NewExpensifyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB387B20AE4E6E98858B6AA /* libPods-NewExpensify-NewExpensifyTests.a */; };
 		374FB8D728A133FE000D84EF /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
-		5A464BC8112CDB1DE1E38F1C /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */; };
 		7041848526A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		7041848626A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
 		70CF6E82262E297300711ADC /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70CF6E81262E297300711ADC /* BootSplash.storyboard */; };
@@ -37,6 +36,7 @@
 		94C6BBCA2AB94727000D3D7D /* EnvironmentChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5E534F263B73FD004CA14F /* EnvironmentChecker.m */; };
 		94C6BBCB2AB94738000D3D7D /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
 		94C6BBCC2AB94745000D3D7D /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
+		A2DE8D9F05C095F402A2B1F7 /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
 		E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
@@ -172,7 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */,
-				9A65F0F374EC04ABB5FF40AF /* libPods-NewExpensify.a in Frameworks */,
+				A2DE8D9F05C095F402A2B1F7 /* libPods-NewExpensify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
