@@ -10,7 +10,9 @@ let appGroupPath;
 pathForGroup(CONST.IOS_APP_GROUP).then((path) => (appGroupPath = path));
 
 const cleanUpActions = (file) => {
-    if (!file || !file.source.includes(appGroupPath)) return [];
+    if (!file || !file.source.includes(appGroupPath)) {
+        return [];
+    }
     return [
         {
             onyxMethod: Onyx.METHOD.MERGE,
@@ -24,11 +26,15 @@ let isCleaningUpTempFiles = false;
 Onyx.connect({
     key: ONYXKEYS.TEMP_FILES_TO_DELETE,
     callback: (val) => {
-        if (!val || isCleaningUpTempFiles) return;
+        if (!val || isCleaningUpTempFiles) {
+            return;
+        }
         isCleaningUpTempFiles = true;
         val.forEach((file) => {
             exists(file.source).then((fileExists) => {
-                if (!fileExists) return;
+                if (!fileExists) {
+                    return;
+                }
                 unlink(file.source);
             });
         });
@@ -39,7 +45,9 @@ Onyx.connect({
 
 let isAppExtensionQueueFlushed = false;
 const flushAppExtensionQueue = (callback = () => {}) => {
-    if (isAppExtensionQueueFlushed) return false;
+    if (isAppExtensionQueueFlushed) {
+        return false;
+    }
     const connectionID = Onyx.connect({
         key: ONYXKEYS.SHARE_PERSISTED_REQUESTS,
         callback: (val) => {
@@ -55,8 +63,9 @@ const flushAppExtensionQueue = (callback = () => {}) => {
 };
 
 AppState.addEventListener('change', (appState) => {
-    if (ShareMenuReactView.isExtension) return;
-    if (appState === CONST.APP_STATE.ACTIVE) return;
+    if (ShareMenuReactView.isExtension || appState === CONST.APP_STATE.ACTIVE) {
+        return;
+    }
     isAppExtensionQueueFlushed = false;
 });
 
