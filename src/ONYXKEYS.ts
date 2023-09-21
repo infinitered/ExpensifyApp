@@ -311,6 +311,7 @@ type OnyxValues = {
     [ONYXKEYS.DEVICE_ID]: string;
     [ONYXKEYS.IS_SIDEBAR_LOADED]: boolean;
     [ONYXKEYS.PERSISTED_REQUESTS]: OnyxTypes.Request[];
+    [ONYXKEYS.SHARE_PERSISTED_REQUESTS]: OnyxTypes.Request[];
     [ONYXKEYS.QUEUED_ONYX_UPDATES]: OnyxUpdate[];
     [ONYXKEYS.CURRENT_DATE]: string;
     [ONYXKEYS.CREDENTIALS]: OnyxTypes.Credentials;
