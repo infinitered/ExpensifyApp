@@ -36,6 +36,7 @@ function NewChatSelectorPage(props) {
             shouldEnableKeyboardAvoidingView={false}
             includeSafeAreaPaddingBottom={false}
             shouldEnableMaxHeight
+            testID={NewChatSelectorPage.displayName}
         >
             <HeaderWithBackButton
                 onBackButtonPress={Navigation.dismissModal}
