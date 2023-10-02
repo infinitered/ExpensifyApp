@@ -24,7 +24,6 @@
 		34FF0B164B1D8ED1054BFBB6 /* libPods-NewExpensify-NewExpensifyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FB387B20AE4E6E98858B6AA /* libPods-NewExpensify-NewExpensifyTests.a */; };
 		374FB8D728A133FE000D84EF /* OriginImageRequestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 374FB8D628A133FE000D84EF /* OriginImageRequestHandler.mm */; };
 		5A464BC8112CDB1DE1E38F1C /* libPods-NewExpensify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEFE6CD54912D427D19133C7 /* libPods-NewExpensify.a */; };
-		62E483702ACB86D500E5655E /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E4836F2ACB86D500E5655E /* ShareViewController.swift */; };
 		62E483732ACB86D500E5655E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62E483712ACB86D500E5655E /* MainInterface.storyboard */; };
 		62E483782ACB86D600E5655E /* ExpensifyShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 62E4836D2ACB86D500E5655E /* ExpensifyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7041848526A8E47D00E09F4D /* RCTStartupTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7041848426A8E47D00E09F4D /* RCTStartupTimer.m */; };
@@ -102,7 +101,6 @@
 		52796131E6554494B2DDB056 /* ExpensifyNeue-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ExpensifyNeue-Bold.otf"; path = "../assets/fonts/native/ExpensifyNeue-Bold.otf"; sourceTree = "<group>"; };
 		57DBBEDB9692E096D4BA0141 /* Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.releaseproduction.xcconfig"; sourceTree = "<group>"; };
 		62E4836D2ACB86D500E5655E /* ExpensifyShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ExpensifyShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		62E4836F2ACB86D500E5655E /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		62E483722ACB86D500E5655E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		62E483742ACB86D500E5655E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B5211DB0EEB46E12DF4AD2D /* Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.release adhoc.xcconfig"; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 		62E4836E2ACB86D500E5655E /* ExpensifyShare */ = {
 			isa = PBXGroup;
 			children = (
-				62E4836F2ACB86D500E5655E /* ShareViewController.swift */,
 				62E483712ACB86D500E5655E /* MainInterface.storyboard */,
 				62E483742ACB86D500E5655E /* Info.plist */,
 			);
@@ -739,7 +736,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62E483702ACB86D500E5655E /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,7 +818,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0B627F2A465153FFA6E3A4E0 /* Pods-NewExpensify.debugdevelopment.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -855,7 +850,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30FFBD291B71222A393D9CC9 /* Pods-NewExpensify.releasedevelopment.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1528,7 +1522,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2F84BEE9A6DCC228AF7E42 /* Pods-NewExpensify.debugproduction.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1651,7 +1644,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F6A514B4DF07A60EC8355BA /* Pods-NewExpensify.debugadhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconAdHoc;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1768,7 +1760,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47D5DF3C6779D41BE70CD031 /* Pods-NewExpensify.releaseproduction.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -1881,7 +1872,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD8828A882E2D6B51362AAC3 /* Pods-NewExpensify.releaseadhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconAdHoc;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
