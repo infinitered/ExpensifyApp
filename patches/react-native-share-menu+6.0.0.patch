@@ -1,0 +1,18 @@
+diff --git a/node_modules/react-native-share-menu/ios/ShareViewController.swift b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+index 12d8c92..b1efa95 100644
+--- a/node_modules/react-native-share-menu/ios/ShareViewController.swift
++++ b/node_modules/react-native-share-menu/ios/ShareViewController.swift
+@@ -33,6 +33,13 @@ class ShareViewController: SLComposeServiceViewController {
+     } else {
+       print("Error: \(NO_INFO_PLIST_URL_SCHEME_ERROR)")
+     }
++    
++      guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
++        cancelRequest()
++        return
++      }
++
++      handlePost(items)
+   }
+ 
+     override func isContentValid() -> Bool {
