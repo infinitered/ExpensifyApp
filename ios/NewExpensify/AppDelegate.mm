@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTI18nUtil.h>
 #import <React/RCTLinkingManager.h>
+#import <RNShareMenu/ShareMenuManager.h>
 #import <UserNotifications/UserNotifications.h>
 
 #import "RCTBootSplash.h"
@@ -52,9 +53,7 @@
             openURL:(NSURL *)url
             options:
                 (NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  return [RCTLinkingManager application:application
-                                openURL:url
-                                options:options];
+  return [ShareMenuManager application:application openURL:url options:options];
 }
 
 - (BOOL)application:(UIApplication *)application
