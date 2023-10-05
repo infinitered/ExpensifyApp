@@ -8,6 +8,7 @@ const dismiss = () => ShareMenuReactView.dismissExtension();
 const openApp = () => ShareMenuReactView.openApp();
 
 const registerListener = () => {
+    console.log("🍉 REGISTERING LISTENER");
     ShareMenu.getInitialShare(navigateToShare);
     return ShareMenu.addNewShareListener(navigateToShare);
 };

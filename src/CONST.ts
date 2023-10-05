@@ -851,7 +851,7 @@ const CONST = {
         // Video MimeTypes allowed by iOS photos app.
         VIDEO: /\.(mov|mp4)$/,
     },
-    IOS_APP_GROUP: 'group.com.chat.expensify.chat',
+    IOS_APP_GROUP: 'group.com.expensify.chat.ir',
     IOS_CAMERAROLL_ACCESS_ERROR: 'Access to photo library was denied',
     ADD_PAYMENT_MENU_POSITION_Y: 226,
     ADD_PAYMENT_MENU_POSITION_X: 356,

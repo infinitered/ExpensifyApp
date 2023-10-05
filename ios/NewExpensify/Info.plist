@@ -86,7 +86,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Your photos are used to create chat attachments.</string>
 	<key>ReactNativeQuickSQLite_AppGroup</key>
-	<string>group.com.chat.expensify.chat</string>
+	<string>group.com.expensify.chat.ir</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ExpensifyNewKansas-Medium.otf</string>

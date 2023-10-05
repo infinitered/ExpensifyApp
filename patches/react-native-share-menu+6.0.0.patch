@@ -31,8 +31,7 @@ index 9557fdb..cc6d464 100644
          ndk {
 diff --git a/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class
 new file mode 100644
-index 0000000..6e77fcf
-Binary files /dev/null and b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java b/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
 index 09abd7b..ee33f46 100644
 --- a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
@@ -53,7 +52,7 @@ index 09abd7b..ee33f46 100644
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
 diff --git a/node_modules/react-native-share-menu/index.js b/node_modules/react-native-share-menu/index.js
-index e8e1b73..27f4691 100644
+index e8e1b73..c1276b6 100644
 --- a/node_modules/react-native-share-menu/index.js
 +++ b/node_modules/react-native-share-menu/index.js
 @@ -1,4 +1,4 @@
@@ -88,6 +87,32 @@ index e8e1b73..27f4691 100644
  };
  
  export default {
+@@ -29,9 +30,12 @@ export default {
+     this.getInitialShare(callback);
+   },
+   getInitialShare(callback) {
++    console.log("🍉 CALLING GET INITIAL SHARE");
++     
+     ShareMenu.getSharedText(callback);
+   },
+   addNewShareListener(callback) {
++    console.log("🍉INSTANTIATING LISTENER");
+     const subscription = EventEmitter.addListener(
+       NEW_SHARE_EVENT_NAME,
+       callback
+diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
+index 74badda..d69fe31 100644
+--- a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
++++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
+@@ -102,7 +102,7 @@ class ShareMenu: RCTEventEmitter {
+     func getSharedText(callback: RCTResponseSenderBlock) {
+         var data = [DATA_KEY: sharedData] as [String: Any]
+ 
+-        if let bundleId = Bundle.main.bundleIdentifier, let userDefaults = UserDefaults(suiteName: "group.\(bundleId)") {
++        if let bundleId = Bundle.main.bundleIdentifier, let userDefaults = UserDefaults(suiteName: "group.com.expensify.chat.ir") {
+             data[EXTRA_DATA_KEY] = userDefaults.object(forKey: USER_DEFAULTS_EXTRA_DATA_KEY) as? [String: Any]
+         } else {
+             print("Error: \(NO_APP_GROUP_ERROR)")
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 index e290cce..7b1c88b 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift

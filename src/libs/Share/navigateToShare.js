@@ -15,6 +15,7 @@ const formatShareData = (shared) => {
 };
 
 const navigateToShare = (share) => {
+    console.log("🥦 SHARE INPUT: ", share);
     if (hasNoShareData(share)) {
         return;
     }

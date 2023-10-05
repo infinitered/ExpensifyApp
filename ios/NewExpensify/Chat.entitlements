@@ -16,7 +16,7 @@
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.chat.expensify.chat</string>
+		<string>group.com.expensify.chat.ir</string>
 	</array>
 </dict>
 </plist>

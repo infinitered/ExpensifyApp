@@ -91,6 +91,7 @@ const defaultProps = {
 };
 
 function Expensify(props) {
+    console.log("APP LOADED");
     const appStateChangeListener = useRef(null);
     const [isNavigationReady, setIsNavigationReady] = useState(false);
     const [isOnyxMigrated, setIsOnyxMigrated] = useState(false);
