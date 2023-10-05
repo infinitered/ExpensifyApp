@@ -21,12 +21,14 @@ function clear() {
 }
 
 function save(requestsToPersist: Request[]) {
+    let requests: Request[] = [];
     if (persistedRequests.length) {
-        persistedRequests = persistedRequests.concat(requestsToPersist);
+        requests = persistedRequests.concat(requestsToPersist);
     } else {
-        persistedRequests = requestsToPersist;
+        requests = requestsToPersist;
     }
-    Onyx.set(key, persistedRequests);
+    persistedRequests = requests;
+    Onyx.set(key, requests);
 }
 
 function remove(requestToRemove: Request) {
@@ -38,13 +40,17 @@ function remove(requestToRemove: Request) {
     if (index === -1) {
         return;
     }
-    persistedRequests.splice(index, 1);
-    Onyx.set(key, persistedRequests);
+    const requests = [...persistedRequests];
+    requests.splice(index, 1);
+    persistedRequests = requests;
+    Onyx.set(key, requests);
 }
 
 function update(oldRequestIndex: number, newRequest: Request) {
-    persistedRequests.splice(oldRequestIndex, 1, newRequest);
-    Onyx.set(key, persistedRequests);
+    const requests = [...persistedRequests];
+    requests.splice(oldRequestIndex, 1, newRequest);
+    persistedRequests = requests;
+    Onyx.set(key, requests);
 }
 
 function getAll(): Request[] {
