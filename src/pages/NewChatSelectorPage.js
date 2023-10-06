@@ -29,7 +29,7 @@ const defaultProps = {
 
 function NewChatSelectorPage(props) {
     const route = useRoute();
-    const share = route.params && route.params.share;
+    const share = props.route.params?.share;
     return (
         <ScreenWrapper
             shouldEnableKeyboardAvoidingView={false}

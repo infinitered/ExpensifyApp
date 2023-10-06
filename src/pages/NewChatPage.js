@@ -11,6 +11,7 @@ import OptionsSelector from '../components/OptionsSelector';
 import ScreenWrapper from '../components/ScreenWrapper';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
+import useShareData from '../hooks/useShareData';
 import * as Browser from '../libs/Browser';
 import * as OptionsListUtils from '../libs/OptionsListUtils';
 import Permissions from '../libs/Permissions';
@@ -63,7 +64,7 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(personalDetails);
 
     const route = useRoute();
-    const share = route.params && route.params.share;
+    const share = useShareData();
 
     const sections = useMemo(() => {
         const sectionsList = [];
