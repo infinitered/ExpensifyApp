@@ -19,7 +19,6 @@ import * as ErrorUtils from '../ErrorUtils';
 import Log from '../Log';
 import Navigation from '../Navigation/Navigation';
 import LocalNotification from '../Notification/LocalNotification';
-import * as OptionsListUtils from '../OptionsListUtils';
 import * as PersonalDetailsUtils from '../PersonalDetailsUtils';
 import * as Pusher from '../Pusher/pusher';
 import * as ReportActionsUtils from '../ReportActionsUtils';
@@ -658,10 +657,11 @@ function navigateToAndOpenReport(userLogins, shouldDismissModal = true) {
  */
 function navigateToAndOpenShare(userLogins, share) {
     let newChat = {};
-    const formattedUserLogins = _.map(userLogins, (login) => OptionsListUtils.addSMSDomainIfPhoneNumber(login).toLowerCase());
-    const chat = ReportUtils.getChatByParticipantsByLoginList(formattedUserLogins);
+
+    const participantAccountIDs = PersonalDetailsUtils.getAccountIDsByLogins(userLogins);
+    const chat = ReportUtils.getChatByParticipants(participantAccountIDs);
+
     if (!chat) {
-        const participantAccountIDs = PersonalDetailsUtils.getAccountIDsByLogins(userLogins);
         newChat = ReportUtils.buildOptimisticChatReport(participantAccountIDs);
     }
     const reportID = chat ? chat.reportID : newChat.reportID;
