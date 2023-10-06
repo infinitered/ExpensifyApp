@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useMemo, useState} from 'react';
 import {View} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
-import ShareMenu from 'react-native-share-menu';
 import _ from 'underscore';
 import CONST from '../CONST';
 import ONYXKEYS from '../ONYXKEYS';
@@ -47,7 +46,6 @@ const defaultProps = {
 const excludedGroupEmails = _.without(CONST.EXPENSIFY_EMAILS, CONST.EMAIL.CONCIERGE);
 
 function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) {
-    ShareMenu.getInitialShare((initialShare) => console.log({initialShare}));
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredRecentReports, setFilteredRecentReports] = useState([]);
     const [filteredPersonalDetails, setFilteredPersonalDetails] = useState([]);

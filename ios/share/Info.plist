@@ -4,6 +4,8 @@
 <dict>
 	<key>HostAppBundleIdentifier</key>
 	<string>com.chat.expensify.chat</string>
+	<key>HostAppGroup</key>
+	<string>group.com.chat.expensify.chat</string>
 	<key>HostAppURLScheme</key>
 	<string>new-expensify</string>
 	<key>NSExtension</key>

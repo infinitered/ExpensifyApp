@@ -63,7 +63,7 @@ class ShareViewController: UIViewController {
         self.exit(withError: NO_INFO_PLIST_INDENTIFIER_ERROR)
         return
       }
-      guard let userDefaults = UserDefaults(suiteName: "group.\(hostAppId)") else {
+      guard let userDefaults = UserDefaults(suiteName: "group.com.chat.expensify.chat") else {
         self.exit(withError: NO_APP_GROUP_ERROR)
         return
       }
@@ -109,7 +109,7 @@ class ShareViewController: UIViewController {
       print("Error: \(NO_INFO_PLIST_INDENTIFIER_ERROR)")
       return
     }
-    guard let userDefaults = UserDefaults(suiteName: "group.\(hostAppId)") else {
+    guard let userDefaults = UserDefaults(suiteName: "group.com.chat.expensify.chat") else {
       print("Error: \(NO_APP_GROUP_ERROR)")
       return
     }
@@ -122,7 +122,7 @@ class ShareViewController: UIViewController {
       print("Error: \(NO_INFO_PLIST_INDENTIFIER_ERROR)")
       return
     }
-    guard let userDefaults = UserDefaults(suiteName: "group.\(hostAppId)") else {
+    guard let userDefaults = UserDefaults(suiteName: "group.com.chat.expensify.chat") else {
       print("Error: \(NO_APP_GROUP_ERROR)")
       return
     }
@@ -177,7 +177,7 @@ class ShareViewController: UIViewController {
         return
       }
       guard let groupFileManagerContainer = FileManager.default
-              .containerURL(forSecurityApplicationGroupIdentifier: "group.\(hostAppId)")
+              .containerURL(forSecurityApplicationGroupIdentifier: "group.com.chat.expensify.chat")
       else {
         self.exit(withError: NO_APP_GROUP_ERROR)
         return

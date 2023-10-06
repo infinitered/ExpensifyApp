@@ -31,8 +31,7 @@ index 9557fdb..cc6d464 100644
          ndk {
 diff --git a/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class
 new file mode 100644
-index 0000000..6e77fcf
-Binary files /dev/null and b/node_modules/react-native-share-menu/android/build/intermediates/javac/debug/classes/com/meedan/ShareMenuModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java b/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
 index 09abd7b..ee33f46 100644
 --- a/node_modules/react-native-share-menu/android/src/main/java/com/meedan/ShareMenuModule.java
@@ -88,6 +87,29 @@ index e8e1b73..27f4691 100644
  };
  
  export default {
+diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
+index 74badda..0fe2fe3 100644
+--- a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
++++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
+@@ -83,8 +83,7 @@ class ShareMenu: RCTEventEmitter {
+         }
+ 
+         guard let scheme = url.scheme, scheme == targetUrlScheme else { return }
+-        guard let bundleId = Bundle.main.bundleIdentifier else { return }
+-        guard let userDefaults = UserDefaults(suiteName: "group.\(bundleId)") else {
++        guard let userDefaults = UserDefaults(suiteName: "group.com.chat.expensify.chat") else {
+             print("Error: \(NO_APP_GROUP_ERROR)")
+             return
+         }
+@@ -102,7 +101,7 @@ class ShareMenu: RCTEventEmitter {
+     func getSharedText(callback: RCTResponseSenderBlock) {
+         var data = [DATA_KEY: sharedData] as [String: Any]
+ 
+-        if let bundleId = Bundle.main.bundleIdentifier, let userDefaults = UserDefaults(suiteName: "group.\(bundleId)") {
++        if let bundleId = Bundle.main.bundleIdentifier, let userDefaults = UserDefaults(suiteName: "group.com.chat.expensify.chat") {
+             data[EXTRA_DATA_KEY] = userDefaults.object(forKey: USER_DEFAULTS_EXTRA_DATA_KEY) as? [String: Any]
+         } else {
+             print("Error: \(NO_APP_GROUP_ERROR)")
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
 index e290cce..7b1c88b 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
