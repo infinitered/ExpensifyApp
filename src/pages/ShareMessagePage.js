@@ -11,7 +11,6 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TextInput from '../components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import Navigation from '../libs/Navigation/Navigation';
-import Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
 
@@ -29,7 +28,7 @@ function ShareMessagePage(props) {
                 shouldShowBackButton={false}
                 shouldShowCloseButton
                 title={props.translate('newChatPage.shareToExpensify')}
-                onCloseButtonPress={Share.dismiss}
+                onCloseButtonPress={Navigation.dismissModal}
             />
             <View style={[styles.justifyContentBetween, styles.flexGrow1]}>
                 <View>
@@ -75,7 +74,7 @@ function ShareMessagePage(props) {
                             } else {
                                 Report.addAttachment(reportID, share, message);
                             }
-                            Share.dismiss(reportID);
+                            Navigation.dismissModal(reportID);
                         }}
                     />
                 </FixedFooter>

@@ -11,7 +11,6 @@ import withWindowDimensions, {windowDimensionsPropTypes} from '../components/wit
 import Navigation from '../libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '../libs/Navigation/OnyxTabNavigator';
 import Permissions from '../libs/Permissions';
-import Share from '../libs/Share';
 import compose from '../libs/compose';
 import NewChatPage from './NewChatPage';
 import WorkspaceNewRoomPage from './workspace/WorkspaceNewRoomPage';
@@ -40,7 +39,7 @@ function NewChatSelectorPage(props) {
         >
             <HeaderWithBackButton
                 onBackButtonPress={Navigation.dismissModal}
-                onCloseButtonPress={Share.dismiss}
+                onCloseButtonPress={Navigation.dismissModal}
                 shouldShowBackButton={!share}
                 shouldShowCloseButton={!!share}
                 title={share ? props.translate('newChatPage.shareToExpensify') : props.translate('sidebarScreen.fabNewChat')}
