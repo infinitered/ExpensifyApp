@@ -10,6 +10,5 @@ const registerListener = () => {
 export default {
     cleanUpActions: () => [],
     isShareExtension,
-    openApp: () => {},
     registerListener,
 };
