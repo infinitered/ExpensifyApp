@@ -1,5 +1,4 @@
 import ShareMenu from 'react-native-share-menu';
-import isShareExtension from './isShareExtension';
 import navigateToShare from './navigateToShare';
 
 const registerListener = () => {
@@ -9,6 +8,5 @@ const registerListener = () => {
 
 export default {
     cleanUpActions: () => [],
-    isShareExtension,
     registerListener,
 };

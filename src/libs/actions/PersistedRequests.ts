@@ -1,15 +1,12 @@
-import isEqual from 'lodash/isEqual';
 import Onyx from 'react-native-onyx';
+import isEqual from 'lodash/isEqual';
 import ONYXKEYS from '../../ONYXKEYS';
 import {Request} from '../../types/onyx';
-import isShareExtension from '../Share/isShareExtension';
-
-const key = isShareExtension ? ONYXKEYS.SHARE_PERSISTED_REQUESTS : ONYXKEYS.PERSISTED_REQUESTS;
 
 let persistedRequests: Request[] = [];
 
 Onyx.connect({
-    key,
+    key: ONYXKEYS.PERSISTED_REQUESTS,
     callback: (val) => (persistedRequests = val ?? []),
 });
 
@@ -17,7 +14,7 @@ Onyx.connect({
  * This promise is only used by tests. DO NOT USE THIS PROMISE IN THE APPLICATION CODE
  */
 function clear() {
-    return Onyx.set(key, []);
+    return Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, []);
 }
 
 function save(requestsToPersist: Request[]) {
@@ -28,7 +25,7 @@ function save(requestsToPersist: Request[]) {
         requests = requestsToPersist;
     }
     persistedRequests = requests;
-    Onyx.set(key, requests);
+    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, requests);
 }
 
 function remove(requestToRemove: Request) {
@@ -43,18 +40,18 @@ function remove(requestToRemove: Request) {
     }
     requests.splice(index, 1);
     persistedRequests = requests;
-    Onyx.set(key, requests);
+    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, requests);
 }
 
 function update(oldRequestIndex: number, newRequest: Request) {
     const requests = [...persistedRequests];
     requests.splice(oldRequestIndex, 1, newRequest);
     persistedRequests = requests;
-    Onyx.set(key, requests);
+    Onyx.set(ONYXKEYS.PERSISTED_REQUESTS, requests);
 }
 
 function getAll(): Request[] {
     return persistedRequests;
 }
 
-export {clear, getAll, remove, save, update};
+export {clear, save, getAll, remove, update};
