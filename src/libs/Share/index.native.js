@@ -2,6 +2,7 @@ import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import {createContext, useContext, useEffect, useState} from 'react';
+import {Platform} from 'react-native';
 import ShareMenu from 'react-native-share-menu';
 import ROUTES from '../../ROUTES';
 import Navigation from '../Navigation/Navigation';
@@ -21,16 +22,6 @@ const formatShareData = (shared) => {
     };
 };
 
-const navigateToShare = (share) => {
-    if (hasNoShareData(share)) {
-        return;
-    }
-    Navigation.isNavigationReady().then(() => {
-        Navigation.navigate(ROUTES.NEW_CHAT);
-        Navigation.setParams({share: formatShareData(share)});
-    });
-};
-
 const ShareContext = createContext(null);
 
 function Provider(props) {
@@ -41,6 +32,13 @@ function Provider(props) {
             return;
         }
         setShareData(formatShareData(share));
+
+        // iOS deep links directly to the share flow, with Android we need to manually navigate
+        if (Platform.OS === 'android') {
+            Navigation.isNavigationReady().then(() => {
+                Navigation.navigate(ROUTES.NEW_CHAT);
+            });
+        }
     };
 
     ShareMenu.getInitialShare(handleShareData);
@@ -59,9 +57,4 @@ Provider.propTypes = {
 
 const useShareData = () => useContext(ShareContext);
 
-const registerListener = () => {
-    ShareMenu.getInitialShare(navigateToShare);
-    return ShareMenu.addNewShareListener(navigateToShare);
-};
-
-export {Provider, registerListener, useShareData};
+export {Provider, useShareData};

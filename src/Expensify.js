@@ -22,7 +22,6 @@ import Navigation from './libs/Navigation/Navigation';
 import NavigationRoot from './libs/Navigation/NavigationRoot';
 import NetworkConnection from './libs/NetworkConnection';
 import PushNotification from './libs/Notification/PushNotification';
-import * as Share from './libs/Share';
 import StartupTimer from './libs/StartupTimer';
 import Visibility from './libs/Visibility';
 import * as EmojiPickerAction from './libs/actions/EmojiPickerAction';
@@ -175,14 +174,11 @@ function Expensify(props) {
             Report.openReportFromDeepLink(state.url, isAuthenticated);
         });
 
-        const shareListener = Share.registerListener();
-
         return () => {
             if (!appStateChangeListener.current) {
                 return;
             }
             appStateChangeListener.current.remove();
-            shareListener.remove();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps -- we don't want this effect to run again
     }, []);
