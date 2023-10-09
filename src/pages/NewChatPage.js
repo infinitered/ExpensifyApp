@@ -1,4 +1,3 @@
-import {useRoute} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import React, {useEffect, useMemo, useState} from 'react';
 import {View} from 'react-native';
@@ -63,7 +62,6 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
     );
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(personalDetails);
 
-    const route = useRoute();
     const share = useShareData();
 
     const sections = useMemo(() => {

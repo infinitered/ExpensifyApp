@@ -1,6 +1,7 @@
 import isArray from 'lodash/isArray';
 import isEmpty from 'lodash/isEmpty';
-import {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import {createContext, useContext, useEffect, useState} from 'react';
 import ShareMenu from 'react-native-share-menu';
 
 const hasNoShareData = (share) => !share || !share.data || isEmpty(share.data);
@@ -18,7 +19,9 @@ const formatShareData = (shared) => {
     };
 };
 
-export default function useShareData() {
+const ShareContext = createContext(null);
+
+function ShareContextProvider(props) {
     const [shareData, setShareData] = useState(null);
 
     const handleShareData = (share) => {
@@ -34,5 +37,15 @@ export default function useShareData() {
         return listener.remove;
     }, []);
 
-    return shareData;
+    return <ShareContext.Provider value={shareData}>{props.children}</ShareContext.Provider>;
 }
+
+ShareContextProvider.propTypes = {
+    /** Actual content wrapped by this component */
+    children: PropTypes.node.isRequired,
+};
+
+const useShareData = () => useContext(ShareContext);
+
+export {ShareContextProvider, useShareData};
+export default useShareData;

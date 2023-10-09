@@ -1,4 +1,3 @@
-import {useRoute} from '@react-navigation/native';
 import React from 'react';
 import {withOnyx} from 'react-native-onyx';
 import CONST from '../CONST';
@@ -8,6 +7,7 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TabSelector from '../components/TabSelector/TabSelector';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
+import useShareData from '../hooks/useShareData';
 import Navigation from '../libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '../libs/Navigation/OnyxTabNavigator';
 import Permissions from '../libs/Permissions';
@@ -28,8 +28,7 @@ const defaultProps = {
 };
 
 function NewChatSelectorPage(props) {
-    const route = useRoute();
-    const share = props.route.params?.share;
+    const share = useShareData();
     return (
         <ScreenWrapper
             shouldEnableKeyboardAvoidingView={false}
