@@ -1,25 +1,25 @@
-import React, {useEffect, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
-import _ from 'underscore';
-import {withOnyx} from 'react-native-onyx';
-import {View} from 'react-native';
 import Str from 'expensify-common/lib/str';
+import PropTypes from 'prop-types';
+import React, {useEffect, useRef, useState} from 'react';
+import {View} from 'react-native';
+import {withOnyx} from 'react-native-onyx';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import _ from 'underscore';
 import ONYXKEYS from '../../ONYXKEYS';
-import styles from '../../styles/styles';
-import SignInPageLayout from './SignInPageLayout';
-import LoginForm from './LoginForm';
-import ValidateCodeForm from './ValidateCodeForm';
-import Performance from '../../libs/Performance';
-import * as App from '../../libs/actions/App';
-import UnlinkLoginForm from './UnlinkLoginForm';
-import EmailDeliveryFailurePage from './EmailDeliveryFailurePage';
-import * as Localize from '../../libs/Localize';
-import * as StyleUtils from '../../styles/StyleUtils';
 import useLocalize from '../../hooks/useLocalize';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
-import Log from '../../libs/Log';
 import * as ActiveClientManager from '../../libs/ActiveClientManager';
+import * as Localize from '../../libs/Localize';
+import Log from '../../libs/Log';
+import Performance from '../../libs/Performance';
+import * as App from '../../libs/actions/App';
+import * as StyleUtils from '../../styles/StyleUtils';
+import styles from '../../styles/styles';
+import EmailDeliveryFailurePage from './EmailDeliveryFailurePage';
+import LoginForm from './LoginForm';
+import SignInPageLayout from './SignInPageLayout';
+import UnlinkLoginForm from './UnlinkLoginForm';
+import ValidateCodeForm from './ValidateCodeForm';
 
 const propTypes = {
     /** The details about the account that the user is signing in with */
