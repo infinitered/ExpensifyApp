@@ -7,10 +7,10 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TabSelector from '../components/TabSelector/TabSelector';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
-import useShareData from '../hooks/useShareData';
 import Navigation from '../libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '../libs/Navigation/OnyxTabNavigator';
 import Permissions from '../libs/Permissions';
+import * as Share from '../libs/Share';
 import compose from '../libs/compose';
 import NewChatPage from './NewChatPage';
 import WorkspaceNewRoomPage from './workspace/WorkspaceNewRoomPage';
@@ -28,7 +28,7 @@ const defaultProps = {
 };
 
 function NewChatSelectorPage(props) {
-    const share = useShareData();
+    const share = Share.useShareData();
     return (
         <ScreenWrapper
             shouldEnableKeyboardAvoidingView={false}

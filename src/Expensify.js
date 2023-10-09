@@ -22,7 +22,7 @@ import Navigation from './libs/Navigation/Navigation';
 import NavigationRoot from './libs/Navigation/NavigationRoot';
 import NetworkConnection from './libs/NetworkConnection';
 import PushNotification from './libs/Notification/PushNotification';
-import Share from './libs/Share';
+import * as Share from './libs/Share';
 import StartupTimer from './libs/StartupTimer';
 import Visibility from './libs/Visibility';
 import * as EmojiPickerAction from './libs/actions/EmojiPickerAction';

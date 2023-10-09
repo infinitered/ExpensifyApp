@@ -20,8 +20,8 @@ import {EnvironmentProvider} from './components/withEnvironment';
 import {KeyboardStateProvider} from './components/withKeyboardState';
 import {WindowDimensionsProvider} from './components/withWindowDimensions';
 import useDefaultDragAndDrop from './hooks/useDefaultDragAndDrop';
-import * as Share from './hooks/useShareData';
 import * as Environment from './libs/Environment/Environment';
+import * as Share from './libs/Share';
 import OnyxUpdateManager from './libs/actions/OnyxUpdateManager';
 import * as Session from './libs/actions/Session';
 import {ReportAttachmentsProvider} from './pages/home/report/ReportAttachmentsContext';
@@ -67,7 +67,7 @@ function App() {
                     ThemeProvider,
                     ThemeStylesProvider,
                     SidebarNavigationContextProvider,
-                    Share.ShareContextProvider,
+                    Share.Provider,
                 ]}
             >
                 <CustomStatusBar />

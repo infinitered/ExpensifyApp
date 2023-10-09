@@ -3,6 +3,8 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import {createContext, useContext, useEffect, useState} from 'react';
 import ShareMenu from 'react-native-share-menu';
+import ROUTES from '../../ROUTES';
+import Navigation from '../Navigation/Navigation';
 
 const hasNoShareData = (share) => !share || !share.data || isEmpty(share.data);
 
@@ -19,9 +21,19 @@ const formatShareData = (shared) => {
     };
 };
 
+const navigateToShare = (share) => {
+    if (hasNoShareData(share)) {
+        return;
+    }
+    Navigation.isNavigationReady().then(() => {
+        Navigation.navigate(ROUTES.NEW_CHAT);
+        Navigation.setParams({share: formatShareData(share)});
+    });
+};
+
 const ShareContext = createContext(null);
 
-function ShareContextProvider(props) {
+function Provider(props) {
     const [shareData, setShareData] = useState(null);
 
     const handleShareData = (share) => {
@@ -40,12 +52,16 @@ function ShareContextProvider(props) {
     return <ShareContext.Provider value={shareData}>{props.children}</ShareContext.Provider>;
 }
 
-ShareContextProvider.propTypes = {
+Provider.propTypes = {
     /** Actual content wrapped by this component */
     children: PropTypes.node.isRequired,
 };
 
 const useShareData = () => useContext(ShareContext);
 
-export {ShareContextProvider, useShareData};
-export default useShareData;
+const registerListener = () => {
+    ShareMenu.getInitialShare(navigateToShare);
+    return ShareMenu.addNewShareListener(navigateToShare);
+};
+
+export {Provider, registerListener, useShareData};
