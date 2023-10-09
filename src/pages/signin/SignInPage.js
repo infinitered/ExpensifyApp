@@ -9,6 +9,7 @@ import ONYXKEYS from '../../ONYXKEYS';
 import Button from '../../components/Button';
 import useLocalize from '../../hooks/useLocalize';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
+import * as ActiveClientManager from '../../libs/ActiveClientManager';
 import * as Localize from '../../libs/Localize';
 import Log from '../../libs/Log';
 import Performance from '../../libs/Performance';
@@ -48,6 +49,9 @@ const propTypes = {
         validateCode: PropTypes.string,
     }),
 
+    /** Active Clients connected to ONYX Database */
+    activeClients: PropTypes.arrayOf(PropTypes.string),
+
     /** Whether or not the sign in page is being rendered in the RHP modal */
     isInModal: PropTypes.bool,
 };
@@ -56,6 +60,7 @@ const defaultProps = {
     account: {},
     credentials: {},
     isInModal: false,
+    activeClients: [],
 };
 
 /**
@@ -66,13 +71,13 @@ const defaultProps = {
  * @param {Boolean} hasEmailDeliveryFailure
  * @returns {Object}
  */
-function getRenderOptions({hasLogin, hasValidateCode, hasAccount, isPrimaryLogin, isAccountValidated, hasEmailDeliveryFailure}) {
-    const shouldShowLoginForm = !hasLogin && !hasValidateCode;
+function getRenderOptions({hasLogin, hasValidateCode, hasAccount, isPrimaryLogin, isAccountValidated, hasEmailDeliveryFailure, isClientTheLeader}) {
+    const shouldShowLoginForm = isClientTheLeader && !hasLogin && !hasValidateCode;
     const shouldShowEmailDeliveryFailurePage = hasLogin && hasEmailDeliveryFailure;
     const isUnvalidatedSecondaryLogin = hasLogin && !isPrimaryLogin && !isAccountValidated && !hasEmailDeliveryFailure;
     const shouldShowValidateCodeForm = hasAccount && (hasLogin || hasValidateCode) && !isUnvalidatedSecondaryLogin && !hasEmailDeliveryFailure;
     const shouldShowWelcomeHeader = shouldShowLoginForm || shouldShowValidateCodeForm || isUnvalidatedSecondaryLogin;
-    const shouldShowWelcomeText = shouldShowLoginForm || shouldShowValidateCodeForm;
+    const shouldShowWelcomeText = shouldShowLoginForm || shouldShowValidateCodeForm || !isClientTheLeader;
     const shouldShowSignInToShare = !hasLogin && Share.isShareExtension;
     return {
         shouldShowEmailDeliveryFailurePage,
@@ -85,7 +90,7 @@ function getRenderOptions({hasLogin, hasValidateCode, hasAccount, isPrimaryLogin
     };
 }
 
-function SignInPage({credentials, account, isInModal}) {
+function SignInPage({credentials, account, isInModal, activeClients}) {
     const {translate, formatPhoneNumber} = useLocalize();
     const {isSmallScreenWidth} = useWindowDimensions();
     const shouldShowSmallScreen = isSmallScreenWidth || isInModal;
@@ -99,6 +104,8 @@ function SignInPage({credentials, account, isInModal}) {
     useEffect(() => {
         App.setLocale(Localize.getDevicePreferredLocale());
     }, []);
+
+    const isClientTheLeader = activeClients && ActiveClientManager.isClientTheLeader();
 
     const {
         shouldShowEmailDeliveryFailurePage,
@@ -115,6 +122,7 @@ function SignInPage({credentials, account, isInModal}) {
         isPrimaryLogin: !account.primaryLogin || account.primaryLogin === credentials.login,
         isAccountValidated: Boolean(account.validated),
         hasEmailDeliveryFailure: Boolean(account.hasEmailDeliveryFailure),
+        isClientTheLeader,
     });
 
     let welcomeHeader = '';
@@ -123,6 +131,9 @@ function SignInPage({credentials, account, isInModal}) {
     if (shouldShowSignInToShare) {
         welcomeHeader = translate('welcomeText.signInToShare');
         welcomeText = translate('welcomeText.getStarted');
+    } else if (!isClientTheLeader) {
+        welcomeHeader = translate('welcomeText.anotherLoginPageIsOpen');
+        welcomeText = translate('welcomeText.anotherLoginPageIsOpenExplanation');
     } else if (shouldShowLoginForm) {
         welcomeHeader = isSmallScreenWidth ? headerText : translate('welcomeText.getStarted');
         welcomeText = isSmallScreenWidth ? translate('welcomeText.getStarted') : '';
@@ -205,4 +216,12 @@ SignInPage.displayName = 'SignInPage';
 export default withOnyx({
     account: {key: ONYXKEYS.ACCOUNT},
     credentials: {key: ONYXKEYS.CREDENTIALS},
+    /** 
+    This variable is only added to make sure the component is re-rendered 
+    whenever the activeClients change, so that we call the 
+    ActiveClientManager.isClientTheLeader function 
+    everytime the leader client changes.
+    We use that function to prevent repeating code that checks which client is the leader.
+    */
+    activeClients: {key: ONYXKEYS.ACTIVE_CLIENTS},
 })(SignInPage);
