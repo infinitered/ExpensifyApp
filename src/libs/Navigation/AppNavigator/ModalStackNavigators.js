@@ -1,8 +1,8 @@
-import {CardStyleInterpolators, createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
 import _ from 'underscore';
-import SCREENS from '../../../SCREENS';
+import React from 'react';
+import {createStackNavigator, CardStyleInterpolators} from '@react-navigation/stack';
 import styles from '../../../styles/styles';
+import SCREENS from '../../../SCREENS';
 
 const defaultSubRouteOptions = {
     cardStyle: styles.navigationScreenCardStyle,
@@ -203,26 +203,26 @@ const SignInModalStackNavigator = createModalStackNavigator({
 });
 
 export {
-    AddPersonalBankAccountModalStackNavigator,
-    DetailsModalStackNavigator,
-    EditRequestStackNavigator,
-    EnablePaymentsStackNavigator,
-    FlagCommentStackNavigator,
     MoneyRequestModalStackNavigator,
-    NewChatModalStackNavigator,
-    NewTaskModalStackNavigator,
-    NewTeachersUniteNavigator,
-    PrivateNotesModalStackNavigator,
+    SplitDetailsModalStackNavigator,
+    DetailsModalStackNavigator,
     ProfileModalStackNavigator,
-    ReimbursementAccountModalStackNavigator,
     ReportDetailsModalStackNavigator,
-    ReportParticipantsModalStackNavigator,
+    TaskModalStackNavigator,
     ReportSettingsModalStackNavigator,
     ReportWelcomeMessageModalStackNavigator,
+    ReportParticipantsModalStackNavigator,
     SearchModalStackNavigator,
+    NewChatModalStackNavigator,
+    NewTaskModalStackNavigator,
     SettingsModalStackNavigator,
-    SignInModalStackNavigator,
-    SplitDetailsModalStackNavigator,
-    TaskModalStackNavigator,
+    EnablePaymentsStackNavigator,
+    AddPersonalBankAccountModalStackNavigator,
+    ReimbursementAccountModalStackNavigator,
     WalletStatementStackNavigator,
+    FlagCommentStackNavigator,
+    EditRequestStackNavigator,
+    PrivateNotesModalStackNavigator,
+    NewTeachersUniteNavigator,
+    SignInModalStackNavigator,
 };
