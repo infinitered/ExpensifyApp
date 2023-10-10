@@ -1,15 +1,12 @@
-import {AppState} from 'react-native';
 import {exists, pathForGroup, unlink} from 'react-native-fs';
 import Onyx from 'react-native-onyx';
-import {ShareMenuReactView} from 'react-native-share-menu';
 import CONST from '../../CONST';
 import ONYXKEYS from '../../ONYXKEYS';
-import * as PersistedRequests from './PersistedRequests';
 
 let appGroupPath;
 pathForGroup(CONST.IOS_APP_GROUP).then((path) => (appGroupPath = path));
 
-const cleanUpActions = (file) => {
+const cleanUpAction = (file) => {
     if (!file || !file.source.includes(appGroupPath)) {
         return [];
     }
@@ -43,30 +40,4 @@ Onyx.connect({
     },
 });
 
-let isAppExtensionQueueFlushed = false;
-const flushAppExtensionQueue = (callback = () => {}) => {
-    if (isAppExtensionQueueFlushed) {
-        return false;
-    }
-    const connectionID = Onyx.connect({
-        key: ONYXKEYS.SHARE_PERSISTED_REQUESTS,
-        callback: (val) => {
-            Onyx.disconnect(connectionID);
-            PersistedRequests.save(val || []);
-            isAppExtensionQueueFlushed = true;
-            Onyx.set(ONYXKEYS.SHARE_PERSISTED_REQUESTS, []);
-            callback();
-        },
-    });
-
-    return true;
-};
-
-AppState.addEventListener('change', (appState) => {
-    if (ShareMenuReactView.isExtension || appState === CONST.APP_STATE.ACTIVE) {
-        return;
-    }
-    isAppExtensionQueueFlushed = false;
-});
-
-export {cleanUpActions, flushAppExtensionQueue};
+export default cleanUpAction;

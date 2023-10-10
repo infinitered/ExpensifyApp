@@ -1,14 +1,13 @@
-import Onyx from 'react-native-onyx';
 import _ from 'underscore';
-import CONST from '../../CONST';
+import Onyx from 'react-native-onyx';
+import * as PersistedRequests from '../actions/PersistedRequests';
+import * as NetworkStore from './NetworkStore';
 import ONYXKEYS from '../../ONYXKEYS';
 import * as ActiveClientManager from '../ActiveClientManager';
 import * as Request from '../Request';
 import * as RequestThrottle from '../RequestThrottle';
-import * as PersistedRequests from '../actions/PersistedRequests';
+import CONST from '../../CONST';
 import * as QueuedOnyxUpdates from '../actions/QueuedOnyxUpdates';
-import * as Share from '../actions/Share';
-import * as NetworkStore from './NetworkStore';
 
 let resolveIsReadyPromise;
 let isReadyPromise = new Promise((resolve) => {
@@ -102,10 +101,6 @@ function process() {
 function flush() {
     // When the queue is paused, return early. This will keep an requests in the queue and they will get flushed again when the queue is unpaused
     if (isQueuePaused) {
-        return;
-    }
-
-    if (Share.flushAppExtensionQueue(flush)) {
         return;
     }
 
@@ -205,4 +200,4 @@ function waitForIdle() {
     return isReadyPromise;
 }
 
-export {flush, getCurrentRequest, isRunning, pause, push, unpause, waitForIdle};
+export {flush, getCurrentRequest, isRunning, push, waitForIdle, pause, unpause};

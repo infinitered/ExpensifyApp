@@ -1,5 +1,5 @@
-import isEqual from 'lodash/isEqual';
 import Onyx from 'react-native-onyx';
+import isEqual from 'lodash/isEqual';
 import ONYXKEYS from '../../ONYXKEYS';
 import {Request} from '../../types/onyx';
 
@@ -54,4 +54,4 @@ function getAll(): Request[] {
     return persistedRequests;
 }
 
-export {clear, getAll, remove, save, update};
+export {clear, save, getAll, remove, update};

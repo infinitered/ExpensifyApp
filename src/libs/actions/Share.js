@@ -1,3 +1,2 @@
-const cleanUpActions = () => {};
-const flushAppExtensionQueue = () => {};
-export {cleanUpActions, flushAppExtensionQueue};
+const cleanUpAction = () => {};
+export default cleanUpAction;
