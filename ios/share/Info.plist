@@ -7,7 +7,7 @@
 	<key>HostAppGroup</key>
 	<string>group.com.chat.expensify.chat</string>
 	<key>HostAppURLScheme</key>
-	<string>new-expensify://new/chat</string>
+	<string>new-expensify://share</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSAppTransportSecurity</key>

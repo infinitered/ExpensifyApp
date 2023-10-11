@@ -95,7 +95,6 @@ const SearchModalStackNavigator = createModalStackNavigator({
 
 const NewChatModalStackNavigator = createModalStackNavigator({
     NewChat_Root: () => require('../../../pages/NewChatSelectorPage').default,
-    NewChat_Share: () => require('../../../pages/ShareMessagePage').default,
 });
 
 const NewTaskModalStackNavigator = createModalStackNavigator({
@@ -203,6 +202,11 @@ const SignInModalStackNavigator = createModalStackNavigator({
     SignIn_Root: () => require('../../../pages/signin/SignInModal').default,
 });
 
+const ShareModalStackNavigator = createModalStackNavigator({
+    Share_Root: () => require('../../../pages/SharePage').default,
+    Share_Message: () => require('../../../pages/ShareMessagePage').default,
+});
+
 export {
     MoneyRequestModalStackNavigator,
     SplitDetailsModalStackNavigator,
@@ -226,4 +230,5 @@ export {
     PrivateNotesModalStackNavigator,
     NewTeachersUniteNavigator,
     SignInModalStackNavigator,
+    ShareModalStackNavigator,
 };

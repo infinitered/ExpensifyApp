@@ -1,13 +1,13 @@
-import {View} from 'react-native';
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {View} from 'react-native';
 import _ from 'underscore';
-import * as Expensicons from '../Icon/Expensicons';
-import TabSelectorItem from './TabSelectorItem';
 import CONST from '../../CONST';
 import useLocalize from '../../hooks/useLocalize';
 import styles from '../../styles/styles';
 import themeColors from '../../styles/themes/default';
+import * as Expensicons from '../Icon/Expensicons';
+import TabSelectorItem from './TabSelectorItem';
 
 const propTypes = {
     /* Navigation state provided by React Navigation */
@@ -48,6 +48,8 @@ const getIconAndTitle = (route, translate) => {
             return {icon: Expensicons.Hashtag, title: translate('tabSelector.room')};
         case CONST.TAB.DISTANCE:
             return {icon: Expensicons.Car, title: translate('common.distance')};
+        case CONST.TAB.SHARE:
+            return {icon: Expensicons.UploadAlt, title: translate('common.share')};
         default:
             throw new Error(`Route ${route} has no icon nor title set.`);
     }

@@ -2677,6 +2677,8 @@ const CONST = {
         MANUAL: 'manual',
         SCAN: 'scan',
         DISTANCE: 'distance',
+        SHARE_TAB_ID: 'ShareTab',
+        SHARE: 'share',
     },
     STATUS_TEXT_MAX_LENGTH: 100,
 

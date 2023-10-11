@@ -271,10 +271,6 @@ export default {
                                     },
                                 },
                             },
-                            NewChat_Share: {
-                                path: ROUTES.SHARE_MESSAGE,
-                                exact: true,
-                            },
                         },
                     },
                     NewTask: {
@@ -394,6 +390,18 @@ export default {
                     SignIn: {
                         screens: {
                             SignIn_Root: ROUTES.SIGN_IN_MODAL,
+                        },
+                    },
+                    Share: {
+                        screens: {
+                            Share_Root: {
+                                path: ROUTES.SHARE,
+                                exact: true,
+                            },
+                            Share_Message: {
+                                path: ROUTES.SHARE_MESSAGE,
+                                exact: true,
+                            },
                         },
                     },
                 },

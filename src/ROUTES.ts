@@ -116,7 +116,8 @@ export default {
     NEW_CHAT: 'new/chat',
     NEW_ROOM: 'new/room',
 
-    SHARE_MESSAGE: 'shareMessage',
+    SHARE: 'share',
+    SHARE_MESSAGE: 'share/message',
 
     REPORT: 'r',
     REPORT_WITH_ID: {

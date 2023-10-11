@@ -1,19 +1,17 @@
 import React from 'react';
 import {withOnyx} from 'react-native-onyx';
-import CONST from '../CONST';
-import ONYXKEYS from '../ONYXKEYS';
-import HeaderWithBackButton from '../components/HeaderWithBackButton';
-import ScreenWrapper from '../components/ScreenWrapper';
-import TabSelector from '../components/TabSelector/TabSelector';
-import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
-import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
-import Navigation from '../libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '../libs/Navigation/OnyxTabNavigator';
+import TabSelector from '../components/TabSelector/TabSelector';
 import Permissions from '../libs/Permissions';
-import * as Share from '../libs/Share';
-import compose from '../libs/compose';
 import NewChatPage from './NewChatPage';
 import WorkspaceNewRoomPage from './workspace/WorkspaceNewRoomPage';
+import CONST from '../CONST';
+import ONYXKEYS from '../ONYXKEYS';
+import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
+import HeaderWithBackButton from '../components/HeaderWithBackButton';
+import ScreenWrapper from '../components/ScreenWrapper';
+import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
+import compose from '../libs/compose';
 
 const propTypes = {
     ...windowDimensionsPropTypes,
@@ -28,7 +26,6 @@ const defaultProps = {
 };
 
 function NewChatSelectorPage(props) {
-    const share = Share.useShareData();
     return (
         <ScreenWrapper
             shouldEnableKeyboardAvoidingView={false}
@@ -36,13 +33,7 @@ function NewChatSelectorPage(props) {
             shouldEnableMaxHeight
             testID={NewChatSelectorPage.displayName}
         >
-            <HeaderWithBackButton
-                onBackButtonPress={Navigation.dismissModal}
-                onCloseButtonPress={Navigation.dismissModal}
-                shouldShowBackButton={!share}
-                shouldShowCloseButton={!!share}
-                title={share ? props.translate('newChatPage.shareToExpensify') : props.translate('sidebarScreen.fabNewChat')}
-            />
+            <HeaderWithBackButton title={props.translate('sidebarScreen.fabNewChat')} />
             {Permissions.canUsePolicyRooms(props.betas) ? (
                 <OnyxTabNavigator
                     id={CONST.TAB.NEW_CHAT_TAB_ID}
