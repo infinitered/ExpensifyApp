@@ -55,8 +55,6 @@
 			<false/>
 		</dict>
 	</dict>
-	<key>ReactNativeQuickSQLite_AppGroup</key>
-	<string>group.com.chat.expensify.chat</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ExpensifyNewKansas-Medium.otf</string>
