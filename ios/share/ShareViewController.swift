@@ -184,10 +184,8 @@ class ShareViewController: UIViewController {
       }
       
       let mimeType = url.extractMimeType()
-      let fileExtension = url.pathExtension
-      let fileName = UUID().uuidString
       let filePath = groupFileManagerContainer
-        .appendingPathComponent("\(fileName).\(fileExtension)")
+        .appendingPathComponent(url.lastPathComponent)
       
       guard self.moveFileToDisk(from: url, to: filePath) else {
         self.exit(withError: COULD_NOT_SAVE_FILE_ERROR)
