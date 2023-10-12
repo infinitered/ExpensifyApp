@@ -57,7 +57,10 @@ function ShareMessagePage(props) {
                             <Text style={styles.textLabelSupporting}>{props.translate('common.attachment')}</Text>
                             {!!share.source && (
                                 <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
-                                    <AttachmentView source={share.source} />
+                                    <AttachmentView
+                                        source={share.source}
+                                        file={share}
+                                    />
                                 </View>
                             )}
                         </View>
