@@ -668,7 +668,7 @@ function navigateToAndOpenReport(userLogins, shouldDismissModal = true) {
  * @param {Array} userLogins list of user logins to start a chat report with.
  * @param {Object} share the share object to be passed to the share modal
  */
-function navigateToAndOpenShare(userLogins, share) {
+function navigateToAndOpenShare(userLogins) {
     let newChat = {};
 
     const participantAccountIDs = PersonalDetailsUtils.getAccountIDsByLogins(userLogins);
@@ -682,7 +682,7 @@ function navigateToAndOpenShare(userLogins, share) {
     // We want to pass newChat here because if anything is passed in that param (even an existing chat), we will try to create a chat on the server
     openReport(reportID, userLogins, newChat);
     Navigation.navigate(ROUTES.SHARE_MESSAGE);
-    Navigation.setParams({option: userLogins, share, reportID});
+    Navigation.setParams({reportID});
 }
 
 /**

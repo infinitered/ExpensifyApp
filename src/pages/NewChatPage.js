@@ -143,7 +143,7 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
      */
     function createChat(option) {
         if (share) {
-            Report.navigateToAndOpenShare([option.login], share);
+            Report.navigateToAndOpenShare([option.login]);
             return;
         }
         Report.navigateToAndOpenReport([option.login]);
@@ -159,7 +159,7 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate}) 
             return;
         }
         if (share) {
-            Report.navigateToAndOpenShare(logins, share);
+            Report.navigateToAndOpenShare(logins);
             return;
         }
         Report.navigateToAndOpenReport(logins);

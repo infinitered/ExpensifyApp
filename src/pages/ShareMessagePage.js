@@ -11,12 +11,13 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import TextInput from '../components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import Navigation from '../libs/Navigation/Navigation';
+import * as Share from '../libs/Share';
 import * as Report from '../libs/actions/Report';
 import styles from '../styles/styles';
 
-function ShareMessagePage(props) {
-    const reportID = props.route.params.reportID;
-    const {isTextShare, ...share} = props.route.params.share;
+function ShareMessagePage({route, translate}) {
+    const reportID = route.params.reportID;
+    const {isTextShare, ...share} = Share.useShareData();
     const [message, setMessage] = useState(isTextShare ? share.source : '');
 
     return (
@@ -24,15 +25,15 @@ function ShareMessagePage(props) {
             includeSafeAreaPaddingBottom
             shouldEnableMaxHeight
         >
-            <HeaderWithBackButton title={props.translate('newChatPage.shareToExpensify')} />
+            <HeaderWithBackButton title={translate('newChatPage.shareToExpensify')} />
             <View style={[styles.justifyContentBetween, styles.flexGrow1]}>
                 <View>
-                    <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
+                    <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{translate('common.to')}</Text>
                     <OptionRowLHNData reportID={reportID} />
                     <View style={{padding: 24}}>
                         <TextInput
-                            accessibilityLabel={props.translate('common.message')}
-                            label={props.translate('common.message')}
+                            accessibilityLabel={translate('common.message')}
+                            label={translate('common.message')}
                             accessibilityRole={CONST.ACCESSIBILITY_ROLE.TEXT}
                             autoGrowHeight
                             textAlignVertical="top"
@@ -46,7 +47,7 @@ function ShareMessagePage(props) {
                     </View>
                     {!isTextShare && (
                         <View style={{padding: 24}}>
-                            <Text style={styles.textLabelSupporting}>{props.translate('common.attachment')}</Text>
+                            <Text style={styles.textLabelSupporting}>{translate('common.attachment')}</Text>
                             {!!share.source && (
                                 <View style={{borderRadius: 8, height: 200, marginTop: 8, overflow: 'hidden', width: '100%'}}>
                                     <AttachmentView
@@ -62,7 +63,7 @@ function ShareMessagePage(props) {
                     <Button
                         success
                         pressOnEnter
-                        text={props.translate('common.share')}
+                        text={translate('common.share')}
                         onPress={() => {
                             if (isTextShare) {
                                 Report.addComment(reportID, message);
