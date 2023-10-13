@@ -24,19 +24,11 @@ function ShareMessagePage(props) {
             includeSafeAreaPaddingBottom
             shouldEnableMaxHeight
         >
-            <HeaderWithBackButton
-                shouldShowBackButton={false}
-                shouldShowCloseButton
-                title={props.translate('newChatPage.shareToExpensify')}
-                onCloseButtonPress={Navigation.dismissModal}
-            />
+            <HeaderWithBackButton title={props.translate('newChatPage.shareToExpensify')} />
             <View style={[styles.justifyContentBetween, styles.flexGrow1]}>
                 <View>
                     <Text style={[styles.textLabelSupporting, {paddingLeft: 24}]}>{props.translate('common.to')}</Text>
-                    <OptionRowLHNData
-                        onSelectRow={Navigation.goBack}
-                        reportID={reportID}
-                    />
+                    <OptionRowLHNData reportID={reportID} />
                     <View style={{padding: 24}}>
                         <TextInput
                             accessibilityLabel={props.translate('common.message')}
