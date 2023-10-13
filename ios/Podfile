@@ -97,7 +97,7 @@ target 'NewExpensify' do
   end
 
   target 'share' do
-    inherit! :complete
+    pod 'RNShareMenu', :path => '../node_modules/react-native-share-menu'
   end
 
   post_install do |installer|
