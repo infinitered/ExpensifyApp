@@ -38,7 +38,7 @@ const defaultProps = {
 function SharePage({iou, report, translate}) {
     const share = useShareData();
 
-    const navigateToConfirmationStep = (moneyRequestType) => {
+    const navigateToScanConfirmationStep = (moneyRequestType) => {
         IOU.setMoneyRequestReceipt(share.source, share.name);
         IOU.setMoneyRequestId(moneyRequestType);
         Navigation.navigate(ROUTES.MONEY_REQUEST_CONFIRMATION.getRoute(moneyRequestType, report.reportID));
@@ -72,8 +72,8 @@ function SharePage({iou, report, translate}) {
                         <MoneyRequestParticipantsSelector
                             participants={iou.participants}
                             onAddParticipants={IOU.setMoneyRequestParticipants}
-                            navigateToRequest={() => navigateToConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.REQUEST)}
-                            navigateToSplit={() => navigateToConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.SPLIT)}
+                            navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.REQUEST)}
+                            navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.SPLIT)}
                             iouType={CONST.IOU.MONEY_REQUEST_TYPE.REQUEST}
                             isScanRequest
                         />
