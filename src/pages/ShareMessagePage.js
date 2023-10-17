@@ -25,9 +25,7 @@ function ShareMessagePage({report, personalDetails, translate}) {
     const {isTextShare, ...share} = Share.useShareData();
     const [message, setMessage] = useState(isTextShare ? share.source : '');
 
-    const participants = _.map(participantAccountIDs, (accountID) => {
-        return OptionsListUtils.getParticipantsOption({accountID, selected: true}, personalDetails);
-    });
+    const participants = _.map(participantAccountIDs, (accountID) => OptionsListUtils.getParticipantsOption({accountID, selected: true}, personalDetails));
 
     const navigateToReportOrUserDetail = (option) => {
         if (option.accountID) {
