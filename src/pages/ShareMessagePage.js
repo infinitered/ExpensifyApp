@@ -22,7 +22,7 @@ import styles from '../styles/styles';
 import personalDetailsPropType from './personalDetailsPropType';
 import reportPropTypes from './reportPropTypes';
 
-function ShareMessagePage({report, personalDetails, route, translate}) {
+function ShareMessagePage({report, personalDetails, translate}) {
     const {participantAccountIDs, reportID} = report;
     const {isTextShare, ...share} = Share.useShareData();
     const [message, setMessage] = useState(isTextShare ? share.source : '');
@@ -143,8 +143,8 @@ ShareMessagePage.propTypes = {
     ...withLocalizePropTypes,
 };
 ShareMessagePage.defaultProps = {
+    personalDetails: {},
     report: {},
-    reportActions: {},
 };
 
 export default compose(

@@ -10,7 +10,7 @@ import withLocalize, {withLocalizePropTypes} from '../components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '../components/withWindowDimensions';
 import Navigation from '../libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '../libs/Navigation/OnyxTabNavigator';
-import {useShareData} from '../libs/Share';
+import * as Share from '../libs/Share';
 import * as IOU from '../libs/actions/IOU';
 import compose from '../libs/compose';
 import NewChatPage from './NewChatPage';
@@ -36,7 +36,7 @@ const defaultProps = {
 };
 
 function SharePage({iou, report, translate}) {
-    const share = useShareData();
+    const share = Share.useShareData();
 
     const navigateToScanConfirmationStep = (moneyRequestType) => {
         IOU.setMoneyRequestReceipt(share.source, share.name);
