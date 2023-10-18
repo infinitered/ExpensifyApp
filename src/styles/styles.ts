@@ -3669,6 +3669,7 @@ const styles = (theme: ThemeDefault) =>
             paddingRight: 4,
             marginBottom: 32,
             alignSelf: 'flex-start',
+            ...userSelect.userSelectNone,
         },
 
         emojiPickerButtonDropdownIcon: {
@@ -3703,8 +3704,7 @@ const styles = (theme: ThemeDefault) =>
 
         reportActionItemImages: {
             flexDirection: 'row',
-            borderWidth: 4,
-            borderColor: theme.transparent,
+            margin: 4,
             borderTopLeftRadius: variables.componentBorderRadiusLarge,
             borderTopRightRadius: variables.componentBorderRadiusLarge,
             overflow: 'hidden',
