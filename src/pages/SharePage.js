@@ -72,9 +72,9 @@ function SharePage({iou, report, translate}) {
                         <MoneyRequestParticipantsSelector
                             participants={iou.participants}
                             onAddParticipants={IOU.setMoneyRequestParticipants}
-                            navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.REQUEST)}
-                            navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.MONEY_REQUEST_TYPE.SPLIT)}
-                            iouType={CONST.IOU.MONEY_REQUEST_TYPE.REQUEST}
+                            navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.REQUEST)}
+                            navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.SPLIT)}
+                            iouType={CONST.IOU.TYPE.REQUEST}
                             isScanRequest
                         />
                     )}
