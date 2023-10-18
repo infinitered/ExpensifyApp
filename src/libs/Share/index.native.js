@@ -36,7 +36,7 @@ function Provider(props) {
         // iOS deep links directly to the share flow, with Android we need to manually navigate
         if (Platform.OS === 'android') {
             Navigation.isNavigationReady().then(() => {
-                Navigation.navigate(ROUTES.NEW_CHAT);
+                Navigation.navigate(ROUTES.SHARE);
             });
         }
     };
