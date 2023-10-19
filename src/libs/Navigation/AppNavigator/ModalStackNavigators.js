@@ -91,6 +91,14 @@ const ReportParticipantsModalStackNavigator = createModalStackNavigator({
     ReportParticipants_Root: () => require('../../../pages/ReportParticipantsPage').default,
 });
 
+const RoomMembersModalStackNavigator = createModalStackNavigator({
+    RoomMembers_Root: () => require('../../../pages/RoomMembersPage').default,
+});
+
+const RoomInviteModalStackNavigator = createModalStackNavigator({
+    RoomInvite_Root: () => require('../../../pages/RoomInvitePage').default,
+});
+
 const SearchModalStackNavigator = createModalStackNavigator({
     Search_Root: () => require('../../../pages/SearchPage').default,
 });
@@ -237,4 +245,6 @@ export {
     NewTeachersUniteNavigator,
     SignInModalStackNavigator,
     ShareModalStackNavigator,
+    RoomMembersModalStackNavigator,
+    RoomInviteModalStackNavigator,
 };
