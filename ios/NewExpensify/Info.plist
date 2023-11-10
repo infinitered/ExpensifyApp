@@ -122,6 +122,8 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
+	<key>ReactNativeShareMenuAppGroup</key>
+	<string>group.com.chat.expensify.chat</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
