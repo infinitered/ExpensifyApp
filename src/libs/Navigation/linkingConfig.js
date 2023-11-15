@@ -432,6 +432,7 @@ export default {
                                 path: ROUTES.SHARE_MESSAGE,
                                 exact: true,
                             },
+                            Share_Scan_Confirm: ROUTES.SHARE_SCAN_CONFIRM.route,
                         },
                     },
                 },

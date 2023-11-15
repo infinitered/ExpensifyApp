@@ -41,7 +41,7 @@ function SharePage({iou, report, translate}) {
     const navigateToScanConfirmationStep = (moneyRequestType) => {
         IOU.setMoneyRequestReceipt(share.source, share.name);
         IOU.setMoneyRequestId(moneyRequestType);
-        Navigation.navigate(ROUTES.MONEY_REQUEST_CONFIRMATION.getRoute(moneyRequestType, report.reportID));
+        Navigation.navigate(ROUTES.SHARE_SCAN_CONFIRM.getRoute(moneyRequestType, report.reportID));
     };
 
     return (

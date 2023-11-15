@@ -130,6 +130,10 @@ export default {
 
     SHARE: 'share',
     SHARE_MESSAGE: 'share/message',
+    SHARE_SCAN_CONFIRM: {
+        route: 'share/scan/confirm/:iouType/:reportID',
+        getRoute: (iouType: string, reportID = '') => `share/scan/confirm/${iouType}/${reportID}`,
+    },
 
     REPORT: 'r',
     REPORT_WITH_ID: {

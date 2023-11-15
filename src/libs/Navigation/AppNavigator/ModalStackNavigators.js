@@ -219,6 +219,7 @@ const SignInModalStackNavigator = createModalStackNavigator({
 const ShareModalStackNavigator = createModalStackNavigator({
     Share_Root: () => require('../../../pages/SharePage').default,
     Share_Message: () => require('../../../pages/ShareMessagePage').default,
+    Share_Scan_Confirm: () => require('../../../pages/iou/steps/MoneyRequestConfirmPage').default,
 });
 
 export {
