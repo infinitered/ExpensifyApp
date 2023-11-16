@@ -7,7 +7,7 @@
 	<key>ReactNativeShareMenuAppGroup</key>
 	<string>group.com.chat.expensify.chat</string>
 	<key>HostAppURLScheme</key>
-	<string>new-expensify://</string>
+	<string>new-expensify://share</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSAppTransportSecurity</key>
