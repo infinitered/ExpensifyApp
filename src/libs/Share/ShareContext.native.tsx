@@ -1,34 +1,37 @@
 import isEmpty from 'lodash/isEmpty';
 import {createContext, useContext, useEffect, useState, ReactNode} from 'react';
 import {Platform} from 'react-native';
-import ShareMenu, {ShareData as ShareMenuData, ShareCallback} from 'react-native-share-menu';
+import ShareMenu, {ShareData, ShareCallback} from 'react-native-share-menu';
 import ROUTES from '@src/ROUTES';
 import Navigation from '@libs/Navigation/Navigation';
 
-type FormattedShareData = {
-    isTextShare: boolean;
-    name: string;
-    source: string;
-    type: string;
-    uri: string;
+type NormalizedShareData<TExtraData = unknown> = {
+    mimeType: string; data: string | string[]; extraData?: TExtraData;
 }
 
-const hasNoShareData = (share?: ShareMenuData): boolean => !share?.data || isEmpty(share.data);
+type FormattedShareData = {
+    isTextShare: boolean; name: string; source: string; type: string; uri: string;
+}
 
-const normalizeShareData = (shared: ShareMenuData): ShareMenuData => (Array.isArray(shared.data) ? {
-    ...shared,
-    data: shared.data[0]
-} : shared);
+type SharedData = ShareData | { data: ShareData[] }
 
-const formatShareData = (shared: ShareMenuData): FormattedShareData => {
-    const share = normalizeShareData(shared);
-    return {
-        isTextShare: share.mimeType === 'text/plain',
-        name: typeof share.data === 'string' ? share.data.split('/').pop() ?? '' : '',
-        source: typeof share.data === 'string' ? share.data : '',
-        type: share.mimeType,
-        uri: typeof share.data === 'string' ? share.data : '',
+
+const hasNoShareData = (share?: SharedData): boolean => !share?.data || isEmpty(share.data);
+
+
+const formatShareData = (shared: SharedData): FormattedShareData => {
+
+    const share: NormalizedShareData = Array.isArray(shared.data)
+                                       ? (shared.data as ShareData[])[0]
+                                       : shared as NormalizedShareData;
+
+    if (Array.isArray(share.data)) {share.data = share.data[0];}
+
+    const formattedData: FormattedShareData = {
+        isTextShare: share.mimeType === 'text/plain', name: share.data.split('/').pop() ??
+                                                            '', source: share.data, type: share.mimeType, uri: share.data,
     };
+    return formattedData;
 };
 
 const ShareContext = createContext<FormattedShareData | null>(null);
@@ -37,7 +40,7 @@ type ProviderProps = {
     children: ReactNode;
 }
 
-function Provider({children}: ProviderProps) {
+function ShareContextProvider({children}: ProviderProps) {
     const [shareData, setShareData] = useState<FormattedShareData | null>(null);
 
     const handleShareData: ShareCallback = (share) => {
@@ -56,7 +59,7 @@ function Provider({children}: ProviderProps) {
     ShareMenu.getInitialShare(handleShareData);
     useEffect(() => {
         const listener = ShareMenu.addNewShareListener(handleShareData);
-        return ()=>listener.remove();
+        return () => listener.remove();
     }, []);
 
     return <ShareContext.Provider value={shareData}>{children}</ShareContext.Provider>;
@@ -64,4 +67,4 @@ function Provider({children}: ProviderProps) {
 
 const useShareData = (): FormattedShareData | null => useContext(ShareContext);
 
-export {Provider, useShareData};
+export {ShareContextProvider, useShareData};

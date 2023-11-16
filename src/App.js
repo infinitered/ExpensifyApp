@@ -67,7 +67,7 @@ function App() {
                     ThemeProvider,
                     ThemeStylesProvider,
                     SidebarNavigationContextProvider,
-                    Share.Provider,
+                    Share.ShareContextProvider
                 ]}
             >
                 <CustomStatusBar />

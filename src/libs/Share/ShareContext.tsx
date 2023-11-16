@@ -2,10 +2,12 @@ import React, {createContext, PropsWithChildren} from 'react';
 
 const ShareContext = createContext<null>(null);
 
-function Provider({children}: PropsWithChildren<Record<string, never>>) {
+type ShareContextProviderProps<T = Record<string, never>> = PropsWithChildren<T>
+
+function ShareContextProvider({children}: ShareContextProviderProps) {
     return <ShareContext.Provider value={null}>{children}</ShareContext.Provider>;
 }
 
 const useShareData = (): null => null;
 
-export default {Provider, useShareData};
+export default {ShareContextProvider, useShareData};
