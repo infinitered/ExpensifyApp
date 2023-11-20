@@ -1,22 +1,22 @@
+import PropTypes from 'prop-types';
 import {useState} from 'react';
 import {Text, View} from 'react-native';
 import {withOnyx} from 'react-native-onyx';
 import _ from 'underscore';
-import ONYXKEYS from '@src/ONYXKEYS';
-import ROUTES from '@src/ROUTES';
 import AttachmentView from '@components/Attachments/AttachmentView';
 import HeaderWithBackButton from '@components/HeaderWithBackButton';
 import OptionsSelector from '@components/OptionsSelector';
 import ScreenWrapper from '@components/ScreenWrapper';
 import TextInput from '@components/TextInput';
 import withLocalize, {withLocalizePropTypes} from '@components/withLocalize';
+import compose from '@libs/compose';
 import Navigation from '@libs/Navigation/Navigation';
 import * as OptionsListUtils from '@libs/OptionsListUtils';
 import Share from '@libs/Share';
-import * as Report from '@userActions/Report';
-import compose from '@libs/compose';
 import styles from '@styles/styles';
-import PropTypes from "prop-types";
+import * as Report from '@userActions/Report';
+import ONYXKEYS from '@src/ONYXKEYS';
+import ROUTES from '@src/ROUTES';
 import personalDetailsPropType from './personalDetailsPropType';
 import reportPropTypes from './reportPropTypes';
 

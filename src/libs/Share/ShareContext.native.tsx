@@ -1,35 +1,41 @@
 import isEmpty from 'lodash/isEmpty';
-import {createContext, useContext, useEffect, useState, ReactNode} from 'react';
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {Platform} from 'react-native';
-import ShareMenu, {ShareData, ShareCallback} from 'react-native-share-menu';
-import ROUTES from '@src/ROUTES';
+import ShareMenu, {ShareCallback, ShareData} from 'react-native-share-menu';
 import Navigation from '@libs/Navigation/Navigation';
+import ROUTES from '@src/ROUTES';
 
 type NormalizedShareData<TExtraData = unknown> = {
-    mimeType: string; data: string | string[]; extraData?: TExtraData;
-}
+    mimeType: string;
+    data: string | string[];
+    extraData?: TExtraData;
+};
 
 type FormattedShareData = {
-    isTextShare: boolean; name: string; source: string; type: string; uri: string;
-}
+    isTextShare: boolean;
+    name: string;
+    source: string;
+    type: string;
+    uri: string;
+};
 
-type SharedData = ShareData | { data: ShareData[] }
-
+type SharedData = ShareData | {data: ShareData[]};
 
 const hasNoShareData = (share?: SharedData): boolean => !share?.data || isEmpty(share.data);
 
-
 const formatShareData = (shared: SharedData): FormattedShareData => {
+    const share: NormalizedShareData = Array.isArray(shared.data) ? (shared.data as ShareData[])[0] : (shared as NormalizedShareData);
 
-    const share: NormalizedShareData = Array.isArray(shared.data)
-                                       ? (shared.data as ShareData[])[0]
-                                       : shared as NormalizedShareData;
-
-    if (Array.isArray(share.data)) {share.data = share.data[0];}
+    if (Array.isArray(share.data)) {
+        share.data = share.data[0];
+    }
 
     const formattedData: FormattedShareData = {
-        isTextShare: share.mimeType === 'text/plain', name: share.data.split('/').pop() ??
-                                                            '', source: share.data, type: share.mimeType, uri: share.data,
+        isTextShare: share.mimeType === 'text/plain',
+        name: share.data.split('/').pop() ?? '',
+        source: share.data,
+        type: share.mimeType,
+        uri: share.data,
     };
     return formattedData;
 };
@@ -38,7 +44,7 @@ const ShareContext = createContext<FormattedShareData | null>(null);
 
 type ProviderProps = {
     children: ReactNode;
-}
+};
 
 function ShareContextProvider({children}: ProviderProps) {
     const [shareData, setShareData] = useState<FormattedShareData | null>(null);

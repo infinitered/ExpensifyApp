@@ -23,9 +23,9 @@ import useDefaultDragAndDrop from './hooks/useDefaultDragAndDrop';
 import OnyxUpdateManager from './libs/actions/OnyxUpdateManager';
 import * as Session from './libs/actions/Session';
 import * as Environment from './libs/Environment/Environment';
+import Share from './libs/Share';
 import {ReportAttachmentsProvider} from './pages/home/report/ReportAttachmentsContext';
 import {SidebarNavigationContextProvider} from './pages/home/sidebar/SidebarNavigationContext';
-import Share from './libs/Share';
 import ThemeProvider from './styles/themes/ThemeProvider';
 import ThemeStylesProvider from './styles/ThemeStylesProvider';
 
@@ -67,7 +67,7 @@ function App() {
                     ThemeProvider,
                     ThemeStylesProvider,
                     SidebarNavigationContextProvider,
-                    Share.ShareContextProvider
+                    Share.ShareContextProvider,
                 ]}
             >
                 <CustomStatusBar />

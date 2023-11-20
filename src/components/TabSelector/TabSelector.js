@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React, {useMemo, useState} from 'react';
 import {View} from 'react-native';
 import _ from 'underscore';
-import CONST from '@src/CONST';
+import * as Expensicons from '@components/Icon/Expensicons';
 import useLocalize from '@hooks/useLocalize';
 import styles from '@styles/styles';
 import themeColors from '@styles/themes/default';
-import * as Expensicons from '@components/Icon/Expensicons';
+import CONST from '@src/CONST';
 import TabSelectorItem from './TabSelectorItem';
 
 const propTypes = {
