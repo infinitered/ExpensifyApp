@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import {createContext, useContext, useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import ShareMenu from 'react-native-share-menu';
-import ROUTES from '@src/ROUTES';
 import Navigation from '@libs/Navigation/Navigation';
+import ROUTES from '@src/ROUTES';
 
 const hasNoShareData = (share) => !share || !share.data || isEmpty(share.data);
 

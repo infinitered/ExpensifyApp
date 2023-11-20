@@ -1,3 +1,3 @@
-import * as Share from "./ShareContext";
+import * as Share from './ShareContext';
 
-export default Share
+export default Share;

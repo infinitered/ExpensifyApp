@@ -1,21 +1,21 @@
 import React from 'react';
 import {withOnyx} from 'react-native-onyx';
-import CONST from '@src/CONST';
-import ONYXKEYS from '@src/ONYXKEYS';
-import ROUTES from '@src/ROUTES';
 import HeaderWithBackButton from '@components/HeaderWithBackButton';
 import ScreenWrapper from '@components/ScreenWrapper';
 import TabSelector from '@components/TabSelector/TabSelector';
 import withLocalize, {withLocalizePropTypes} from '@components/withLocalize';
 import withWindowDimensions, {windowDimensionsPropTypes} from '@components/withWindowDimensions';
+import compose from '@libs/compose';
 import Navigation from '@libs/Navigation/Navigation';
 import OnyxTabNavigator, {TopTab} from '@libs/Navigation/OnyxTabNavigator';
 import Share from '@libs/Share';
 import * as IOU from '@userActions/IOU';
-import compose from '@libs/compose';
-import NewChatPage from './NewChatPage';
+import CONST from '@src/CONST';
+import ONYXKEYS from '@src/ONYXKEYS';
+import ROUTES from '@src/ROUTES';
 import {iouDefaultProps, iouPropTypes} from './iou/propTypes';
 import MoneyRequestParticipantsSelector from './iou/steps/MoneyRequstParticipantsPage/MoneyRequestParticipantsSelector';
+import NewChatPage from './NewChatPage';
 import reportPropTypes from './reportPropTypes';
 
 const propTypes = {
