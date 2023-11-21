@@ -25,7 +25,6 @@ import * as Session from './libs/actions/Session';
 import * as Environment from './libs/Environment/Environment';
 import Share from './libs/Share';
 import {ReportAttachmentsProvider} from './pages/home/report/ReportAttachmentsContext';
-import {SidebarNavigationContextProvider} from './pages/home/sidebar/SidebarNavigationContext';
 import ThemeProvider from './styles/themes/ThemeProvider';
 import ThemeStylesProvider from './styles/ThemeStylesProvider';
 
@@ -66,7 +65,6 @@ function App() {
                     EnvironmentProvider,
                     ThemeProvider,
                     ThemeStylesProvider,
-                    SidebarNavigationContextProvider,
                     Share.ShareContextProvider,
                 ]}
             >
