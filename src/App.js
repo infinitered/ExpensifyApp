@@ -42,6 +42,10 @@ LogBox.ignoreLogs([
     // the timer is lost. Currently Expensify is using a 30 minutes interval to refresh personal details.
     // More details here: https://git.io/JJYeb
     'Setting a timer for a long period of time',
+   // TODO: EXP-46. Ignore "screen" issue with `getMinimalAction`.
+   "Cannot read property 'screen' of undefined",
+   // TODO: EXP-77 (this ticket, update the branch)
+   "Failed prop type: Invalid prop `role` of value `text` supplied to `TextInput"
 ]);
 
 const fill = {flex: 1};
