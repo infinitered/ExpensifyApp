@@ -1,0 +1,35 @@
+appId: com.expensify.chat.dev
+env:
+  SHARE_TO_NAME: "Daniel Edwards"
+  FLOW_NAME: "ShareTextToPerson"
+  
+---
+# launch Safari 
+- launchApp: "com.apple.mobilesafari"
+# dismiss keyboard if visible, can mess with rest of flow
+- runFlow:
+    when:
+      visible: "Done"
+    commands:
+      - tapOn: "Done"
+- tapOn: "Address"
+- inputText: "github.com"
+- tapOn:
+    id: "Go" 
+- tapOn: "Share"
+- tapOn: "New Expensify Dev"
+- extendedWaitUntil:
+    visible: "Share to Expensify"
+    timeout: 10000
+- tapOn: "Name, email, or phone number"
+- takeScreenshot: "ShareSelectorFor${FLOW_NAME}"
+- inputText: "${SHARE_TO_NAME}"
+- tapOn: "${SHARE_TO_NAME}"
+- assertVisible: "${SHARE_TO_NAME}"
+# doesn't work right now, the label is always "Message"
+# - assertVisible: "${SHARED_TEXT}"
+- assertVisible: "Share"
+- takeScreenshot: ShareMessageForTextToPersonFlow
+- tapOn: "Message "
+- inputText: " is the website"
+- tapOn: "Share"

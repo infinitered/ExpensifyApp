@@ -1,0 +1,7 @@
+appId: "${APP_ID}"
+---
+
+- tapOn: "Name, email, or phone number"
+- takeScreenshot: "ShareSelectorFor${FLOW_NAME}"
+- inputText: "${SHARE_TO_NAME}"
+- tapOn: "${SHARE_TO_NAME}"

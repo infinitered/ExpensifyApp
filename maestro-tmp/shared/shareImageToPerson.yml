@@ -1,0 +1,19 @@
+appId: ${APP_ID} 
+---
+
+# Meant to be used from the point the New Expensify app is opened onwards
+- assertVisible: "Share to Expensify"
+- takeScreenshot: ShareSelectorForImageToPersonFlow
+- tapOn: "${SHARE_TO_NAME}"
+- assertVisible: "${SHARE_TO_NAME}"
+- assertVisible: "Attachment"
+- assertVisible: "${FILE_NAME}"
+- assertVisible: "Share"
+- takeScreenshot: ShareMessageForImageToPersonFlow
+- tapOn: "Message "
+- inputText: "Test message for share"
+- tapOn: "Share"
+
+
+
+

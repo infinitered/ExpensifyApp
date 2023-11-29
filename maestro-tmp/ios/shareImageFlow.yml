@@ -1,0 +1,17 @@
+appId: com.expensify.chat.dev
+---
+# launch Photos app
+- launchApp: "com.apple.mobileslideshow"
+# Label of a stock photo on iOS sim
+- tapOn: "Photo, October 09, 2009, 2:09 PM"
+- tapOn: "Share"
+- tapOn: "New Expensify Dev"
+- runFlow:
+    file: "../shared/shareImageToPerson.yml"
+    env:
+      SHARE_TO_NAME: "Daniel Edwards"
+      FILE_NAME: "IMG_0002.JPG"
+
+
+
+

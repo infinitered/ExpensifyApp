@@ -1,0 +1,23 @@
+appId: ${APP_ID} 
+---
+
+# Meant to be used from the point the New Expensify app is opened onwards
+- extendedWaitUntil:
+    visible: "Share to Expensify"
+    timeout: 10000
+- runFlow:
+    file: "searchForAndSelectTarget.yml"
+    env:
+      FLOW_NAME: "ShareTextToPerson"
+- assertVisible: "${SHARE_TO_NAME}"
+# doesn't work right now, the label is always "Message"
+# - assertVisible: "${SHARED_TEXT}"
+- assertVisible: "Share"
+- takeScreenshot: ShareMessageForTextToPersonFlow
+- tapOn: "Message "
+- inputText: " is the website"
+- tapOn: "Share"
+
+
+
+

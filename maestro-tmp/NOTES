@@ -1,0 +1,1 @@
+- "To" component is disappearing if person is not in contacts (i.e., constructed optimistically)
