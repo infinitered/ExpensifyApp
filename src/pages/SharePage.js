@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {withOnyx} from 'react-native-onyx';
 import HeaderWithBackButton from '@components/HeaderWithBackButton';
 import ScreenWrapper from '@components/ScreenWrapper';
@@ -18,12 +18,16 @@ import MoneyRequestParticipantsSelector from './iou/steps/MoneyRequstParticipant
 import NewChatPage from './NewChatPage';
 import reportPropTypes from './reportPropTypes';
 
-const propTypes = {
+const basePropTypes = {
     /** Holds data related to Money Request view state, rather than the underlying Money Request data. */
     iou: iouPropTypes,
 
     /** The report currently being used */
     report: reportPropTypes,
+}
+
+const propTypes = {
+    ...basePropTypes,
 
     ...windowDimensionsPropTypes,
 
@@ -32,10 +36,10 @@ const propTypes = {
 
 const defaultProps = {
     iou: iouDefaultProps,
-    report: {},
+    report: {reportID: undefined},
 };
 
-function SharePage({iou, report, translate}) {
+function Scan({iou, report}) {
     const share = Share.useShareData();
 
     const navigateToScanConfirmationStep = (moneyRequestType) => {
@@ -43,6 +47,22 @@ function SharePage({iou, report, translate}) {
         IOU.setMoneyRequestId(moneyRequestType);
         Navigation.navigate(ROUTES.MONEY_REQUEST_CONFIRMATION.getRoute(moneyRequestType, report.reportID));
     };
+
+   return (
+     <MoneyRequestParticipantsSelector
+         participants={iou.participants}
+         onAddParticipants={IOU.setMoneyRequestParticipants}
+         navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.REQUEST)}
+         navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.SPLIT)}
+         iouType={CONST.IOU.TYPE.REQUEST}
+         isScanRequest
+     />
+   );
+}
+
+function SharePage({iou, report, translate}) {
+
+    const ScanScreen = useCallback(() => <Scan iou={iou} report={report} />, [iou, report]);
 
     return (
         <ScreenWrapper
@@ -68,21 +88,16 @@ function SharePage({iou, report, translate}) {
                 />
                 <TopTab.Screen
                     name={CONST.TAB.SCAN}
-                    component={() => (
-                        <MoneyRequestParticipantsSelector
-                            participants={iou.participants}
-                            onAddParticipants={IOU.setMoneyRequestParticipants}
-                            navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.REQUEST)}
-                            navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.SPLIT)}
-                            iouType={CONST.IOU.TYPE.REQUEST}
-                            isScanRequest
-                        />
-                    )}
+                    component={ScanScreen}
                 />
             </OnyxTabNavigator>
         </ScreenWrapper>
     );
 }
+
+Scan.propTypes = basePropTypes;
+Scan.defaultProps = basePropTypes;
+Scan.displayName = 'ScanTab';
 
 SharePage.propTypes = propTypes;
 SharePage.defaultProps = defaultProps;
