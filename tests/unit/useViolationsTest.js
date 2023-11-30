@@ -1,4 +1,3 @@
-/* eslint-disable rulesdir/prefer-underscore-method -- Disabled because it incorrectly flags the use of `it.each` */
 import { renderHook } from '@testing-library/react-native';
 import { useViolations, violationFields } from '@libs/Violations/useViolations';
 
@@ -89,6 +88,7 @@ describe('useViolations', () => {
     });
 
     describe('returns correct values for all violations', () => {
+        // eslint-disable-next-line rulesdir/prefer-underscore-method
         it.each(fieldNames)('returns correct values for field %s', (field) => {
             const {result} = callHook();
             const expectedViolations = violationsByField[field] || [];
