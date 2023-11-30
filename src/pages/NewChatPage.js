@@ -18,7 +18,7 @@ import * as OptionsListUtils from '@libs/OptionsListUtils';
 import Permissions from '@libs/Permissions';
 import * as ReportUtils from '@libs/ReportUtils';
 import Share from '@libs/Share';
-import styles from '@styles/styles';
+import useThemeStyles from '@styles/useThemeStyles';
 import variables from '@styles/variables';
 import * as Report from '@userActions/Report';
 import CONST from '@src/CONST';
@@ -54,6 +54,7 @@ const defaultProps = {
 const excludedGroupEmails = _.without(CONST.EXPENSIFY_EMAILS, CONST.EMAIL.CONCIERGE);
 
 function NewChatPage({betas, isGroupChat, personalDetails, reports, translate, isSearchingForReports}) {
+    const styles = useThemeStyles();
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredRecentReports, setFilteredRecentReports] = useState([]);
     const [filteredPersonalDetails, setFilteredPersonalDetails] = useState([]);
@@ -264,6 +265,8 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate, i
                             shouldPreventDefaultFocusOnSelectRow={!Browser.isMobile()}
                             shouldShowOptions={isOptionsDataReady}
                             shouldShowConfirmButton
+                            shouldShowReferralCTA
+                            referralContentType={CONST.REFERRAL_PROGRAM.CONTENT_TYPES.START_CHAT}
                             confirmButtonText={selectedOptions.length > 1 ? translate('newChatPage.createGroup') : translate('newChatPage.createChat')}
                             textInputAlert={isOffline ? `${translate('common.youAppearToBeOffline')} ${translate('search.resultsAreLimited')}` : ''}
                             onConfirmSelection={createGroup}

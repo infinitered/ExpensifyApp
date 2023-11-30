@@ -25,7 +25,7 @@ import * as Session from './libs/actions/Session';
 import * as Environment from './libs/Environment/Environment';
 import Share from './libs/Share';
 import {ReportAttachmentsProvider} from './pages/home/report/ReportAttachmentsContext';
-import {SidebarNavigationContextProvider} from './pages/home/sidebar/SidebarNavigationContext';
+import ThemeIllustrationsProvider from './styles/illustrations/ThemeIllustrationsProvider';
 import ThemeProvider from './styles/themes/ThemeProvider';
 import ThemeStylesProvider from './styles/ThemeStylesProvider';
 
@@ -40,10 +40,10 @@ LogBox.ignoreLogs([
     // the timer is lost. Currently Expensify is using a 30 minutes interval to refresh personal details.
     // More details here: https://git.io/JJYeb
     'Setting a timer for a long period of time',
-   // TODO: EXP-46. Ignore "screen" issue with `getMinimalAction`.
-   "Cannot read property 'screen' of undefined",
-   // TODO: EXP-77 (this ticket, update the branch)
-   "Failed prop type: Invalid prop `role` of value `text` supplied to `TextInput"
+    // TODO: EXP-46. Ignore "screen" issue with `getMinimalAction`.
+    "Cannot read property 'screen' of undefined",
+    // TODO: EXP-77 (this ticket, update the branch)
+    'Failed prop type: Invalid prop `role` of value `text` supplied to `TextInput',
 ]);
 
 const fill = {flex: 1};
@@ -70,7 +70,7 @@ function App() {
                     EnvironmentProvider,
                     ThemeProvider,
                     ThemeStylesProvider,
-                    SidebarNavigationContextProvider,
+                    ThemeIllustrationsProvider,
                     Share.Provider,
                 ]}
             >

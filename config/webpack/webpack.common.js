@@ -66,7 +66,8 @@ const webpackConfig = ({envFile = '.env', platform = 'web'}) => ({
             template: 'web/index.html',
             filename: 'index.html',
             splashLogo: fs.readFileSync(path.resolve(__dirname, `../../assets/images/new-expensify${mapEnvToLogoSuffix(envFile)}.svg`), 'utf-8'),
-            usePolyfillIO: platform === 'web',
+            isWeb: platform === 'web',
+            isProduction: envFile === '.env.production',
             isStaging: envFile === '.env.staging',
         }),
         new FontPreloadPlugin({
@@ -179,6 +180,10 @@ const webpackConfig = ({envFile = '.env', platform = 'web'}) => ({
             {
                 resourceQuery: /raw/,
                 type: 'asset/source',
+            },
+            {
+                test: /\.lottie$/,
+                type: 'asset/resource',
             },
         ],
     },

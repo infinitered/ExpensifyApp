@@ -6,7 +6,7 @@ import _ from 'underscore';
 import FullscreenLoadingIndicator from '@components/FullscreenLoadingIndicator';
 import Image from '@components/Image';
 import useWindowDimensions from '@hooks/useWindowDimensions';
-import styles from '@styles/styles';
+import useThemeStyles from '@styles/useThemeStyles';
 import variables from '@styles/variables';
 
 /**
@@ -43,6 +43,7 @@ const defaultProps = {
 const DOUBLE_CLICK_INTERVAL = 175;
 
 function ImageView({isAuthTokenRequired, url, onScaleChanged, onPress, style, fileName}) {
+    const styles = useThemeStyles();
     const {windowWidth, windowHeight} = useWindowDimensions();
 
     const [isLoading, setIsLoading] = useState(true);
@@ -227,11 +228,12 @@ function ImageView({isAuthTokenRequired, url, onScaleChanged, onPress, style, fi
                         accessible
                         accessibilityLabel={fileName}
                     />
+
                     {/**
-                       Create an invisible view on top of the image so we can capture and set the amount of touches before
-                      the ImageZoom's PanResponder does. Children will be triggered first, so this needs to be inside the
-                      ImageZoom to work
-                      */}
+            Create an invisible view on top of the image so we can capture and set the amount of touches before
+           the ImageZoom's PanResponder does. Children will be triggered first, so this needs to be inside the
+           ImageZoom to work
+           */}
                     <View
                         /* eslint-disable-next-line react/jsx-props-no-spreading */
                         {...panResponder.panHandlers}

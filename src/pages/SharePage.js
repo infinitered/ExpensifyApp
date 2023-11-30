@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {withOnyx} from 'react-native-onyx';
 import HeaderWithBackButton from '@components/HeaderWithBackButton';
 import ScreenWrapper from '@components/ScreenWrapper';
@@ -24,7 +24,7 @@ const basePropTypes = {
 
     /** The report currently being used */
     report: reportPropTypes,
-}
+};
 
 const propTypes = {
     ...basePropTypes,
@@ -48,21 +48,28 @@ function Scan({iou, report}) {
         Navigation.navigate(ROUTES.MONEY_REQUEST_CONFIRMATION.getRoute(moneyRequestType, report.reportID));
     };
 
-   return (
-     <MoneyRequestParticipantsSelector
-         participants={iou.participants}
-         onAddParticipants={IOU.setMoneyRequestParticipants}
-         navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.REQUEST)}
-         navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.SPLIT)}
-         iouType={CONST.IOU.TYPE.REQUEST}
-         isScanRequest
-     />
-   );
+    return (
+        <MoneyRequestParticipantsSelector
+            participants={iou.participants}
+            onAddParticipants={IOU.setMoneyRequestParticipants}
+            navigateToRequest={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.REQUEST)}
+            navigateToSplit={() => navigateToScanConfirmationStep(CONST.IOU.TYPE.SPLIT)}
+            iouType={CONST.IOU.TYPE.REQUEST}
+            isScanRequest
+        />
+    );
 }
 
 function SharePage({iou, report, translate}) {
-
-    const ScanScreen = useCallback(() => <Scan iou={iou} report={report} />, [iou, report]);
+    const ScanScreen = useCallback(
+        () => (
+            <Scan
+                iou={iou}
+                report={report}
+            />
+        ),
+        [iou, report],
+    );
 
     return (
         <ScreenWrapper
