@@ -6,6 +6,7 @@ import {AnimatableNumericValue, Animated, ImageStyle, TextStyle, ViewStyle} from
 import {CustomAnimation} from 'react-native-animatable';
 import {PickerStyle} from 'react-native-picker-select';
 import {MixedStyleDeclaration, MixedStyleRecord} from 'react-native-render-html';
+import DotLottieAnimation from '@components/LottieAnimations/types';
 import * as Browser from '@libs/Browser';
 import CONST from '@src/CONST';
 import addOutlineWidth from './addOutlineWidth';
@@ -38,6 +39,9 @@ import whiteSpace from './utilities/whiteSpace';
 import wordBreak from './utilities/wordBreak';
 import writingDirection from './utilities/writingDirection';
 import variables from './variables';
+
+type ColorScheme = (typeof CONST.COLOR_SCHEME)[keyof typeof CONST.COLOR_SCHEME];
+type StatusBarStyle = (typeof CONST.STATUS_BAR_STYLE)[keyof typeof CONST.STATUS_BAR_STYLE];
 
 type AnchorPosition = {
     horizontal: number;
@@ -182,7 +186,7 @@ const webViewStyles = (theme: ThemeColors) =>
                 paddingLeft: 5,
                 paddingRight: 5,
                 fontFamily: fontFamily.MONOSPACE,
-                fontSize: 13,
+                // Font size is determined by getCodeFontSize function in `StyleUtils.js`
             },
 
             img: {
@@ -327,10 +331,6 @@ const styles = (theme: ThemeColors) =>
             textAlign: 'left',
         },
 
-        textUnderline: {
-            textDecorationLine: 'underline',
-        },
-
         verticalAlignMiddle: {
             verticalAlign: 'middle',
         },
@@ -391,10 +391,6 @@ const styles = (theme: ThemeColors) =>
             fontSize: variables.fontSizeLarge,
         },
 
-        textXLarge: {
-            fontSize: variables.fontSizeXLarge,
-        },
-
         textXXLarge: {
             fontSize: variables.fontSizeXXLarge,
         },
@@ -414,11 +410,6 @@ const styles = (theme: ThemeColors) =>
             fontWeight: fontWeightBold,
         },
 
-        textItalic: {
-            fontFamily: fontFamily.EXP_NEUE_ITALIC,
-            fontStyle: 'italic',
-        },
-
         textHeadline: {
             ...headlineFont,
             ...whiteSpace.preWrap,
@@ -435,20 +426,12 @@ const styles = (theme: ThemeColors) =>
             lineHeight: variables.lineHeightSizeh1,
         },
 
-        textDecorationNoLine: {
-            textDecorationLine: 'none',
-        },
-
         textWhite: {
             color: theme.textLight,
         },
 
         textBlue: {
             color: theme.link,
-        },
-
-        textUppercase: {
-            textTransform: 'uppercase',
         },
 
         textNoWrap: {
@@ -1033,7 +1016,7 @@ const styles = (theme: ThemeColors) =>
             flexDirection: 'row',
         },
 
-        textInputDesktop: addOutlineWidth({}, 0),
+        textInputDesktop: addOutlineWidth({}, theme, 0),
 
         textInputIconContainer: {
             paddingHorizontal: 11,
@@ -1150,7 +1133,7 @@ const styles = (theme: ThemeColors) =>
             color: theme.icon,
         },
 
-        noOutline: addOutlineWidth({}, 0),
+        noOutline: addOutlineWidth({}, theme, 0),
 
         textLabelSupporting: {
             fontFamily: fontFamily.EXP_NEUE,
@@ -1352,7 +1335,7 @@ const styles = (theme: ThemeColors) =>
 
         floatingActionButtonContainer: {
             position: 'absolute',
-            left: 16,
+            right: 20,
 
             // The bottom of the floating action button should align with the bottom of the compose box.
             // The value should be equal to the height + marginBottom + marginTop of chatItemComposeSecondaryRow
@@ -1361,8 +1344,8 @@ const styles = (theme: ThemeColors) =>
 
         floatingActionButton: {
             backgroundColor: theme.success,
-            height: variables.componentSizeNormal,
-            width: variables.componentSizeNormal,
+            height: variables.componentSizeLarge,
+            width: variables.componentSizeLarge,
             borderRadius: 999,
             alignItems: 'center',
             justifyContent: 'center',
@@ -1387,7 +1370,6 @@ const styles = (theme: ThemeColors) =>
         },
 
         sidebarListContainer: {
-            scrollbarWidth: 'none',
             paddingBottom: 4,
         },
 
@@ -1460,6 +1442,11 @@ const styles = (theme: ThemeColors) =>
             width: variables.componentSizeNormal,
             justifyContent: 'center',
             alignItems: 'center',
+        },
+
+        rightLabelMenuItem: {
+            fontSize: variables.fontSizeLabel,
+            color: theme.textSupporting,
         },
 
         popoverMenuText: {
@@ -1812,6 +1799,7 @@ const styles = (theme: ThemeColors) =>
                 alignSelf: 'center',
                 verticalAlign: 'middle',
             },
+            theme,
             0,
         ),
 
@@ -1820,6 +1808,11 @@ const styles = (theme: ThemeColors) =>
             flex: 1,
             maxHeight: '100%',
             verticalAlign: 'top',
+        },
+
+        textInputCollapseCompose: {
+            maxHeight: '100%',
+            flex: 4,
         },
 
         // composer padding should not be modified unless thoroughly tested against the cases in this PR: #12669
@@ -2578,7 +2571,7 @@ const styles = (theme: ThemeColors) =>
             borderRadius: 10,
             height: 20,
             width: 20,
-            borderColor: theme.icon,
+            borderColor: theme.border,
             borderWidth: 1,
             justifyContent: 'center',
             alignItems: 'center',
@@ -2633,6 +2626,7 @@ const styles = (theme: ThemeColors) =>
                 padding: 0,
                 lineHeight: undefined,
             },
+            theme,
             0,
         ),
 
@@ -2679,7 +2673,8 @@ const styles = (theme: ThemeColors) =>
         },
 
         moneyRequestPreviewBoxAvatar: {
-            marginRight: -10,
+            // This should "hide" the right border of the last avatar
+            marginRight: -2,
             marginBottom: 0,
         },
 
@@ -3833,6 +3828,11 @@ const styles = (theme: ThemeColors) =>
             maxWidth: 400,
         },
 
+        moneyRequestAttachReceipt: {
+            backgroundColor: theme.appBG,
+            borderColor: theme.textSupporting,
+        },
+
         mapViewContainer: {
             ...flex.flex1,
             minHeight: 300,
@@ -3917,34 +3917,6 @@ const styles = (theme: ThemeColors) =>
             marginBottom: 16,
         },
 
-        globalNavigation: {
-            width: variables.globalNavigationWidth,
-            backgroundColor: theme.highlightBG,
-        },
-
-        globalNavigationMenuContainer: {
-            marginTop: 13,
-        },
-
-        globalAndSubNavigationContainer: {
-            backgroundColor: theme.highlightBG,
-        },
-
-        globalNavigationSelectionIndicator: (isFocused: boolean) => ({
-            width: 4,
-            height: 52,
-            borderTopRightRadius: variables.componentBorderRadiusRounded,
-            borderBottomRightRadius: variables.componentBorderRadiusRounded,
-            backgroundColor: isFocused ? theme.iconMenu : theme.transparent,
-        }),
-
-        globalNavigationMenuItem: (isFocused: boolean) => (isFocused ? {color: theme.text, fontWeight: fontWeightBold, fontFamily: fontFamily.EXP_NEUE_BOLD} : {color: theme.icon}),
-
-        globalNavigationItemContainer: {
-            width: variables.globalNavigationWidth,
-            height: variables.globalNavigationWidth,
-        },
-
         walletCard: {
             borderRadius: variables.componentBorderRadiusLarge,
             position: 'relative',
@@ -4004,12 +3976,7 @@ const styles = (theme: ThemeColors) =>
             lineHeight: variables.lineHeightXLarge,
         },
 
-        aspectRatioLottie: (source) => {
-            if (!source.uri && typeof source === 'object' && source.w && source.h) {
-                return {aspectRatio: source.w / source.h};
-            }
-            return {};
-        },
+        aspectRatioLottie: (animation: DotLottieAnimation) => ({aspectRatio: animation.w / animation.h, width: '100%'}),
 
         receiptDropHeaderGap: {
             backgroundColor: theme.receiptDropUIBG,
@@ -4022,10 +3989,14 @@ const styles = (theme: ThemeColors) =>
         singleOptionSelectorCircle: {
             borderColor: theme.icon,
         },
+
+        colorSchemeStyle: (colorScheme: ColorScheme) => ({colorScheme}),
     } satisfies Styles);
+
+type ThemeStyles = ReturnType<typeof styles>;
 
 const stylesGenerator = styles;
 const defaultStyles = styles(defaultTheme);
 
 export default defaultStyles;
-export {stylesGenerator, type Styles};
+export {stylesGenerator, type Styles, type ThemeStyles, type StatusBarStyle, type ColorScheme};
