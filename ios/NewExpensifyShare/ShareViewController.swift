@@ -165,7 +165,7 @@ class ShareViewController: UIViewController {
   }
 
   func storeFile(withProvider provider: NSItemProvider, _ semaphore: DispatchSemaphore) {
-    provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (data, error) in
+    provider.loadItem(forTypeIdentifier: kUTTypeFileURL as String, options: nil) { (data, error) in
       guard (error == nil) else {
         self.exit(withError: error.debugDescription)
         return
