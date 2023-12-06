@@ -305,6 +305,11 @@ type SignInNavigatorParamList = {
     SignIn_Root: undefined;
 };
 
+type ShareNavigatorParamList = {
+    Share_Root: undefined;
+    Share_Message: undefined;
+};
+
 type ReferralDetailsNavigatorParamList = {
     Referral_Details: undefined;
 };
@@ -347,6 +352,7 @@ type RightModalNavigatorParamList = {
     Flag_Comment: NavigatorScreenParams<FlagCommentNavigatorParamList>;
     EditRequest: NavigatorScreenParams<EditRequestNavigatorParamList>;
     SignIn: NavigatorScreenParams<SignInNavigatorParamList>;
+    Share: NavigatorScreenParams<ShareNavigatorParamList>;
     Referral: NavigatorScreenParams<ReferralDetailsNavigatorParamList>;
     Private_Notes: NavigatorScreenParams<PrivateNotesNavigatorParamList>;
 };

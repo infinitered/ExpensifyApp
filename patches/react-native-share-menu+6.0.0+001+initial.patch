@@ -51,24 +51,24 @@ index 09abd7b..058dd1c 100644
      if (mReactContext == null || !mReactContext.hasActiveCatalystInstance()) {
        return;
 diff --git a/node_modules/react-native-share-menu/ios/Constants.swift b/node_modules/react-native-share-menu/ios/Constants.swift
-index 08385b7..e22bdfa 100644
+index 08385b7..31279fd 100644
 --- a/node_modules/react-native-share-menu/ios/Constants.swift
 +++ b/node_modules/react-native-share-menu/ios/Constants.swift
 @@ -32,6 +32,7 @@ public let USER_DEFAULTS_EXTRA_DATA_KEY = "ShareMenuUserDefaultsExtraData"
  public let URL_SCHEME_INFO_PLIST_KEY = "AppURLScheme"
  public let HOST_APP_IDENTIFIER_INFO_PLIST_KEY = "HostAppBundleIdentifier"
  public let HOST_URL_SCHEME_INFO_PLIST_KEY = "HostAppURLScheme"
-+public let HOST_APP_GROUP_INFO_PLIST_KEY:String = "ReactNativeShareMenuAppGroup"
-
++public let HOST_APP_GROUP_INFO_PLIST_KEY = "ReactNativeShareMenuAppGroup"
+ 
  public let REACT_SHARE_VIEW_BACKGROUND_COLOR_KEY = "ReactShareViewBackgroundColor"
  public let COLOR_RED_KEY = "Red"
 diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
-index 74badda..6ed5073 100644
+index 74badda..fc86686 100644
 --- a/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
 +++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenu.swift
 @@ -83,8 +83,8 @@ class ShareMenu: RCTEventEmitter {
          }
-
+ 
          guard let scheme = url.scheme, scheme == targetUrlScheme else { return }
 -        guard let bundleId = Bundle.main.bundleIdentifier else { return }
 -        guard let userDefaults = UserDefaults(suiteName: "group.\(bundleId)") else {
@@ -77,12 +77,31 @@ index 74badda..6ed5073 100644
              print("Error: \(NO_APP_GROUP_ERROR)")
              return
          }
-@@ -102,7 +102,7 @@ class ShareMenu: RCTEventEmitter {
+@@ -100,10 +100,12 @@ class ShareMenu: RCTEventEmitter {
+ 
+     @objc(getSharedText:)
      func getSharedText(callback: RCTResponseSenderBlock) {
-         var data = [DATA_KEY: sharedData] as [String: Any]
-
+-        var data = [DATA_KEY: sharedData] as [String: Any]
++        var data = [DATA_KEY: sharedData as Any] as [String: Any]
+         
 -        if let bundleId = Bundle.main.bundleIdentifier, let userDefaults = UserDefaults(suiteName: "group.\(bundleId)") {
-+        if let appGroup = Bundle.main.object(forInfoDictionaryKey: HOST_APP_GROUP_INFO_PLIST_KEY), let userDefaults = UserDefaults(suiteName: (Bundle.main.object(forInfoDictionaryKey: appGroup as! String) as! String)) {
-             data[EXTRA_DATA_KEY] = userDefaults.object(forKey: USER_DEFAULTS_EXTRA_DATA_KEY) as? [String: Any]
+-            data[EXTRA_DATA_KEY] = userDefaults.object(forKey: USER_DEFAULTS_EXTRA_DATA_KEY) as? [String: Any]
++        if let appGroup = Bundle.main.object(forInfoDictionaryKey: HOST_APP_GROUP_INFO_PLIST_KEY) as? String {
++            if let userDefaults = UserDefaults(suiteName: appGroup) {
++                data[EXTRA_DATA_KEY] = userDefaults.object(forKey: USER_DEFAULTS_EXTRA_DATA_KEY) as? [String: Any]
++            }
          } else {
              print("Error: \(NO_APP_GROUP_ERROR)")
+         }
+diff --git a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+index e290cce..59f2974 100644
+--- a/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
++++ b/node_modules/react-native-share-menu/ios/Modules/ShareMenuReactView.swift
+@@ -45,6 +45,7 @@ public class ShareMenuReactView: NSObject {
+         }
+ 
+         extensionContext.completeRequest(returningItems: [], completionHandler: nil)
++        ShareMenuReactView.detachViewDelegate()
+     }
+ 
+     @objc

@@ -48,6 +48,8 @@ const getIconAndTitle = (route, translate) => {
             return {icon: Expensicons.Hashtag, title: translate('tabSelector.room')};
         case CONST.TAB.DISTANCE:
             return {icon: Expensicons.Car, title: translate('common.distance')};
+        case CONST.TAB.SHARE:
+            return {icon: Expensicons.UploadAlt, title: translate('common.share')};
         default:
             throw new Error(`Route ${route} has no icon nor title set.`);
     }
@@ -72,7 +74,8 @@ function TabSelector({state, navigation, onTabPress, position}) {
     const {translate} = useLocalize();
     const styles = useThemeStyles();
     const theme = useTheme();
-    const defaultAffectedAnimatedTabs = useMemo(() => Array.from({length: state.routes.length}, (v, i) => i), [state.routes.length]);
+    const length = state.routes ? state.routes.length : 0;
+    const defaultAffectedAnimatedTabs = useMemo(() => Array.from({length}, (v, i) => i), [length]);
     const [affectedAnimatedTabs, setAffectedAnimatedTabs] = useState(defaultAffectedAnimatedTabs);
 
     const getBackgroundColor = useCallback(

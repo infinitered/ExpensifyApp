@@ -235,6 +235,11 @@ const ReferralModalStackNavigator = createModalStackNavigator({
     Referral_Details: () => require('../../../pages/ReferralDetailsPage').default,
 });
 
+const ShareModalStackNavigator = createModalStackNavigator({
+    Share_Root: () => require('../../../pages/SharePage').default,
+    Share_Message: () => require('../../../pages/ShareMessagePage').default,
+});
+
 export {
     MoneyRequestModalStackNavigator,
     SplitDetailsModalStackNavigator,
@@ -258,6 +263,7 @@ export {
     PrivateNotesModalStackNavigator,
     NewTeachersUniteNavigator,
     SignInModalStackNavigator,
+    ShareModalStackNavigator,
     RoomMembersModalStackNavigator,
     RoomInviteModalStackNavigator,
     ReferralModalStackNavigator,

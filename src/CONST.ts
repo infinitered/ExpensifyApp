@@ -2713,7 +2713,8 @@ const CONST = {
         BUTTON: 'button',
         LINK: 'link',
         MENUITEM: 'menuitem',
-        TEXT: 'presentation',
+        PRESENTATION: 'presentation',
+        TEXT: 'text',
         RADIO: 'radio',
         IMAGEBUTTON: 'img button',
         CHECKBOX: 'checkbox',
@@ -2753,6 +2754,8 @@ const CONST = {
         MANUAL: 'manual',
         SCAN: 'scan',
         DISTANCE: 'distance',
+        SHARE_TAB_ID: 'ShareTab',
+        SHARE: 'share',
     },
     STATUS_TEXT_MAX_LENGTH: 100,
 

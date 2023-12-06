@@ -124,6 +124,10 @@ function RightModalNavigator(props) {
                         name="Private_Notes"
                         component={ModalStackNavigators.PrivateNotesModalStackNavigator}
                     />
+                    <Stack.Screen
+                        name="Share"
+                        component={ModalStackNavigators.ShareModalStackNavigator}
+                    />
                 </Stack.Navigator>
             </View>
         </NoDropZone>

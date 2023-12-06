@@ -17,6 +17,7 @@ import compose from '@libs/compose';
 import * as OptionsListUtils from '@libs/OptionsListUtils';
 import Permissions from '@libs/Permissions';
 import * as ReportUtils from '@libs/ReportUtils';
+import Share from '@libs/Share';
 import useThemeStyles from '@styles/useThemeStyles';
 import variables from '@styles/variables';
 import * as Report from '@userActions/Report';
@@ -71,6 +72,8 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate, i
         _.some(selectedOptions, (participant) => participant.searchText.toLowerCase().includes(searchTerm.trim().toLowerCase())),
     );
     const isOptionsDataReady = ReportUtils.isReportDataReady() && OptionsListUtils.isPersonalDetailsReady(personalDetails);
+
+    const share = Share.useShareData();
 
     const sections = useMemo(() => {
         const sectionsList = [];
@@ -163,6 +166,10 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate, i
      * @param {Object} option
      */
     function createChat(option) {
+        if (share) {
+            Report.navigateToAndOpenShare([option.login]);
+            return;
+        }
         Report.navigateToAndOpenReport([option.login]);
     }
 
@@ -173,6 +180,10 @@ function NewChatPage({betas, isGroupChat, personalDetails, reports, translate, i
     const createGroup = () => {
         const logins = _.pluck(selectedOptions, 'login');
         if (logins.length < 1) {
+            return;
+        }
+        if (share) {
+            Report.navigateToAndOpenShare(logins);
             return;
         }
         Report.navigateToAndOpenReport(logins);

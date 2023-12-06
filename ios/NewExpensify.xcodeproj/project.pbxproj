@@ -30,13 +30,13 @@
 		70CF6E82262E297300711ADC /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70CF6E81262E297300711ADC /* BootSplash.storyboard */; };
 		BDB853621F354EBB84E619C2 /* ExpensifyNewKansas-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D2AFB39EC1D44BF9B91D3227 /* ExpensifyNewKansas-MediumItalic.otf */; };
 		DD79042B2792E76D004484B4 /* RCTBootSplash.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79042A2792E76D004484B4 /* RCTBootSplash.m */; };
-		E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		E9DF872D2525201700607FDC /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9DF872C2525201700607FDC /* AirshipConfig.plist */; };
 		ED222ED90E074A5481A854FA /* ExpensifyNeue-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8B28D84EF339436DBD42A203 /* ExpensifyNeue-BoldItalic.otf */; };
 		F0C450EA2705020500FD2970 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = F0C450E92705020500FD2970 /* colors.json */; };
 		F2A717CC2AF9AA5A00B588AE /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2A717CB2AF9AA5A00B588AE /* ShareViewController.swift */; };
 		F2A717CF2AF9AA5A00B588AE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2A717CD2AF9AA5A00B588AE /* MainInterface.storyboard */; };
-		F2A717D32AF9AA5A00B588AE /* NewExpensifyShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2A717C92AF9AA5A00B588AE /* NewExpensifyShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2A717D32AF9AA5A00B588AE /* New Expensify Share.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2A717C92AF9AA5A00B588AE /* New Expensify Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FF941A8D48F849269AB85C9A /* ExpensifyNewKansas-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44BF435285B94E5B95F90994 /* ExpensifyNewKansas-Medium.otf */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F2A717D32AF9AA5A00B588AE /* NewExpensifyShare.appex in Embed Foundation Extensions */,
+				F2A717D32AF9AA5A00B588AE /* New Expensify Share.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,7 +146,7 @@
 		F0C450E92705020500FD2970 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = colors.json; path = ../colors.json; sourceTree = "<group>"; };
 		F15A36A3262EEC3B0CAB8EDF /* Pods-NewExpensify-NewExpensifyTests.debugproduction.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewExpensify-NewExpensifyTests.debugproduction.xcconfig"; path = "Target Support Files/Pods-NewExpensify-NewExpensifyTests/Pods-NewExpensify-NewExpensifyTests.debugproduction.xcconfig"; sourceTree = "<group>"; };
 		F258694B2AFAA350004E53B8 /* NewExpensifyShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewExpensifyShare.entitlements; sourceTree = "<group>"; };
-		F2A717C92AF9AA5A00B588AE /* NewExpensifyShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NewExpensifyShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A717C92AF9AA5A00B588AE /* New Expensify Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "New Expensify Share.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A717CB2AF9AA5A00B588AE /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F2A717CE2AF9AA5A00B588AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F2A717D02AF9AA5A00B588AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E51DC681C7DEE40AEBDDFBFE /* (null) in Frameworks */,
+				E51DC681C7DEE40AEBDDFBFE /* BuildFile in Frameworks */,
 				5A464BC8112CDB1DE1E38F1C /* libPods-NewExpensify.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,7 +266,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* New Expensify Dev.app */,
 				00E356EE1AD99517003FC87E /* NewExpensifyTests.xctest */,
-				F2A717C92AF9AA5A00B588AE /* NewExpensifyShare.appex */,
+				F2A717C92AF9AA5A00B588AE /* New Expensify Share.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -410,7 +410,7 @@
 			);
 			name = NewExpensifyShare;
 			productName = NewExpensifyShare;
-			productReference = F2A717C92AF9AA5A00B588AE /* NewExpensifyShare.appex */;
+			productReference = F2A717C92AF9AA5A00B588AE /* New Expensify Share.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -1632,7 +1632,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -1713,7 +1713,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.adhoc.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -1794,7 +1794,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chat.expensify.chat.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -1868,7 +1868,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.dev.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1942,7 +1942,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.expensify.chat.adhoc.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -2016,7 +2016,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chat.expensify.chat.NewExpensifyShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "New Expensify Share";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;

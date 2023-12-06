@@ -441,6 +441,18 @@ const linkingConfig: LinkingOptions<RootStackParamList> = {
                             SignIn_Root: ROUTES.SIGN_IN_MODAL,
                         },
                     },
+                    Share: {
+                        screens: {
+                            Share_Root: {
+                                path: ROUTES.SHARE,
+                                exact: true,
+                            },
+                            Share_Message: {
+                                path: ROUTES.SHARE_MESSAGE,
+                                exact: true,
+                            },
+                        },
+                    },
                     Referral: {
                         screens: {
                             Referral_Details: ROUTES.REFERRAL_DETAILS_MODAL.route,

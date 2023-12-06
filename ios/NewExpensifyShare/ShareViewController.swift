@@ -29,31 +29,21 @@ class ShareViewController: UIViewController {
     } else {
       print("Error: \(NO_INFO_PLIST_INDENTIFIER_ERROR)")
     }
-
+    
     if let hostAppUrlScheme = Bundle.main.object(forInfoDictionaryKey: HOST_URL_SCHEME_INFO_PLIST_KEY) as? String {
       self.hostAppUrlScheme = hostAppUrlScheme
     } else {
       print("Error: \(NO_INFO_PLIST_URL_SCHEME_ERROR)")
     }
-
-    self.didSelectPost()
-  }
-
-  func isContentValid() -> Bool {
-    // Do validation of contentText and/or NSExtensionContext attachments here
-    return true
-  }
-
-  func didSelectPost() {
     
-    // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
     guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
       cancelRequest()
       return
     }
-
-    handlePost(items)
+    
+    self.handlePost(items)
   }
+
 
   func configurationItems() -> [Any]! {
       // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
@@ -175,7 +165,7 @@ class ShareViewController: UIViewController {
   }
 
   func storeFile(withProvider provider: NSItemProvider, _ semaphore: DispatchSemaphore) {
-    provider.loadItem(forTypeIdentifier: kUTTypeData as String, options: nil) { (data, error) in
+    provider.loadItem(forTypeIdentifier: kUTTypeFileURL as String, options: nil) { (data, error) in
       guard (error == nil) else {
         self.exit(withError: error.debugDescription)
         return
