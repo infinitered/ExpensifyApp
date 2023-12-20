@@ -128,10 +128,6 @@ const SingletonAppleSignInButtonWithFocus = withNavigationFocus(SingletonAppleSi
 function AppleSignIn({isDesktopFlow}) {
     const [scriptLoaded, setScriptLoaded] = useState(false);
     useEffect(() => {
-        if (window.appleAuthScriptLoaded) {
-            return;
-        }
-
         const localeCode = getUserLanguage();
         const script = document.createElement('script');
         script.src = `https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1//${localeCode}/appleid.auth.js`;
