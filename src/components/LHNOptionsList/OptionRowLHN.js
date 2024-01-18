@@ -87,8 +87,14 @@ function OptionRowLHN(props) {
         return null;
     }
 
+    const hasBrickError = optionItem.brickRoadIndicator === CONST.BRICK_ROAD_INDICATOR_STATUS.ERROR;
+    const shouldShowGreenDotIndicator = !hasBrickError && ReportUtils.requiresAttentionFromCurrentUser(optionItem, optionItem.parentReportAction);
+
+    // TODO: Remove this console.log
+    console.log('OptionRowLHN', hasBrickError, optionItem);
+
     const isHidden = optionItem.notificationPreference === CONST.REPORT.NOTIFICATION_PREFERENCE.HIDDEN;
-    if (isHidden && !props.isFocused && !optionItem.isPinned) {
+    if (!hasBrickError && !isHidden && !props.isFocused && !optionItem.isPinned) {
         return null;
     }
 
@@ -113,9 +119,6 @@ function OptionRowLHN(props) {
             ? (props.hoverStyle || styles.sidebarLinkHover).backgroundColor
             : theme.sidebar;
     const focusedBackgroundColor = styles.sidebarLinkActive.backgroundColor;
-
-    const hasBrickError = optionItem.brickRoadIndicator === CONST.BRICK_ROAD_INDICATOR_STATUS.ERROR;
-    const shouldShowGreenDotIndicator = !hasBrickError && ReportUtils.requiresAttentionFromCurrentUser(optionItem, optionItem.parentReportAction);
 
     /**
      * Show the ReportActionContextMenu modal popover.
