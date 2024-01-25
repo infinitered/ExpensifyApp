@@ -900,7 +900,7 @@ function getMoneyRequestInformation(
         createdIOUReportActionID: isNewIOUReport ? optimisticCreatedActionForIOU.reportActionID : 0,
         reportPreviewAction,
         transactionThreadReportID: optimisticTransactionThread.reportID,
-        createdReportActionForThread: optimisticCreatedActionForTransactionThread.reportActionID,
+        createdReportActionIDForThread: optimisticCreatedActionForTransactionThread.reportActionID,
         onyxData: {
             optimisticData,
             successData,
