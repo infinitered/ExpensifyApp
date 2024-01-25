@@ -55,11 +55,13 @@ function OptionRowLHN({reportID, isFocused = false, onSelectRow = () => {}, opti
     const hasBrickError = optionItem.brickRoadIndicator === CONST.BRICK_ROAD_INDICATOR_STATUS.ERROR;
     const shouldShowGreenDotIndicator = !hasBrickError && ReportUtils.requiresAttentionFromCurrentUser(optionItem, optionItem.parentReportAction);
 
-    // TODO: Remove this console.log
-    console.log('OptionRowLHN', hasBrickError, optionItem);
-
     const isHidden = optionItem.notificationPreference === CONST.REPORT.NOTIFICATION_PREFERENCE.HIDDEN;
-    if (!hasBrickError && !isHidden && !props.isFocused && !optionItem.isPinned) {
+    if (reportID === '3339303698990611') {
+        console.log('🍊 report info', hasBrickError, isHidden, isFocused, optionItem.isPinned);
+    }
+
+    const shouldOverrideHidden = hasBrickError || isFocused || optionItem.isPinned;
+    if (isHidden && !shouldOverrideHidden) {
         return null;
     }
 
