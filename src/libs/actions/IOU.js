@@ -889,6 +889,8 @@ function getMoneyRequestInformation(
         hasOutstandingChildRequest,
     );
 
+    console.log('🍊 optimistic transaction data', optimisticTransactionThread.reportID, optimisticCreatedActionForTransactionThread);
+
     return {
         payerAccountID,
         payerEmail,

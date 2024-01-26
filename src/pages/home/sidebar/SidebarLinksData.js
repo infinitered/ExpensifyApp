@@ -105,7 +105,9 @@ function SidebarLinksData({isFocused, allReportActions, betas, chatReports, curr
     const reportIDsRef = useRef(null);
     const isLoading = isLoadingApp;
     const optionListItems = useMemo(() => {
+        console.log('🍊 Recalculating LHN List');
         const reportIDs = SidebarUtils.getOrderedReportIDs(null, chatReports, betas, policies, priorityMode, allReportActions, transactionViolations);
+        console.log('🍊 List contains desired report?', _.contains(reportIDs, '7893756603989615'));
 
         if (deepEqual(reportIDsRef.current, reportIDs)) {
             return reportIDsRef.current;
@@ -126,6 +128,7 @@ function SidebarLinksData({isFocused, allReportActions, betas, chatReports, curr
     // the current report is missing from the list, which should very rarely happen. In this
     // case we re-generate the list a 2nd time with the current report included.
     const optionListItemsWithCurrentReport = useMemo(() => {
+        console.log('🍊 Realculating because current report changed');
         if (currentReportID && !_.contains(optionListItems, currentReportID)) {
             return SidebarUtils.getOrderedReportIDs(currentReportID, chatReports, betas, policies, priorityMode, allReportActions, transactionViolations);
         }

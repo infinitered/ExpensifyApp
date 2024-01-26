@@ -54,7 +54,7 @@ function ReportActionsListItemRenderer({
         reportAction.actionName === CONST.REPORT.ACTIONS.TYPE.CREATED &&
         ReportUtils.isChatThread(report) &&
         !ReportActionsUtils.isTransactionThread(ReportActionsUtils.getParentReportAction(report));
-
+    console.log('🍊 shouldDisplayParentAction', shouldDisplayParentAction);
     return shouldDisplayParentAction ? (
         <ReportActionItemParentAction
             shouldHideThreadDividerLine={shouldDisplayParentAction && shouldHideThreadDividerLine}
