@@ -56,9 +56,6 @@ function OptionRowLHN({reportID, isFocused = false, onSelectRow = () => {}, opti
     const shouldShowGreenDotIndicator = !hasBrickError && ReportUtils.requiresAttentionFromCurrentUser(optionItem, optionItem.parentReportAction);
 
     const isHidden = optionItem.notificationPreference === CONST.REPORT.NOTIFICATION_PREFERENCE.HIDDEN;
-    if (reportID === '3339303698990611') {
-        console.log('🍊 report info', hasBrickError, isHidden, isFocused, optionItem.isPinned);
-    }
 
     const shouldOverrideHidden = hasBrickError || isFocused || optionItem.isPinned;
     if (isHidden && !shouldOverrideHidden) {

@@ -106,6 +106,7 @@ function SidebarLinksData({isFocused, allReportActions, betas, chatReports, curr
     const isLoading = isLoadingApp;
     const optionListItems = useMemo(() => {
         const reportIDs = SidebarUtils.getOrderedReportIDs(null, chatReports, betas, policies, priorityMode, allReportActions, transactionViolations);
+        console.log('🍊 Updating optionListItems in SidebarLinksData', allReportActions);
 
         if (deepEqual(reportIDsRef.current, reportIDs)) {
             return reportIDsRef.current;
@@ -129,12 +130,16 @@ function SidebarLinksData({isFocused, allReportActions, betas, chatReports, curr
         if (currentReportID && !_.contains(optionListItems, currentReportID)) {
             return SidebarUtils.getOrderedReportIDs(currentReportID, chatReports, betas, policies, priorityMode, allReportActions, transactionViolations);
         }
+        console.log('🍊 optionListItems within optionListItemsWithCurrentReport', optionListItems);
         return optionListItems;
     }, [currentReportID, optionListItems, chatReports, betas, policies, priorityMode, allReportActions, transactionViolations]);
 
     const currentReportIDRef = useRef(currentReportID);
     currentReportIDRef.current = currentReportID;
     const isActiveReport = useCallback((reportID) => currentReportIDRef.current === reportID, []);
+
+    console.log('🍊 OptionListItems in SidebarLinkdsData after optionListItemsWithCurrentReport', optionListItems);
+    console.log('🍊 OptionListItemsWithCurrentReport in SidebarLinkdsData', optionListItemsWithCurrentReport);
 
     return (
         <View

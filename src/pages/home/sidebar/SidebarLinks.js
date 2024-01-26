@@ -61,6 +61,7 @@ function SidebarLinks({onLinkClick, insets, optionListItems, isLoading, priority
     const modal = useRef({});
     const {translate, updateLocale} = useLocalize();
     const {isSmallScreenWidth} = useWindowDimensions();
+    console.log('🍊 optionListItems within SidebarLinks', optionListItems);
 
     useEffect(() => {
         if (!isSmallScreenWidth) {

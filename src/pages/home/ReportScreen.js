@@ -162,7 +162,6 @@ function ReportScreen({
     currentReportID,
     navigation,
 }) {
-    console.log('🍊 Report screen, report actions:', report, reportActions);
     const styles = useThemeStyles();
     const {translate} = useLocalize();
     const {isSmallScreenWidth} = useWindowDimensions();

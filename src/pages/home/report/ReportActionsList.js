@@ -144,7 +144,6 @@ function ReportActionsList({
     const opacity = useSharedValue(0);
     const userActiveSince = useRef(null);
     const userInactiveSince = useRef(null);
-    console.log('🍊 Sorted report actions', sortedReportActions);
 
     const markerInit = () => {
         if (!cacheUnreadMarkers.has(report.reportID)) {
@@ -165,7 +164,6 @@ function ReportActionsList({
         () => _.filter(sortedReportActions, (s) => isOffline || s.pendingAction !== CONST.RED_BRICK_ROAD_PENDING_ACTION.DELETE || s.errors),
         [sortedReportActions, isOffline],
     );
-    console.log('🍊 Sorted visible report actions', sortedVisibleReportActions);
     const lastActionIndex = lodashGet(sortedVisibleReportActions, [0, 'reportActionID']);
     const reportActionSize = useRef(sortedVisibleReportActions.length);
 

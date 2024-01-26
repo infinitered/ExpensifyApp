@@ -36,6 +36,8 @@ function LHNOptionsList({
 }: LHNOptionsListProps) {
     const styles = useThemeStyles();
     const {canUseViolations} = usePermissions();
+    console.log('🍊 data Within the LHNOptionSList', data);
+    console.log('🍊 reportActions Within the LHNOptionSList', reportActions);
 
     // When the first item renders we want to call the onFirstItemRendered callback.
     // At this point in time we know that the list is actually displaying items.
