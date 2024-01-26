@@ -138,7 +138,6 @@ function getOrderedReportIDs(
     // Check if the result is already in the cache
     const cachedIDs = reportIDsCache.get(cachedReportsKey);
     if (cachedIDs && hasInitialReportActions) {
-        console.log("USING CACHED IDS")
         return cachedIDs;
     }
 
@@ -154,8 +153,8 @@ function getOrderedReportIDs(
         const parentReportActionsKey = `${ONYXKEYS.COLLECTION.REPORT_ACTIONS}${report?.parentReportID}`;
         const parentReportActions = allReportActions?.[parentReportActionsKey];
         const parentReportAction = parentReportActions?.find((action) => action && report && action?.reportActionID === report?.parentReportActionID);
-        const doesReportHaveViolations =
-            betas.includes(CONST.BETAS.VIOLATIONS) && !!parentReportAction && ReportUtils.doesTransactionThreadHaveViolations(report, transactionViolations, parentReportAction);
+        // TODO: Add back in violations beta check
+        const doesReportHaveViolations = !!parentReportAction && ReportUtils.doesTransactionThreadHaveViolations(report, transactionViolations, parentReportAction);
         const result = ReportUtils.shouldReportBeInOptionList({
             report,
             currentReportId: currentReportId ?? '',
@@ -165,12 +164,6 @@ function getOrderedReportIDs(
             excludeEmptyChats: true,
             doesReportHaveViolations,
         });
-        if (report.reportID === '7893756603989615') {
-            console.log("🍊 reportsToDisplay info",
-            betas.includes(CONST.BETAS.VIOLATIONS), parentReportAction, ReportUtils.doesTransactionThreadHaveViolations(report, transactionViolations, parentReportAction)
-             );
-            console.log("🍊 shoudl be in list?", result);
-        }
 
         return result;
     });

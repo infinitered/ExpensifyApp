@@ -947,7 +947,7 @@ function createDistanceRequest(report, participant, comment, created, category, 
         createdIOUReportActionID,
         reportPreviewAction,
         transactionThreadReportID,
-        createdReportActionForThread,
+        createdReportActionIDForThread,
         onyxData,
     } = getMoneyRequestInformation(
         currentChatReport,
@@ -985,7 +985,7 @@ function createDistanceRequest(report, participant, comment, created, category, 
             tag,
             billable,
             transactionThreadReportID,
-            createdReportActionForThread,
+            createdReportActionIDForThread,
         },
         onyxData,
     );
@@ -1377,7 +1377,7 @@ function requestMoney(
         createdIOUReportActionID,
         reportPreviewAction,
         transactionThreadReportID,
-        createdReportActionForThread,
+        createdReportActionIDForThread,
         onyxData,
     } = getMoneyRequestInformation(
         currentChatReport,
@@ -1400,6 +1400,7 @@ function requestMoney(
     );
     const activeReportID = isMoneyRequestReport ? report.reportID : chatReport.reportID;
 
+    console.log('🍊 Calling Request Money', transactionThreadReportID, createdReportActionIDForThread);
     API.write(
         'RequestMoney',
         {
@@ -1425,7 +1426,7 @@ function requestMoney(
             taxAmount,
             billable,
             transactionThreadReportID,
-            createdReportActionForThread,
+            createdReportActionIDForThread,
         },
         onyxData,
     );
@@ -1769,6 +1770,8 @@ function createSplitsAndOnyxData(participants, currentUserLogin, currentUserAcco
             createdChatReportActionID: oneOnOneCreatedActionForChat.reportActionID,
             createdIOUReportActionID: oneOnOneCreatedActionForIOU.reportActionID,
             reportPreviewReportActionID: oneOnOneReportPreviewAction.reportActionID,
+            transactionThreadReportID: optimisticTransactionThread.reportID,
+            createdReportActionIDForThread: optimisticCreatedActionForTransactionThread.reportActionID,
         };
 
         splits.push(individualSplit);
@@ -2330,6 +2333,8 @@ function completeSplitBill(chatReportID, reportAction, updatedTransaction, sessi
             createdChatReportActionID: oneOnOneCreatedActionForChat.reportActionID,
             createdIOUReportActionID: oneOnOneCreatedActionForIOU.reportActionID,
             reportPreviewReportActionID: oneOnOneReportPreviewAction.reportActionID,
+            transactionThreadReportID: optimisticTransactionThread.reportID,
+            createdReportActionIDForThread: optimisticCreatedActionForTransactionThread.reportActionID,
         });
 
         optimisticData.push(...oneOnOneOptimisticData);
@@ -3180,6 +3185,8 @@ function getSendMoneyParams(report, amount, currency, comment, paymentMethodType
             newIOUReportDetails,
             createdReportActionID: isNewChat ? optimisticCreatedAction.reportActionID : 0,
             reportPreviewReportActionID: reportPreviewAction.reportActionID,
+            transactionThreadReportID: optimisticTransactionThread.reportID,
+            createdReportActionIDForThread: optimisticCreatedActionForTransactionThread.reportActionID,
         },
         optimisticData,
         successData,
