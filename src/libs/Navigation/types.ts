@@ -212,7 +212,9 @@ type RoomMembersNavigatorParamList = {
 };
 
 type RoomInviteNavigatorParamList = {
-    [SCREENS.ROOM_INVITE_ROOT]: undefined;
+    [SCREENS.ROOM_INVITE_ROOT]: {
+        reportID: string;
+    };
 };
 
 type MoneyRequestNavigatorParamList = {
@@ -331,7 +333,12 @@ type SplitDetailsNavigatorParamList = {
     [SCREENS.SPLIT_DETAILS.ROOT]: {
         reportActionID: string;
     };
-    [SCREENS.SPLIT_DETAILS.EDIT_REQUEST]: undefined;
+    [SCREENS.SPLIT_DETAILS.EDIT_REQUEST]: {
+        field: string;
+        reportID: string;
+        reportActionID: string;
+        currency: string;
+    };
     [SCREENS.SPLIT_DETAILS.EDIT_CURRENCY]: undefined;
 };
 
@@ -347,7 +354,10 @@ type ReimbursementAccountNavigatorParamList = {
 };
 
 type WalletStatementNavigatorParamList = {
-    [SCREENS.WALLET_STATEMENT_ROOT]: undefined;
+    [SCREENS.WALLET_STATEMENT_ROOT]: {
+        /** The statement year and month as one string, i.e. 202110 */
+        yearMonth: string;
+    };
 };
 
 type FlagCommentNavigatorParamList = {
